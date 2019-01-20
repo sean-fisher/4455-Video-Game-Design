@@ -19,9 +19,7 @@ namespace TCS.Characters
 
         public override void runAnimation(ProtagInput input)
         {
-            float normalTime = protag.anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            float length = protag.anim.GetCurrentAnimatorStateInfo(0).length;
-            protag.anim.SetFloat("stateTime", (normalTime % length) / length);
+
         }
 
         public override bool runLogic(ProtagInput input)

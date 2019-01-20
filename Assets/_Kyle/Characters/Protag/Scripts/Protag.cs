@@ -7,6 +7,7 @@ namespace TCS.Characters
 {
     public class Protag : Character<ProtagState, ProtagInput>
     {
+
         private PlayerCameraController cam;
         private int selfMask;
 
@@ -88,13 +89,15 @@ namespace TCS.Characters
             }
         }
 
-        public bool getGrounded() {return grounded;}
+        public bool getGrounded() { return grounded; }
 
-        public bool getVulnerable() { return vuln;}
+        public bool getVulnerable() { return vuln; }
+
+        public Vector3 getGroundNormal() { return groundNormal; }
 
         public void setVulnerable(bool value) { vuln = value; }
 
-        public void setRootMotion(bool value) {anim.applyRootMotion = value;}
+        public void setRootMotion(bool value) { anim.applyRootMotion = value; }
     }
 
     public class ProtagInput : CharacterInput
