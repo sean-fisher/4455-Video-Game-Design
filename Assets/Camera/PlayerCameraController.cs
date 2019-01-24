@@ -36,7 +36,6 @@ namespace TCS
         public float rotXTar;
         [HideInInspector]
         public float rotYTar;
-
         
         public float rotXmax = 65f;
         public float rotXmin = -20;

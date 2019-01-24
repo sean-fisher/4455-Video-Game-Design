@@ -7,26 +7,19 @@ namespace TCS.Characters
 {
     public class Protag : Character<ProtagState, ProtagInput>
     {
-
-        private PlayerCameraController cam;
-        private int selfMask;
+        #region variables
 
         [Header("Hitboxes")]
         public Collider[] hurtBoxes;
         public Collider[] hitBoxes;
-        
-        [Header("Character Info")]
-        [SerializeField]
-        private bool vuln;
-        [SerializeField]
-        private bool grounded;
-        [SerializeField]
-        private Vector3 groundNormal;
 
         [Header("Movement Settings")]
         public float jumpStrength = 10;
         public float aerialMovementStrength;
         public float aerialDrag;
+        
+        [SerializeField]
+        private AnimationCurve compressionCurve;
 
         [HideInInspector]
         public Rigidbody rb;
@@ -35,6 +28,14 @@ namespace TCS.Characters
         [HideInInspector]
         public Animator anim;
 
+        private PlayerCameraController cam;
+        private int selfMask;
+        private bool vuln;
+        private bool grounded;
+        private Vector3 groundNormal;
+        private bool aerial;
+
+        #endregion
 
         // Use this for initialization
         void Start()
@@ -43,13 +44,15 @@ namespace TCS.Characters
             col = GetComponent<CapsuleCollider>();
             anim = GetComponentInChildren<Animator>();
             cam = GameObject.FindObjectOfType<PlayerCameraController>();
-
-            newState<ProtagLocomotionState>();
+            
             anim.applyRootMotion = true;
             vuln = true;
             grounded = true;
+            aerial = false;
+
             selfMask = ~ LayerMask.GetMask("Player");
-            cam = GameObject.FindObjectOfType<PlayerCameraController>();
+
+            newState<ProtagLocomotionState>();
 
             // enable hurtboxes
             foreach (Collider hb in hurtBoxes)
@@ -68,7 +71,7 @@ namespace TCS.Characters
             input.jump = InputManager.getJump();
         }
 
-        public bool checkGround()
+        public bool checkGroundGrounded()
         {
             Vector3 pos = transform.position + (Vector3.up * 0.5f);
             Vector3 dir = (Vector3.down * 0.8f);
@@ -89,15 +92,43 @@ namespace TCS.Characters
             }
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (aerial)
+            {
+                Vector3 pos = transform.position + (Vector3.up * 0.5f);
+                Vector3 dir = (Vector3.down * 0.8f);
+                RaycastHit groundCheck;
+                if (Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask))
+                {
+                    Debug.DrawRay(pos, dir, Color.green);
+                    grounded = true;
+                    groundNormal = groundCheck.normal;
+                }
+                else
+                {
+                    Debug.DrawRay(pos, dir, Color.red);
+                    grounded = false;
+                    groundNormal = Vector3.up;
+                }
+            }
+        }
+
+        public float sampleCompressionCurve(float x) { return compressionCurve.Evaluate(x); }
+
         public bool getGrounded() { return grounded; }
 
         public bool getVulnerable() { return vuln; }
 
         public Vector3 getGroundNormal() { return groundNormal; }
 
+        public void setGrounded(bool value) { grounded = value; }
+
         public void setVulnerable(bool value) { vuln = value; }
 
         public void setRootMotion(bool value) { anim.applyRootMotion = value; }
+
+        public void setAerial(bool value) { aerial = value; }
     }
 
     public class ProtagInput : CharacterInput
@@ -107,8 +138,5 @@ namespace TCS.Characters
         public float totalMotionMag;
 
         public bool jump;
-
-        // will need many more later
-
     }
 }

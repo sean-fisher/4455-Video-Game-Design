@@ -36,4 +36,16 @@ public static class InputManager {
     {
         return Input.GetButtonDown("Jump");
     }
+
+    public static Vector3 calculateMove(float v, float h)
+    {
+        Vector3 ver = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized * v;
+        Vector3 hor = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized * h;
+
+        Vector3 move = hor + ver;
+        move = Vector3.ProjectOnPlane(move, Vector3.up);
+        move = Vector3.ClampMagnitude(move, 1);
+
+        return move;
+    }
 }

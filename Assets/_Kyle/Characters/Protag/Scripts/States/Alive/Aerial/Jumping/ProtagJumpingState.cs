@@ -6,16 +6,21 @@ namespace TCS.Characters
 {
     public class ProtagJumpingState : ProtagAerialState
     {
+        #region variables
         protected override float aerialAnimationTurnStrength { get { return 10f; } }
         protected override float aerialPhysicsTurnStrength { get { return .05f; } }
         private float timer;
+        private float dir;
         private bool jumped;
+        #endregion
 
         public override void enter(ProtagInput input)
         {
             base.enter(input);
             timer = 0f;
+            dir = 1;
             protag.anim.SetTrigger("jump");
+            protag.anim.SetFloat("aerial direction", dir);
             jumped = false;
         }
 
@@ -28,6 +33,8 @@ namespace TCS.Characters
         {
             base.runAnimation(input);
             timer += Time.deltaTime;
+            dir -= Time.deltaTime;
+            protag.anim.SetFloat("aerial direction", dir);
         }
 
         public override bool runLogic(ProtagInput input)
@@ -43,12 +50,8 @@ namespace TCS.Characters
 
             if (timer > .5 && protag.getGrounded())
             {
+                Debug.Log("landing");
                 protag.newState<ProtagLandingState>();
-                return true;
-            }
-            else if (timer > 1)
-            {
-                protag.newState<ProtagFallingState>();
                 return true;
             }
 

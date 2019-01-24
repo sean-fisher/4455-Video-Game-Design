@@ -6,20 +6,23 @@ namespace TCS.Characters
 {
     public abstract class ProtagAerialState : ProtagAliveState
     {
-        #region v
+        #region variables
         protected abstract float aerialAnimationTurnStrength { get; }
         protected abstract float aerialPhysicsTurnStrength { get; }
+        float timer;
         #endregion
 
         public override void enter(ProtagInput input)
         {
             protag.setRootMotion(false);
             protag.anim.SetBool("grounded", false);
+            timer = 0;
         }
 
         public override void exit(ProtagInput input)
         {
             protag.anim.SetBool("grounded", true);
+            protag.setAerial(false);
         }
 
         public override void runAnimation(ProtagInput input)
@@ -27,9 +30,10 @@ namespace TCS.Characters
             base.runAnimation(input);
 
             float dt = Time.deltaTime * 60f;
+            timer += Time.deltaTime;
+
             float v = input.v;
             float h = input.h;
-
             freeMovementAimation(v, h, input.totalMotionMag, dt);
         }
 
@@ -38,28 +42,25 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
-            protag.checkGround();
+            //Apply Aerial Force
+            Vector3 move = InputManager.calculateMove(input.v, input.h);
+            protag.rb.AddForce(move * protag.aerialMovementStrength * 10, ForceMode.Force);
+            protag.rb.velocity = new Vector3(protag.rb.velocity.x * protag.aerialDrag, protag.rb.velocity.y, protag.rb.velocity.z * protag.aerialDrag);
+
+            if (timer >= .2)
+                protag.setAerial(true);
+
             return false;
         }
 
         private void freeMovementAimation(float v, float h, float mag, float dt)
         {
-
-            Vector3 ver = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized * v;
-            Vector3 hor = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized * h;
-
-            Vector3 move = hor + ver;
-            move = Vector3.ProjectOnPlane(move, Vector3.up);
-            move = Vector3.ClampMagnitude(move, 1);
-
-            //Apply Aerial Force
-            protag.rb.AddForce(move * protag.aerialMovementStrength * dt * 10, ForceMode.Force);
-            protag.rb.velocity = new Vector3(protag.rb.velocity.x * protag.aerialDrag, protag.rb.velocity.y, protag.rb.velocity.z * protag.aerialDrag);
+            Vector3 move = InputManager.calculateMove(v, h);
 
             if (move != Vector3.zero)
             {
-                Quaternion goalRot = Quaternion.LookRotation(move, Vector3.up);
-                protag.transform.rotation = Quaternion.Slerp(protag.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
+                Quaternion goalRot = Quaternion.LookRotation(Vector3.ProjectOnPlane(protag.rb.velocity.normalized, Vector3.up), Vector3.up);
+                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
             }
 
             //set forward motion
@@ -69,10 +70,8 @@ namespace TCS.Characters
 
             //Add turn
             float turnAmount = mag * Vector3.Angle(protag.transform.forward, move) / 180;
-            float turnDir = Utility.AngleDir(protag.transform.forward, move, Vector3.up);
+            float turnDir = Utility.AngleDir(protag.anim.transform.forward, move, Vector3.up);
             protag.anim.SetFloat("horizontal", turnDir * turnAmount * dt * aerialAnimationTurnStrength);
-
-            protag.anim.SetFloat("movementMagnitude", mag);
         }
     }
 }

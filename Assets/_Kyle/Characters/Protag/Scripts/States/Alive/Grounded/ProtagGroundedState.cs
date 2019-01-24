@@ -6,7 +6,7 @@ namespace TCS.Characters
 {
     public abstract class ProtagGroundedState : ProtagAliveState
     {
-        #region v
+        #region variables
         protected abstract float animationTurnStrength { get; }
         protected abstract float physicsTurnStrength { get; }
         private bool jumpPressed;
@@ -16,6 +16,7 @@ namespace TCS.Characters
         {
             base.enter(input);
             protag.anim.SetBool("grounded", true);
+            protag.setGrounded(true);
             jumpPressed = false;
             protag.setRootMotion(true);
         }
@@ -24,6 +25,7 @@ namespace TCS.Characters
         {
             base.exit(input);
             protag.anim.SetBool("grounded", false);
+            protag.setGrounded(false);
         }
 
         public override void runAnimation(ProtagInput input)
@@ -45,7 +47,9 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
-            protag.checkGround();
+            protag.checkGroundGrounded();
+
+            protag.rb.AddForce(-Vector3.ProjectOnPlane(Physics.gravity, protag.getGroundNormal()));
 
             if (!protag.getGrounded())
             {
@@ -65,34 +69,25 @@ namespace TCS.Characters
 
         private void freeMovementAimation(float v, float h, float mag, float dt)
         {
-            // Calculate movement vector
-            Vector3 ver = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized * v;
-            Vector3 hor = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized * h;
 
-            Vector3 move = hor + ver;
-            move = Vector3.ClampMagnitude(move, 1);
+            Vector3 move = InputManager.calculateMove(v, h);
 
             //rotate game object
             if (move != Vector3.zero)
             {
                 Quaternion goalRot = Quaternion.LookRotation(move, Vector3.up);
-                protag.transform.rotation = Quaternion.Slerp(protag.transform.localRotation, goalRot, physicsTurnStrength * dt * move.magnitude);
+                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, physicsTurnStrength * dt * move.magnitude);
             }
 
             //set forward motion
-            float scale;
-            if (Mathf.Abs(protag.anim.GetFloat("vertical")) < Mathf.Abs(mag)) // speed up gradually
-                scale = 1f;
-            else                                                                       // slow down quickly
-                scale = 4f;
-
+            float scale = (Mathf.Abs(protag.anim.GetFloat("vertical")) < Mathf.Abs(mag)) ? 1f : 4f; // speed up gradually, slow down quickly
             float targetV = mag;
             float nextV = Mathf.Lerp(protag.anim.GetFloat("vertical"), targetV, dt * .05f * scale);
             protag.anim.SetFloat("vertical", nextV);
 
             //set turn
-            float turnAmount = mag * Vector3.Angle(protag.transform.forward, move) / 180;
-            float turnDir = Utility.AngleDir(protag.transform.forward, move, Vector3.up);
+            float turnAmount = mag * Vector3.Angle(protag.anim.transform.forward, move) / 180;
+            float turnDir = Utility.AngleDir(protag.anim.transform.forward, move, Vector3.up);
             float targetH = turnDir * turnAmount * animationTurnStrength;
             float nextH = Mathf.Lerp(protag.anim.GetFloat("horizontal"), targetH, dt * .1f);
             protag.anim.SetFloat("horizontal", nextH);

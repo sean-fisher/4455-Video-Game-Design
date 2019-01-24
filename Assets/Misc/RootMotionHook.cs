@@ -10,25 +10,32 @@ namespace TCS.Characters
         private Rigidbody rb;
         private Vector3 groundNormal;
 
+        private Vector3 velocity;
+
         private void Start()
         {
             anim = GetComponent<Animator>();
             rb = GetComponentInParent<Rigidbody>();
             groundNormal = GetComponentInParent<Protag>().getGroundNormal();
         }
-
+        
         private void OnAnimatorMove()
         {
             groundNormal = GetComponentInParent<Protag>().getGroundNormal();
 
             if (anim.applyRootMotion)
             {
-                rb.drag = 0;
                 Vector3 v = new Vector3(anim.deltaPosition.x, anim.deltaPosition.y, anim.deltaPosition.z) / Time.deltaTime;
                 Vector3 dir = Vector3.ProjectOnPlane(v, groundNormal).normalized;
-                Vector3 Velocity = v.magnitude * dir;
-                rb.velocity = Velocity;
+                velocity = v.magnitude * dir;
             }
+        }
+
+        private void FixedUpdate()
+        {
+            if (anim.applyRootMotion)
+                rb.velocity = velocity;
+            //rb.AddForce(velocity * 10, ForceMode.Acceleration);
         }
     }
 }

@@ -6,9 +6,10 @@ namespace TCS.Characters
 {
     public class ProtagLocomotionState : ProtagGroundedState
     {
+        #region variables
         protected override float animationTurnStrength { get { return 5f; } }
         protected override float physicsTurnStrength { get { return .15f; } }
-        
+        #endregion
 
         public override void enter(ProtagInput input)
         {

@@ -13,7 +13,7 @@ namespace TCS
             float dt = Time.deltaTime * 60f;
 
             // updates position.
-            Follow(camControl);
+             Follow(camControl);
 
             // Grabs Left Stick and Mouse Movement Inputs.
             float h = InputManager.getCameraX();
