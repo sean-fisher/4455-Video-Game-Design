@@ -47,6 +47,7 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
+            protag.checkWallInFront();
             protag.checkGroundGrounded();
 
             protag.rb.AddForce(-Vector3.ProjectOnPlane(Physics.gravity, protag.getGroundNormal()));
@@ -61,7 +62,16 @@ namespace TCS.Characters
                 protag.newState<ProtagJumpingState>();
                 return true;
             }
-            else
+            else if (protag.getIsClimbableWallInFront()) {
+                // if there is a climbable wall in front, is the player pushing towards the wall?
+                // If so, we transition to climbing state
+                if (protag.isMovingForward()) {
+                    Debug.Log("BEGIN CLIMB");
+                    protag.newState<ProtagClimbingLocomotionState>();
+                    return true;
+                }
+                return false;
+            } else
             {
                 return false;
             }
