@@ -127,7 +127,7 @@ namespace TCS.Characters
             }
         }
         
-        public Vector3 checkClimbingWall() {
+        public PointNormalPair checkClimbingWall() {
 
             Vector3 wallNormal = -modelTransform.forward;
 
@@ -177,8 +177,9 @@ namespace TCS.Characters
             foreach (Vector3 point in hitPoints) {
                 vecSum += point;
             }
+            Vector3 climbingTargetPos = vecSum / hitPoints.Count;
 
-            return wallNormal;
+            return new PointNormalPair(climbingTargetPos, wallNormal);
         }
 
         public bool isMovingForward() {

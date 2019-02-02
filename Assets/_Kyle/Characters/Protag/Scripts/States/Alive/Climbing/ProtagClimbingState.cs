@@ -43,7 +43,18 @@ namespace TCS.Characters
             float mag = input.totalMotionMag;
             
             Vector2 normalizedInput = new Vector2(h, v).normalized;
-            Vector3 wallNormal = protag.checkClimbingWall();
+            PointNormalPair pnp = protag.checkClimbingWall();
+            Vector3 wallNormal = pnp.normal;
+            Vector3 wallTargetPos = pnp.point;
+
+            if (wallNormal == null) {
+                Debug.LogError("Wall normal is null");
+                return;
+            }
+            if (wallTargetPos == null) {
+                Debug.LogError("Target pos is null");
+                return;
+            }
 
             if (mag > 0)
             {
@@ -61,20 +72,39 @@ namespace TCS.Characters
                 Vector3 angles = protag.modelTransform.rotation.eulerAngles;
                 protag.modelTransform.rotation = Quaternion.Euler(angles.x, angles.y, 0);
 
-                transform.position += dirToMoveVertical * Time.deltaTime * normalizedInput.y * 2;
+                // this code moves the player on the vertical axis. It should be handled by the root motion animations, but for some reason those aren't working.
+                transform.position += dirToMoveVertical * Time.deltaTime * normalizedInput.y * 1;
             }
 
-            //set upwards motion
+            //set upwards animation/root motion
             float scale = (Mathf.Abs(protag.anim.GetFloat("vertical")) < Mathf.Abs(mag)) ? 1f : 4f; // speed up gradually, slow down quickly
             float nextV = Mathf.Lerp(protag.anim.GetFloat("vertical"), v, dt * .05f * scale);
             protag.anim.SetFloat("vertical", nextV);
 
-            //Add horizontal motion
+            //Add horizontal animation/root motion
             scale = (Mathf.Abs(protag.anim.GetFloat("horizontal")) < Mathf.Abs(mag)) ? 1f : 4f; // speed up gradually, slow down quickly
             float nextH = Mathf.Lerp(protag.anim.GetFloat("horizontal"), h, dt * .05f * scale);
             protag.anim.SetFloat("horizontal", nextH);
 
             protag.anim.SetFloat("movementMagnitude", mag);
+
+            if (wallTargetPos != null) {
+                // move to the average point of the raycasthits. Currently will cause the player to slide
+                //transform.position = Vector3.Lerp(transform.position, wallTargetPos, Time.deltaTime * 1);
+
+                // force the player towards the wall
+                protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 350);
+                
+                // since he's climbing a curved surface, this could cause some sliding.
+                // So let's stop his movement if it seems he should be still.
+                if (protag.rb.velocity.magnitude < .5f) {
+                    protag.rb.velocity = Vector3.zero;
+                }
+            } else {
+                // there's no wall in front of us.
+                // this check probably shouldn't be here but it'll help test
+                protag.newState<ProtagFallingState>();
+            }
         }
 
         public override bool runLogic(ProtagInput input)
@@ -82,7 +112,8 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
-            Vector3 wallNormal = protag.checkClimbingWall();
+            PointNormalPair pnp = protag.checkClimbingWall();
+            Vector3 wallNormal = pnp.normal;
 
             if (jumpPressed)
             {
