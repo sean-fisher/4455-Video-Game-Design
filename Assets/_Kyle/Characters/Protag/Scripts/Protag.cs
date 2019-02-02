@@ -31,14 +31,17 @@ namespace TCS.Characters
     
         public Vector3 chestOffset;
         public Transform modelTransform;
-
-        private PlayerCameraController cam;
+        
         private int selfMask;
         private bool vuln;
+        private bool aerial;
+
         private bool grounded;
         private Vector3 groundNormal;
-        private bool aerial;
+        
         private bool climbableWallInFront;
+        private Vector3 climbableWallNormal;
+        private Vector3 wallAnchorPosition;
 
         #endregion
 
@@ -48,8 +51,8 @@ namespace TCS.Characters
             rb = GetComponent<Rigidbody>();
             col = GetComponent<CapsuleCollider>();
             anim = GetComponentInChildren<Animator>();
-            cam = GameObject.FindObjectOfType<PlayerCameraController>();
             modelTransform = transform.GetChild(0);
+            climbableWallNormal = Vector3.up;
             
             anim.applyRootMotion = true;
             vuln = true;
@@ -79,7 +82,7 @@ namespace TCS.Characters
             input.jump = InputManager.getJump();
         }
 
-        public bool checkGroundGrounded()
+        public void checkGround()
         {
             Vector3 pos = transform.position + (Vector3.up * 0.5f);
             Vector3 dir = (Vector3.down * 0.8f);
@@ -89,20 +92,18 @@ namespace TCS.Characters
                 Debug.DrawRay(pos, dir, Color.green);
                 grounded = true;
                 groundNormal = groundCheck.normal;
-                return true;
+                return;
             }
             else
             {
                 Debug.DrawRay(pos, dir, Color.red);
                 grounded = false;
                 groundNormal = Vector3.up;
-                return false;
+                return;
             }
         }
 
-        public void checkWallInFront() {
-
-            climbableWallInFront = false;
+        public void checkClimableWallInFront() {
 
             float rayLength = col.radius * 2;
             Vector3 start = chestOffset + transform.localPosition;
@@ -110,34 +111,28 @@ namespace TCS.Characters
 
             RaycastHit hit;
             Debug.DrawRay(start, dir * rayLength, Color.red);
+            // Is there something in front?
             if (Physics.Raycast(start, dir, out hit, rayLength, selfMask)) {
 
-                // there's something in front
-
                 // is it a climbable wall?
-                if (hit.transform.gameObject.CompareTag("Climbable")) {
+                if (hit.transform.gameObject.CompareTag("Climbable"))
                     climbableWallInFront = true;
-                }
+                else
+                    climbableWallInFront = false;
+
+            }
+            else
+            {
+                climbableWallInFront = false;
             }
         }
-
-        bool drawSphere;
-        Vector3 sphereloc;
-        void OnDrawGizmosSelected() {
-            if (drawSphere) {
-            Gizmos.DrawSphere(sphereloc, .5f);
-            }
-        }
-
-        public Vector3 hitPoint;
-
-        public Vector3 checkClimbingWallNormal() {
+        
+        public Vector3 checkClimbingWall() {
 
             Vector3 wallNormal = -modelTransform.forward;
 
             climbableWallInFront = false;
 
-            float rayLength = col.radius * 6;
             Vector3 start = transform.localPosition;
             Vector3 dir = modelTransform.forward;
             
@@ -147,7 +142,7 @@ namespace TCS.Characters
             // check at the head of the player
             start = transform.localPosition + chestOffset.magnitude * modelTransform.up;
             RaycastHit hit;
-            if (RayCastInArc(out hit, start, modelTransform.up, modelTransform.right, col.height / 2, 90, Color.green, 4)) {
+            if (Utility.RayCastInArc(out hit, start, modelTransform.up, modelTransform.right, col.height / 2, 90, Color.green, selfMask, 4)) {
                 // there is a climbable wall above
                 hitPoints.Add(hit.point);
                 hitNormals.Add(hit.normal);
@@ -155,10 +150,18 @@ namespace TCS.Characters
 
             // check at the feet of the player
             start = transform.localPosition  + chestOffset.magnitude * modelTransform.up;
-            if (RayCastInArc(out hit, start, -modelTransform.up, -modelTransform.right, col.height / 2, 90, Color.red, 4)) {
+            if (Utility.RayCastInArc(out hit, start, -modelTransform.up, -modelTransform.right, col.height / 2, 90, Color.red, selfMask, 4)) {
                 // there is a climbable wall below
                 hitPoints.Add(hit.point);
                 hitNormals.Add(hit.normal);
+            }
+
+            start = transform.position;
+            RaycastHit wallAnchorCheck;
+            if (Physics.Raycast(start, modelTransform.forward, out wallAnchorCheck, 0.5f, selfMask))
+            {
+                Debug.DrawRay(start, dir, Color.blue);
+                wallAnchorPosition = wallAnchorCheck.point;
             }
 
             // find the average wall normal of the points we can reach
@@ -174,45 +177,8 @@ namespace TCS.Characters
             foreach (Vector3 point in hitPoints) {
                 vecSum += point;
             }
-            hitPoint = vecSum / hitPoints.Count;
 
             return wallNormal;
-        }
-
-        bool RayCastInArc(
-            out RaycastHit hit,  
-            Vector3 center, 
-            Vector3 radiusDir, 
-            Vector3 axis, 
-            float radius, 
-            float angleSpanDegrees, 
-            Color color,
-            int numRays = 4) {
-            
-            float rayLength = 2*3.1415f*radius * (angleSpanDegrees / 360 / numRays);
-            float angleStep = angleSpanDegrees / (float) numRays;
-            Vector3 lastDir = Vector3.zero;
-            Vector3 start = center + radiusDir * radius;
-
-            // cast rays in an arc starting from center offset by radius until we hit something or span angleSpanDegrees
-            for (int i = 0; i < numRays; i++) {
-
-                // start the next ray from where the other ended
-                start += lastDir * rayLength;
-                Vector3 dirToCast = Vector3.Cross(axis, radiusDir);
-                dirToCast = Quaternion.AngleAxis(angleStep * i, axis) * dirToCast;
-                
-                Debug.DrawRay(start, dirToCast * rayLength, color);
-
-                if (Physics.Raycast(start, dirToCast, out hit, rayLength, selfMask) && hit.collider.gameObject.CompareTag("Climbable")) {
-                    return true;
-                }
-
-                lastDir = dirToCast;
-            }
-
-            hit = new RaycastHit();
-            return false;
         }
 
         public bool isMovingForward() {
@@ -252,7 +218,9 @@ namespace TCS.Characters
 
         public Vector3 getGroundNormal() { return groundNormal; }
 
-        public Vector3 getMovementDirection() { return modelTransform.forward; }
+        public Vector3 getClimableWallNormal() { return climbableWallNormal; }
+
+        public Vector3 getWallAnchorPosition() { return wallAnchorPosition; }
 
         public void setGrounded(bool value) { grounded = value; }
 

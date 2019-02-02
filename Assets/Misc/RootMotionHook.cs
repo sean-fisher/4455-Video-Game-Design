@@ -37,5 +37,6 @@ namespace TCS.Characters
                 rb.velocity = velocity;
             //rb.AddForce(velocity * 10, ForceMode.Acceleration);
         }
+
     }
 }

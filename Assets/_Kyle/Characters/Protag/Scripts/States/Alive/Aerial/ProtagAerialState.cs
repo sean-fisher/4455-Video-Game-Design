@@ -34,7 +34,21 @@ namespace TCS.Characters
 
             float v = input.v;
             float h = input.h;
-            freeMovementAimation(v, h, input.totalMotionMag, dt);
+            float mag = input.totalMotionMag;
+
+            Vector3 move = InputManager.calculateMove(v, h);
+
+            // rotates the player to the movement direction
+            if (move != Vector3.zero)
+            {
+                Quaternion goalRot = Quaternion.LookRotation(Vector3.ProjectOnPlane(protag.rb.velocity.normalized, Vector3.up), Vector3.up);
+                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
+            }
+
+            // set forward motion
+            float targetV = mag;
+            float nextV = Mathf.Lerp(protag.anim.GetFloat("vertical"), targetV, dt * .05f);
+            protag.anim.SetFloat("vertical", nextV);
         }
 
         public override bool runLogic(ProtagInput input)
@@ -50,28 +64,15 @@ namespace TCS.Characters
             if (timer >= .2)
                 protag.setAerial(true);
 
-            return false;
-        }
-
-        private void freeMovementAimation(float v, float h, float mag, float dt)
-        {
-            Vector3 move = InputManager.calculateMove(v, h);
-
-            if (move != Vector3.zero)
+            protag.checkClimableWallInFront();
+            
+            if (protag.getIsClimbableWallInFront() && protag.isMovingForward())
             {
-                Quaternion goalRot = Quaternion.LookRotation(Vector3.ProjectOnPlane(protag.rb.velocity.normalized, Vector3.up), Vector3.up);
-                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
+                protag.newState<ProtagClimbingState>();
+                return true;
             }
 
-            //set forward motion
-            float targetV = mag;
-            float nextV = Mathf.Lerp(protag.anim.GetFloat("vertical"), targetV, dt * .05f);
-            protag.anim.SetFloat("vertical", nextV);
-
-            //Add turn
-            float turnAmount = mag * Vector3.Angle(protag.transform.forward, move) / 180;
-            float turnDir = Utility.AngleDir(protag.anim.transform.forward, move, Vector3.up);
-            protag.anim.SetFloat("horizontal", turnDir * turnAmount * dt * aerialAnimationTurnStrength);
+            return false;
         }
     }
 }
