@@ -66,7 +66,7 @@ namespace TCS
 
         private void LateUpdate()
         {
-            camStrat.ExecuteStrategyLateUpdate(this);
+            if (camStrat != null) camStrat.ExecuteStrategyLateUpdate(this);
         }
 
         public void SetStrategy(CameraStrategy cameraStrategy)

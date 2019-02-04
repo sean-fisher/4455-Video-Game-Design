@@ -15,6 +15,7 @@ namespace TCS.Characters
         public override void enter(ProtagInput input)
         {
             protag.setRootMotion(false);
+            protag.setAerial(true);
             protag.anim.SetBool("grounded", false);
             timer = 0;
         }
@@ -65,6 +66,8 @@ namespace TCS.Characters
                 protag.setAerial(true);
 
             protag.checkClimableWallInFront();
+            protag.checkGround();
+            protag.lerpRotationToUpwards();
             
             if (protag.getIsClimbableWallInFront() && protag.isMovingForward())
             {

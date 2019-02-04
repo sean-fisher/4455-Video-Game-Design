@@ -47,12 +47,12 @@ namespace TCS.Characters
             Vector3 wallNormal = pnp.normal;
             Vector3 wallTargetPos = pnp.point;
 
-            if (wallNormal == null) {
-                Debug.LogError("Wall normal is null");
+            if (wallNormal == Vector3.zero) {
+                Debug.Log("Wall normal is zero... maybe an issue?");
                 return;
             }
             if (wallTargetPos == null) {
-                Debug.LogError("Target pos is null");
+                Debug.LogError("Target pos is zero");
                 return;
             }
 
@@ -73,7 +73,8 @@ namespace TCS.Characters
                 protag.modelTransform.rotation = Quaternion.Euler(angles.x, angles.y, 0);
 
                 // this code moves the player on the vertical axis. It should be handled by the root motion animations, but for some reason those aren't working.
-                transform.position += dirToMoveVertical * Time.deltaTime * normalizedInput.y * 1;
+                Vector3 yVec = dirToMoveVertical * Time.deltaTime * normalizedInput.y * 1;
+                transform.position = transform.position + yVec;
             }
 
             //set upwards animation/root motion
@@ -102,7 +103,7 @@ namespace TCS.Characters
                 }
             } else {
                 // there's no wall in front of us.
-                // this check probably shouldn't be here but it'll help test
+                // this check probably shouldn't be in this function but it'll help test at the least
                 protag.newState<ProtagFallingState>();
             }
         }
@@ -120,12 +121,11 @@ namespace TCS.Characters
                 protag.newState<ProtagFallingState>();
                 return true;
             }
-            else if (Vector3.Angle(wallNormal, Vector3.up) <= 15)
+            else if (Mathf.Abs(Vector3.Angle(wallNormal, Vector3.up)) <= 15)
             {
                 protag.newState<ProtagLocomotionState>();
                 return true;
             }
-
             return false;
         }
     }
