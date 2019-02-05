@@ -43,12 +43,12 @@ namespace TCS.Characters
             float mag = input.totalMotionMag;
             
             Vector2 normalizedInput = new Vector2(h, v).normalized;
-            PointNormalPair pnp = protag.checkClimbingWall();
+            PointNormalActionTypeTuple pnp = protag.checkClimbingWall();
             Vector3 wallNormal = pnp.normal;
             Vector3 wallTargetPos = pnp.point;
 
             if (wallNormal == Vector3.zero) {
-                Debug.Log("Wall normal is zero... maybe an issue?");
+                //Debug.Log("Wall normal is zero... maybe an issue?");
                 return;
             }
             if (wallTargetPos == null) {
@@ -94,7 +94,7 @@ namespace TCS.Characters
                 //transform.position = Vector3.Lerp(transform.position, wallTargetPos, Time.deltaTime * 1);
 
                 // force the player towards the wall
-                protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 350);
+                protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 700);
                 
                 // since he's climbing a curved surface, this could cause some sliding.
                 // So let's stop his movement if it seems he should be still.
@@ -113,19 +113,31 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
-            PointNormalPair pnp = protag.checkClimbingWall();
-            Vector3 wallNormal = pnp.normal;
+            PointNormalActionTypeTuple wallInfoTuple = protag.checkClimbingWall();
+            Vector3 wallNormal = wallInfoTuple.normal;
 
-            if (jumpPressed)
-            {
-                protag.newState<ProtagFallingState>();
-                return true;
+            switch (wallInfoTuple.actionType) {
+                case (ClimbingContextualActionType.CLIMBING):
+                    if (jumpPressed)
+                    {
+                        protag.newState<ProtagFallingState>();
+                        return true;
+                    }
+                    else if (Mathf.Abs(Vector3.Angle(wallNormal, Vector3.up)) <= 15)
+                    {
+                        // we've smoothly climbed onto a surface level enough to stand on
+                        protag.newState<ProtagLocomotionState>();
+                        return true;
+                    }
+                break;
+                case (ClimbingContextualActionType.CLIMBUP):
+                    Debug.Log("Climb up ledge!");
+                    protag.newState<ProtagClimbingUpLedgeState>();
+                break;
+                case (ClimbingContextualActionType.CLIMBDOWN):
+                break;
             }
-            else if (Mathf.Abs(Vector3.Angle(wallNormal, Vector3.up)) <= 15)
-            {
-                protag.newState<ProtagLocomotionState>();
-                return true;
-            }
+
             return false;
         }
     }

@@ -22,6 +22,8 @@ namespace TCS.Characters
         
         [SerializeField]
         private AnimationCurve compressionCurve;
+        [SerializeField]
+        private AnimationCurve climpUpCurve;
 
         [HideInInspector]
         public Rigidbody rb;
@@ -171,7 +173,7 @@ namespace TCS.Characters
                 Mathf.Lerp(modelTransform.rotation.eulerAngles.z, rotationZTarget, Time.deltaTime * rotationOrientSpeed));
         }
         
-        public PointNormalPair checkClimbingWall() {
+        public PointNormalActionTypeTuple checkClimbingWall() {
 
             Vector3 wallNormal = -modelTransform.forward;
 
@@ -199,7 +201,7 @@ namespace TCS.Characters
                     // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
                     if (Mathf.Abs(Vector3.Angle(modelTransform.forward, movementDir)) < 15) {
                         // we can climb up
-                        Debug.Log("Climb up ledge!");
+                        return new PointNormalActionTypeTuple(hit.point, hit.normal, ClimbingContextualActionType.CLIMBUP);
                     }
                 }
             }
@@ -235,7 +237,7 @@ namespace TCS.Characters
             }
             Vector3 climbingTargetPos = hitPoints.Count > 0 ? vecSum / hitPoints.Count : Vector3.zero;
 
-            return new PointNormalPair(climbingTargetPos, wallNormal);
+            return new PointNormalActionTypeTuple(climbingTargetPos, wallNormal, ClimbingContextualActionType.CLIMBING);
         }
 
         public bool isMovingForward() {
@@ -266,6 +268,7 @@ namespace TCS.Characters
         }
 
         public float sampleCompressionCurve(float x) { return compressionCurve.Evaluate(x); }
+        public float sampleClimbUpCurve(float x) { return climpUpCurve.Evaluate(x); }
 
         public bool getGrounded() { return grounded; }
 
