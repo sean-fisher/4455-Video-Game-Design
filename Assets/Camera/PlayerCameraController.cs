@@ -26,7 +26,7 @@ namespace TCS
         [HideInInspector]
         public CameraStrategy camStrat;
         [HideInInspector]
-        private Camera cam;
+        protected Camera cam;
 
         [HideInInspector]
         public float rotX;
@@ -44,6 +44,7 @@ namespace TCS
         public float rotXSpeed = 2;
         [HideInInspector]
         public float rotYSpeed = 2;
+        public float targetSpeed;
 
         #endregion
         
@@ -66,6 +67,10 @@ namespace TCS
 
         private void LateUpdate()
         {
+            if (Input.GetButtonDown("Fire1")) {
+                SetStrategy(new CameraTargetStrategy(followTarget.GetChild(0).rotation, this));
+            }
+
             if (camStrat != null) camStrat.ExecuteStrategyLateUpdate(this);
         }
 
