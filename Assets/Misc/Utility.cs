@@ -66,13 +66,22 @@ namespace TCS
         }
     }
 
-    public class PointNormalPair {
+    public class PointNormalActionTypeTuple {
         public Vector3 point;
         public Vector3 normal;
+        public ClimbingContextualActionType actionType;
 
-        public PointNormalPair(Vector3 p, Vector3 n) {
+        public PointNormalActionTypeTuple(Vector3 p, Vector3 n, ClimbingContextualActionType type) {
             point = p;
             normal  = n;
+            actionType = type;
         }
     }
+
+    public enum ClimbingContextualActionType {
+        CLIMBING,
+        CLIMBUP,
+        CLIMBDOWN
+    }
+
 }

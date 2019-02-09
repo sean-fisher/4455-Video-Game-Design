@@ -43,16 +43,16 @@ namespace TCS.Characters
             float mag = input.totalMotionMag;
             
             Vector2 normalizedInput = new Vector2(h, v).normalized;
-            PointNormalPair pnp = protag.checkClimbingWall();
+            PointNormalActionTypeTuple pnp = protag.checkClimbingWall();
             Vector3 wallNormal = pnp.normal;
             Vector3 wallTargetPos = pnp.point;
 
-            if (wallNormal == null) {
-                Debug.LogError("Wall normal is null");
+            if (wallNormal == Vector3.zero) {
+                //Debug.Log("Wall normal is zero... maybe an issue?");
                 return;
             }
             if (wallTargetPos == null) {
-                Debug.LogError("Target pos is null");
+                Debug.LogError("Target pos is zero");
                 return;
             }
 
@@ -73,7 +73,8 @@ namespace TCS.Characters
                 protag.modelTransform.rotation = Quaternion.Euler(angles.x, angles.y, 0);
 
                 // this code moves the player on the vertical axis. It should be handled by the root motion animations, but for some reason those aren't working.
-                transform.position += dirToMoveVertical * Time.deltaTime * normalizedInput.y * 1;
+                Vector3 yVec = dirToMoveVertical * Time.deltaTime * normalizedInput.y * 1;
+                transform.position = transform.position + yVec;
             }
 
             //set upwards animation/root motion
@@ -93,7 +94,7 @@ namespace TCS.Characters
                 //transform.position = Vector3.Lerp(transform.position, wallTargetPos, Time.deltaTime * 1);
 
                 // force the player towards the wall
-                protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 350);
+                protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 700);
                 
                 // since he's climbing a curved surface, this could cause some sliding.
                 // So let's stop his movement if it seems he should be still.
@@ -102,7 +103,7 @@ namespace TCS.Characters
                 }
             } else {
                 // there's no wall in front of us.
-                // this check probably shouldn't be here but it'll help test
+                // this check probably shouldn't be in this function but it'll help test at the least
                 protag.newState<ProtagFallingState>();
             }
         }
@@ -112,18 +113,29 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
-            PointNormalPair pnp = protag.checkClimbingWall();
-            Vector3 wallNormal = pnp.normal;
+            PointNormalActionTypeTuple wallInfoTuple = protag.checkClimbingWall();
+            Vector3 wallNormal = wallInfoTuple.normal;
 
-            if (jumpPressed)
-            {
-                protag.newState<ProtagFallingState>();
-                return true;
-            }
-            else if (Vector3.Angle(wallNormal, Vector3.up) <= 15)
-            {
-                protag.newState<ProtagLocomotionState>();
-                return true;
+            switch (wallInfoTuple.actionType) {
+                case (ClimbingContextualActionType.CLIMBING):
+                    if (jumpPressed)
+                    {
+                        protag.newState<ProtagFallingState>();
+                        return true;
+                    }
+                    else if (Mathf.Abs(Vector3.Angle(wallNormal, Vector3.up)) <= 15)
+                    {
+                        // we've smoothly climbed onto a surface level enough to stand on
+                        protag.newState<ProtagLocomotionState>();
+                        return true;
+                    }
+                break;
+                case (ClimbingContextualActionType.CLIMBUP):
+                    Debug.Log("Climb up ledge!");
+                    protag.newState<ProtagClimbingUpLedgeState>();
+                break;
+                case (ClimbingContextualActionType.CLIMBDOWN):
+                break;
             }
 
             return false;
