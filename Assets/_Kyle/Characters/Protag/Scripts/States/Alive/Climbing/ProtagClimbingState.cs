@@ -19,6 +19,7 @@ namespace TCS.Characters
             protag.anim.SetBool("fall", false);
             jumpPressed = false;
             protag.rb.useGravity = false;
+            protag.climbing = true;
         }
 
         public override void exit(ProtagInput input)
@@ -26,6 +27,7 @@ namespace TCS.Characters
             protag.anim.SetBool("climbing", false);
             protag.rb.useGravity = true;
             protag.rb.velocity = Vector3.zero;
+            protag.climbing = false;
         }
 
         public override void runAnimation(ProtagInput input)
@@ -56,6 +58,8 @@ namespace TCS.Characters
                 return;
             }
 
+            protag.setClimbableWallNormal(wallNormal);
+            
             if (mag > 0)
             {
                 // "up" relative to the wall and the player's orientation
@@ -74,7 +78,7 @@ namespace TCS.Characters
 
                 // this code moves the player on the vertical axis. It should be handled by the root motion animations, but for some reason those aren't working.
                 Vector3 yVec = dirToMoveVertical * Time.deltaTime * normalizedInput.y * 1;
-                transform.position = transform.position + yVec;
+                transform.position = transform.position + yVec * protag.yVecSpeed;
             }
 
             //set upwards animation/root motion
