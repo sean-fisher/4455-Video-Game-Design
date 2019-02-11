@@ -40,11 +40,13 @@ namespace TCS.Characters
         private bool aerial;
 
         private bool grounded;
+        public bool climbing;
         private Vector3 groundNormal;
         
         private bool climbableWallInFront;
         private Vector3 climbableWallNormal;
         private Vector3 wallAnchorPosition;
+        public float yVecSpeed;
 
         #endregion
 
@@ -271,6 +273,7 @@ namespace TCS.Characters
         public float sampleClimbUpCurve(float x) { return climpUpCurve.Evaluate(x); }
 
         public bool getGrounded() { return grounded; }
+        public bool getClimbing() { return climbing; }
 
         public bool getVulnerable() { return vuln; }
         
@@ -289,6 +292,7 @@ namespace TCS.Characters
         public void setRootMotion(bool value) { anim.applyRootMotion = value; }
 
         public void setAerial(bool value) { aerial = value; }
+        public void setClimbableWallNormal(Vector3 wallNormal) {climbableWallNormal = wallNormal;}
     }
 
     public class ProtagInput : CharacterInput
