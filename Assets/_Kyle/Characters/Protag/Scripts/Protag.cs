@@ -68,6 +68,7 @@ namespace TCS.Characters
             selfMask = ~ LayerMask.GetMask("Player");
 
             newState<ProtagLocomotionState>();
+            //newState<ProtagHoverBikeState>();
 
             // enable hurtboxes
             foreach (Collider hb in hurtBoxes)
