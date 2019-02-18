@@ -14,20 +14,25 @@ namespace TCS.Characters
         {
             base.enter(input);
             protag.anim.SetBool("climbing", false);
-            //protag.anim.SetBool("land", true);
+            protag.setRootMotion(true);
+            protag.climbing = true;
+            protag.col.enabled = false;
+            protag.rb.velocity = Vector3.zero;
+            protag.rb.angularVelocity = Vector3.zero;
             timer = 0;
         }
 
         public override void exit(ProtagInput input)
         {
             base.exit(input);
-            //protag.anim.SetBool("land", false);
             protag.anim.SetFloat("climbUp", 0);
+            protag.col.enabled = true;
+            protag.climbing = false;
         }
 
         public override void runAnimation(ProtagInput input)
         {
-            base.runAnimation(input);
+            //base.runAnimation(input);
             timer += Time.deltaTime;
             float sampleLocation = protag.sampleClimbUpCurve(timer);
             protag.anim.SetFloat("climbUp", sampleLocation);
@@ -38,7 +43,7 @@ namespace TCS.Characters
             //if (base.runLogic(input))
             //    return true;
 
-            if (timer > 2)
+            if (timer > 1)
             {
                 protag.newState<ProtagLocomotionState>();
                 return true;

@@ -69,7 +69,7 @@ namespace TCS.Characters
             protag.checkGround();
             protag.lerpRotationToUpwards();
             
-            if (protag.getIsClimbableWallInFront() && protag.isMovingForward())
+            if (!protag.getGrounded() && protag.getIsClimbableWallInFront() && protag.isMovingForward())
             {
                 protag.newState<ProtagClimbingState>();
                 return true;
