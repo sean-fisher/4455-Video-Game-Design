@@ -33,6 +33,7 @@ namespace TCS.Characters
         public override void runAnimation(ProtagInput input)
         {
             base.runAnimation(input);
+            protag.checkClimbingWall();
 
             if (input.jump)
                 jumpPressed = true;
@@ -45,20 +46,17 @@ namespace TCS.Characters
             float mag = input.totalMotionMag;
             
             Vector2 normalizedInput = new Vector2(h, v).normalized;
-            PointNormalActionTypeTuple pnp = protag.checkClimbingWall();
-            Vector3 wallNormal = pnp.normal;
-            Vector3 wallTargetPos = pnp.point;
+            Vector3 wallNormal = protag.getClimableWallNormal();
+            Vector3 wallTargetPos = protag.getWallAnchorPosition();
 
             if (wallNormal == Vector3.zero) {
                 //Debug.Log("Wall normal is zero... maybe an issue?");
                 return;
             }
-            if (wallTargetPos == null) {
+            if (wallTargetPos == Vector3.zero) {
                 Debug.LogError("Target pos is zero");
                 return;
             }
-
-            protag.setClimbableWallNormal(wallNormal);
             
             if (mag > 0)
             {
@@ -93,12 +91,16 @@ namespace TCS.Characters
 
             protag.anim.SetFloat("movementMagnitude", mag);
 
-            if (wallTargetPos != null) {
+            if (wallTargetPos != Vector3.zero) {
                 // move to the average point of the raycasthits. Currently will cause the player to slide
                 //transform.position = Vector3.Lerp(transform.position, wallTargetPos, Time.deltaTime * 1);
 
-                // force the player towards the wall
-                protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 700);
+                if (v != 0 || h != 0) {
+                    // force the player towards the wall
+                    protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 700);
+                } else {
+                    //protag.rb.AddForce((protag.getWallAnchorPosition() - transform.position) * 100);
+                }
                 
                 // since he's climbing a curved surface, this could cause some sliding.
                 // So let's stop his movement if it seems he should be still.
@@ -116,11 +118,12 @@ namespace TCS.Characters
         {
             if (base.runLogic(input))
                 return true;
+            protag.checkClimbingWall();
 
-            PointNormalActionTypeTuple wallInfoTuple = protag.checkClimbingWall();
-            Vector3 wallNormal = wallInfoTuple.normal;
 
-            switch (wallInfoTuple.actionType) {
+            Vector3 wallNormal = protag.getClimableWallNormal();
+
+            switch (protag.GetNextActionType()) {
                 case (ClimbingContextualActionType.CLIMBING):
                     if (jumpPressed)
                     {
