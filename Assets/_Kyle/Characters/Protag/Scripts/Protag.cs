@@ -55,7 +55,8 @@ namespace TCS.Characters
         void Start()
         {
             rb = GetComponent<Rigidbody>();
-            col = GetComponentInChildren<CapsuleCollider>();
+            //col = GetComponent<CapsuleCollider>();
+            col = transform.GetChild(0).GetComponent<CapsuleCollider>();
             anim = GetComponentInChildren<Animator>();
             modelTransform = transform.GetChild(0);
             climbableWallNormal = Vector3.up;
@@ -190,7 +191,7 @@ namespace TCS.Characters
             List<Vector3> hitNormals = new List<Vector3>();
 
             // check at the head of the player
-            start = transform.localPosition + chestOffset.magnitude * modelTransform.up / 3;
+            start = transform.localPosition + chestOffset.magnitude * modelTransform.up / 4;
             RaycastHit hit;
             if (Utility.RayCastInArc(out hit, start, modelTransform.up, modelTransform.right, col.height / 2, 90, Color.green, selfMask, 4)) {
                 // there is a climbable wall above
