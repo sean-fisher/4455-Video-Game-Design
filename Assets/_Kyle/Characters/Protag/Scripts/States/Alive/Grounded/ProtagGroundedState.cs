@@ -75,6 +75,8 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
             
+
+            protag.lerpRotationToUpwards();
             // prevents sliding down slopes
             protag.checkGround();
             protag.rb.AddForce(-Vector3.ProjectOnPlane(Physics.gravity, protag.getGroundNormal()));

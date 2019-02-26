@@ -18,9 +18,12 @@ namespace TCS.Characters
         public float aerialMovementStrength;
         public float aerialDrag;
         public float climbSpeed;
+        public float rotationOrientSpeed = 10;
         
         [SerializeField]
         private AnimationCurve compressionCurve;
+        [SerializeField]
+        private AnimationCurve climpUpCurve;
 
         [HideInInspector]
         public Rigidbody rb;
@@ -37,11 +40,14 @@ namespace TCS.Characters
         private bool aerial;
 
         private bool grounded;
+        public bool climbing;
         private Vector3 groundNormal;
         
         private bool climbableWallInFront;
         private Vector3 climbableWallNormal;
         private Vector3 wallAnchorPosition;
+        private ClimbingContextualActionType nextClimbingAction;
+        public float yVecSpeed;
 
         #endregion
 
@@ -49,7 +55,8 @@ namespace TCS.Characters
         void Start()
         {
             rb = GetComponent<Rigidbody>();
-            col = GetComponent<CapsuleCollider>();
+            //col = GetComponent<CapsuleCollider>();
+            col = transform.GetChild(0).GetComponent<CapsuleCollider>();
             anim = GetComponentInChildren<Animator>();
             modelTransform = transform.GetChild(0);
             climbableWallNormal = Vector3.up;
@@ -62,6 +69,7 @@ namespace TCS.Characters
             selfMask = ~ LayerMask.GetMask("Player");
 
             newState<ProtagLocomotionState>();
+            //newState<ProtagHoverBikeState>();
 
             // enable hurtboxes
             foreach (Collider hb in hurtBoxes)
@@ -126,10 +134,53 @@ namespace TCS.Characters
                 climbableWallInFront = false;
             }
         }
-        
-        public PointNormalPair checkClimbingWall() {
 
-            Vector3 wallNormal = -modelTransform.forward;
+        public bool checkLedgeAbove() {
+            // if we are at the base of a small cliff (or climbing at the top of a large cliff),
+            // we raycast down from ahead and above us to check the ground to climb onto.
+
+            float rayLength = 1;
+            Vector3 start = chestOffset * 2 + transform.localPosition;
+            Vector3 dir = Vector3.down;
+
+            RaycastHit hit;
+            Debug.DrawRay(start, dir * rayLength, Color.red);
+
+            // Is there a cliff above and in front?
+            if (Physics.Raycast(start, dir, out hit, rayLength, selfMask)) {
+
+                // is it a very flat surface, as opposed to a gradual slope?
+                if (Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up)) < 10) {
+
+                    // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
+                    if (Mathf.Abs(Vector3.Angle(modelTransform.forward, transform.forward)) < 15) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void lerpRotationToUpwards(){
+
+            // Orient the character so he is standing up
+
+            // lerping to base orientation can be ugly if we don't choose the right thing to lerp to.
+            // for example, if we're at -350 degrees rotation and want to get to 0, we should lerp to -360, not 0
+            float xSign = modelTransform.rotation.eulerAngles.x < 0 ? -1 : 1;
+            float rotationXTarget = (modelTransform.rotation.eulerAngles.x > 180 ? 360 : 0) * xSign;
+            float zSign = modelTransform.rotation.eulerAngles.z < 0 ? -1 : 1;
+            float rotationZTarget = (modelTransform.rotation.eulerAngles.z > 180 ? 360 : 0) * zSign;
+
+            modelTransform.rotation = Quaternion.Euler(
+                Mathf.Lerp(modelTransform.rotation.eulerAngles.x, rotationXTarget, Time.deltaTime * rotationOrientSpeed), 
+                modelTransform.rotation.eulerAngles.y,
+                Mathf.Lerp(modelTransform.rotation.eulerAngles.z, rotationZTarget, Time.deltaTime * rotationOrientSpeed));
+        }
+        
+        public void checkClimbingWall() {
+
+            climbableWallNormal = -modelTransform.forward;
 
             climbableWallInFront = false;
 
@@ -140,12 +191,30 @@ namespace TCS.Characters
             List<Vector3> hitNormals = new List<Vector3>();
 
             // check at the head of the player
-            start = transform.localPosition + chestOffset.magnitude * modelTransform.up;
+            start = transform.localPosition + chestOffset.magnitude * modelTransform.up / 4;
             RaycastHit hit;
             if (Utility.RayCastInArc(out hit, start, modelTransform.up, modelTransform.right, col.height / 2, 90, Color.green, selfMask, 4)) {
                 // there is a climbable wall above
-                hitPoints.Add(hit.point);
-                hitNormals.Add(hit.normal);
+                
+                // Is there a cliff above and in front?
+
+                // is it a very flat surface, as opposed to a gradual slope?
+
+                if (Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up)) < 10) {
+                    Vector3 movementDir = Vector3.ProjectOnPlane(modelTransform.forward, groundNormal);
+                    // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
+                    if (Mathf.Abs(Vector3.Angle(modelTransform.forward, movementDir)) < 15) {
+                        // we can climb up
+                        wallAnchorPosition = hit.point;
+                        climbableWallNormal = Vector3.zero;
+                        nextClimbingAction = ClimbingContextualActionType.CLIMBUP;
+                        return;
+                    }
+                } else {
+                    hitPoints.Add(hit.point);
+                    hitNormals.Add(hit.normal);
+
+                }
             }
 
             // check at the feet of the player
@@ -169,7 +238,7 @@ namespace TCS.Characters
             foreach (Vector3 norm in hitNormals) {
                 vecSum += norm;
             }
-            wallNormal = vecSum / hitNormals.Count;
+            climbableWallNormal = hitNormals.Count > 0 ? vecSum / hitNormals.Count : Vector3.zero;
 
 
             // find the center of the points we can reach
@@ -177,9 +246,9 @@ namespace TCS.Characters
             foreach (Vector3 point in hitPoints) {
                 vecSum += point;
             }
-            Vector3 climbingTargetPos = vecSum / hitPoints.Count;
+            wallAnchorPosition = hitPoints.Count > 0 ? vecSum / hitPoints.Count : Vector3.zero;
 
-            return new PointNormalPair(climbingTargetPos, wallNormal);
+            nextClimbingAction = ClimbingContextualActionType.CLIMBING;
         }
 
         public bool isMovingForward() {
@@ -210,8 +279,10 @@ namespace TCS.Characters
         }
 
         public float sampleCompressionCurve(float x) { return compressionCurve.Evaluate(x); }
+        public float sampleClimbUpCurve(float x) { return climpUpCurve.Evaluate(x); }
 
         public bool getGrounded() { return grounded; }
+        public bool getClimbing() { return climbing; }
 
         public bool getVulnerable() { return vuln; }
         
@@ -230,6 +301,8 @@ namespace TCS.Characters
         public void setRootMotion(bool value) { anim.applyRootMotion = value; }
 
         public void setAerial(bool value) { aerial = value; }
+        public void setClimbableWallNormal(Vector3 wallNormal) {climbableWallNormal = wallNormal;}
+        public ClimbingContextualActionType GetNextActionType() {return nextClimbingAction;}
     }
 
     public class ProtagInput : CharacterInput
