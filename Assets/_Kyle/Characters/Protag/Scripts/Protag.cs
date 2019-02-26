@@ -277,6 +277,8 @@ namespace TCS.Characters
         public bool getClimbing() { return climbing; }
 
         public bool getVulnerable() { return vuln; }
+
+        public int GetSelfMask() { return selfMask; }
         
         public bool getIsClimbableWallInFront() { return climbableWallInFront; }
 

@@ -63,6 +63,18 @@ namespace TCS.Characters
             protag.anim.SetFloat("horizontal", nextH);
 
             protag.anim.SetFloat("movementMagnitude", mag);
+
+            Vector3 pos = transform.position + (Vector3.up * 0.5f);
+            Vector3 dir = (Vector3.down * 0.8f);
+            RaycastHit groundCheck;
+            if (Physics.Raycast(pos, dir, out groundCheck, 0.8f, protag.GetSelfMask()))
+            {
+                MovingPlatform platform = groundCheck.collider.GetComponent<MovingPlatform>();
+                if (platform != null)
+                {
+                    protag.rb.velocity += platform.GetVelocity();
+                }
+            }
         }
 
         public override bool runLogic(ProtagInput input)

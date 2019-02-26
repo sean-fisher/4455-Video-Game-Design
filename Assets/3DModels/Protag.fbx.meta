@@ -150,6 +150,20 @@ ModelImporter:
     400142: spine2
     400144: Stomach
     2100000: phongE1
+    2100002: ChestM
+    2100004: HipsM
+    2100006: StomachM
+    2100008: HeadM
+    2100010: RightLegUpM
+    2100012: RightLegLowM
+    2100014: RightArmM
+    2100016: RightForearmM
+    2100018: RightHandM
+    2100020: LeftLegLowM
+    2100022: LeftArmM
+    2100024: LeftHandM
+    2100026: LeftForearmM
+    2100028: LeftLegUpM
     4300000: Chest
     4300002: Hips
     4300004: Stomach
