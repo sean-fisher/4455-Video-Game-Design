@@ -66,18 +66,6 @@ namespace TCS
         }
     }
 
-    public class PointNormalActionTypeTuple {
-        public Vector3 point;
-        public Vector3 normal;
-        public ClimbingContextualActionType actionType;
-
-        public PointNormalActionTypeTuple(Vector3 p, Vector3 n, ClimbingContextualActionType type) {
-            point = p;
-            normal  = n;
-            actionType = type;
-        }
-    }
-
     public enum ClimbingContextualActionType {
         CLIMBING,
         CLIMBUP,

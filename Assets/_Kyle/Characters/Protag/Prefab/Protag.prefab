@@ -72,22 +72,22 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 12.826162
-      outSlope: 12.826162
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0.016666668
+      inWeight: 0.33333334
+      outWeight: 0.08009709
     - serializedVersion: 3
       time: 0.5
       value: 0
-      inSlope: -0.5604675
-      outSlope: -0.5604675
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.29149747
-      outWeight: 0
+      inWeight: 0.11650485
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -95,22 +95,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      time: -0.29943138
+      value: -0.21287787
+      inSlope: 4.783755
+      outSlope: 4.783755
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.032039545
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 0.9333913
+      outSlope: 0.9333913
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -120,6 +120,8 @@ MonoBehaviour:
   anim: {fileID: 95518193532920170}
   chestOffset: {x: 0, y: 0, z: 0}
   modelTransform: {fileID: 0}
+  climbing: 0
+  yVecSpeed: 0
 --- !u!54 &1067211109
 Rigidbody:
   m_ObjectHideFlags: 0

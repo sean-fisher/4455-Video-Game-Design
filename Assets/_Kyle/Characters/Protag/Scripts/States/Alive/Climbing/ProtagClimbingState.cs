@@ -19,6 +19,7 @@ namespace TCS.Characters
             protag.anim.SetBool("fall", false);
             jumpPressed = false;
             protag.rb.useGravity = false;
+            protag.climbing = true;
         }
 
         public override void exit(ProtagInput input)
@@ -26,11 +27,13 @@ namespace TCS.Characters
             protag.anim.SetBool("climbing", false);
             protag.rb.useGravity = true;
             protag.rb.velocity = Vector3.zero;
+            protag.climbing = false;
         }
 
         public override void runAnimation(ProtagInput input)
         {
             base.runAnimation(input);
+            protag.checkClimbingWall();
 
             if (input.jump)
                 jumpPressed = true;
@@ -43,19 +46,18 @@ namespace TCS.Characters
             float mag = input.totalMotionMag;
             
             Vector2 normalizedInput = new Vector2(h, v).normalized;
-            PointNormalActionTypeTuple pnp = protag.checkClimbingWall();
-            Vector3 wallNormal = pnp.normal;
-            Vector3 wallTargetPos = pnp.point;
+            Vector3 wallNormal = protag.getClimableWallNormal();
+            Vector3 wallTargetPos = protag.getWallAnchorPosition();
 
             if (wallNormal == Vector3.zero) {
                 //Debug.Log("Wall normal is zero... maybe an issue?");
                 return;
             }
-            if (wallTargetPos == null) {
+            if (wallTargetPos == Vector3.zero) {
                 Debug.LogError("Target pos is zero");
                 return;
             }
-
+            
             if (mag > 0)
             {
                 // "up" relative to the wall and the player's orientation
@@ -74,7 +76,7 @@ namespace TCS.Characters
 
                 // this code moves the player on the vertical axis. It should be handled by the root motion animations, but for some reason those aren't working.
                 Vector3 yVec = dirToMoveVertical * Time.deltaTime * normalizedInput.y * 1;
-                transform.position = transform.position + yVec;
+                transform.position = transform.position + yVec * protag.yVecSpeed;
             }
 
             //set upwards animation/root motion
@@ -89,17 +91,14 @@ namespace TCS.Characters
 
             protag.anim.SetFloat("movementMagnitude", mag);
 
-            if (wallTargetPos != null) {
+            if (wallTargetPos != Vector3.zero) {
                 // move to the average point of the raycasthits. Currently will cause the player to slide
                 //transform.position = Vector3.Lerp(transform.position, wallTargetPos, Time.deltaTime * 1);
 
-                // force the player towards the wall
-                protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 700);
-                
-                // since he's climbing a curved surface, this could cause some sliding.
-                // So let's stop his movement if it seems he should be still.
-                if (protag.rb.velocity.magnitude < .5f) {
-                    protag.rb.velocity = Vector3.zero;
+                if (v != 0 || h != 0) {
+                    // force the character towards the wall, but only while the player is inputting movement.
+                    // Otherwise the character would slide along the climbing surface
+                    protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 3000);
                 }
             } else {
                 // there's no wall in front of us.
@@ -112,11 +111,12 @@ namespace TCS.Characters
         {
             if (base.runLogic(input))
                 return true;
+            protag.checkClimbingWall();
 
-            PointNormalActionTypeTuple wallInfoTuple = protag.checkClimbingWall();
-            Vector3 wallNormal = wallInfoTuple.normal;
 
-            switch (wallInfoTuple.actionType) {
+            Vector3 wallNormal = protag.getClimableWallNormal();
+
+            switch (protag.GetNextActionType()) {
                 case (ClimbingContextualActionType.CLIMBING):
                     if (jumpPressed)
                     {
