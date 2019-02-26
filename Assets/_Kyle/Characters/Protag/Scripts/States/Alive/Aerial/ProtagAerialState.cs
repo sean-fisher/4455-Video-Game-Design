@@ -44,6 +44,11 @@ namespace TCS.Characters
                 Quaternion goalRot = Quaternion.LookRotation(Vector3.ProjectOnPlane(protag.rb.velocity.normalized, Vector3.up), Vector3.up);
                 protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
             }
+            else
+            {
+                Quaternion goalRot = Quaternion.LookRotation(protag.anim.transform.forward, Vector3.up);
+                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt);
+            }
 
             // set forward motion
             float targetV = mag;

@@ -48,6 +48,11 @@ namespace TCS.Characters
                 Quaternion goalRot = Quaternion.LookRotation(move, Vector3.up);
                 protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, physicsTurnStrength * dt * move.magnitude);
             }
+            else
+            {
+                Quaternion goalRot = Quaternion.LookRotation(protag.anim.transform  .forward, Vector3.up);
+                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, physicsTurnStrength * dt);
+            }
 
             //set forward motion animation
             float scale = (Mathf.Abs(protag.anim.GetFloat("vertical")) < Mathf.Abs(mag)) ? 1f : 4f; // speed up gradually, slow down quickly
