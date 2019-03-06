@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 02935b44c19c7234c93a55ff09a0c6a7
+guid: 3076956351abb5e42aa43ecb9623fdd7
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -47,106 +47,82 @@ ModelImporter:
     100082: calf_twist_01_r
     100084: clavicle_l
     100086: clavicle_r
-    100088: Cloak
-    100090: Convertable_Sword01
-    100092: Convertable_Sword02
-    100094: Convertable_Sword03
-    100096: Convertable_Sword04
-    100098: Convertable_Sword05
-    100100: Convertable_Sword06
-    100102: Convertable_Sword07
-    100104: Convertable_Sword08
-    100106: foot_l
-    100108: foot_r
-    100110: //RootNode
-    100112: FX_Shield
-    100114: FX_Slash_R
-    100116: GEO
-    100118: hand_l
-    100120: hand_r
-    100122: head
-    100124: ik_foot_l
-    100126: ik_foot_r
-    100128: ik_foot_root
-    100130: ik_hand_gun
-    100132: ik_hand_l
-    100134: ik_hand_r
-    100136: ik_hand_root
-    100138: index_01_l
-    100140: index_01_r
-    100142: index_02_l
-    100144: index_02_r
-    100146: index_03_l
-    100148: index_03_r
-    100150: Lhand_Shield_Bone
-    100152: lowerarm_l
-    100154: lowerarm_r
-    100156: lowerarm_twist_01_l
-    100158: lowerarm_twist_01_r
-    100160: mannequin_geo_arm_l
-    100162: mannequin_geo_arm_r
-    100164: mannequin_geo_calf_l
-    100166: mannequin_geo_calf_r
-    100168: mannequin_geo_chest
-    100170: mannequin_geo_foot_l
-    100172: mannequin_geo_foot_r
-    100174: mannequin_geo_forearm_l
-    100176: mannequin_geo_forearm_r
-    100178: mannequin_geo_hand_l
-    100180: mannequin_geo_hand_r
-    100182: mannequin_geo_head
-    100184: mannequin_geo_lower_torso
-    100186: mannequin_geo_neck
-    100188: mannequin_geo_pelvis
-    100190: mannequin_geo_thigh_l
-    100192: mannequin_geo_thigh_r
-    100194: middle_01_l
-    100196: middle_01_r
-    100198: middle_02_l
-    100200: middle_02_r
-    100202: middle_03_l
-    100204: middle_03_r
-    100206: neck_01
-    100208: pelvis
-    100210: pinky_01_l
-    100212: pinky_01_r
-    100214: pinky_02_l
-    100216: pinky_02_r
-    100218: pinky_03_l
-    100220: pinky_03_r
-    100222: R_Hand_Weapon
-    100224: R_Shash_FX
-    100226: R_Slash_FX_Bone
-    100228: ring_01_l
-    100230: ring_01_r
-    100232: ring_02_l
-    100234: ring_02_r
-    100236: ring_03_l
-    100238: ring_03_r
-    100240: root
-    100242: Shield
-    100244: Shield_Root
-    100246: spine_01
-    100248: spine_02
-    100250: spine_03
-    100252: Star001
-    100254: Sword_R
-    100256: Sword_R_Bone
-    100258: thigh_l
-    100260: thigh_r
-    100262: thigh_twist_01_l
-    100264: thigh_twist_01_r
-    100266: thumb_01_l
-    100268: thumb_01_r
-    100270: thumb_02_l
-    100272: thumb_02_r
-    100274: thumb_03_l
-    100276: thumb_03_r
-    100278: upperarm_l
-    100280: upperarm_r
-    100282: upperarm_twist_01_l
-    100284: upperarm_twist_01_r
-    100286: R_Hand_Weapon001
+    100088: Convertable_Sword01
+    100090: Convertable_Sword02
+    100092: Convertable_Sword03
+    100094: Convertable_Sword04
+    100096: Convertable_Sword05
+    100098: Convertable_Sword06
+    100100: Convertable_Sword07
+    100102: Convertable_Sword08
+    100104: foot_l
+    100106: foot_r
+    100108: //RootNode
+    100110: FX_Shield
+    100112: hand_l
+    100114: hand_r
+    100116: head
+    100118: ik_foot_l
+    100120: ik_foot_r
+    100122: ik_foot_root
+    100124: ik_hand_gun
+    100126: ik_hand_l
+    100128: ik_hand_r
+    100130: ik_hand_root
+    100132: index_01_l
+    100134: index_01_r
+    100136: index_02_l
+    100138: index_02_r
+    100140: index_03_l
+    100142: index_03_r
+    100144: Lhand_Shield_Bone
+    100146: lowerarm_l
+    100148: lowerarm_r
+    100150: lowerarm_twist_01_l
+    100152: lowerarm_twist_01_r
+    100154: middle_01_l
+    100156: middle_01_r
+    100158: middle_02_l
+    100160: middle_02_r
+    100162: middle_03_l
+    100164: middle_03_r
+    100166: neck_01
+    100168: pelvis
+    100170: pinky_01_l
+    100172: pinky_01_r
+    100174: pinky_02_l
+    100176: pinky_02_r
+    100178: pinky_03_l
+    100180: pinky_03_r
+    100182: R_Hand_Weapon
+    100184: R_Hand_Weapon001
+    100186: R_Slash_FX_Bone
+    100188: ring_01_l
+    100190: ring_01_r
+    100192: ring_02_l
+    100194: ring_02_r
+    100196: ring_03_l
+    100198: ring_03_r
+    100200: root
+    100202: Shield_Root
+    100204: spine_01
+    100206: spine_02
+    100208: spine_03
+    100210: Sword_R_Bone
+    100212: thigh_l
+    100214: thigh_r
+    100216: thigh_twist_01_l
+    100218: thigh_twist_01_r
+    100220: thumb_01_l
+    100222: thumb_01_r
+    100224: thumb_02_l
+    100226: thumb_02_r
+    100228: thumb_03_l
+    100230: thumb_03_r
+    100232: upperarm_l
+    100234: upperarm_r
+    100236: upperarm_twist_01_l
+    100238: upperarm_twist_01_r
     400000: ball_l
     400002: ball_r
     400004: Bone001
@@ -191,161 +167,84 @@ ModelImporter:
     400082: calf_twist_01_r
     400084: clavicle_l
     400086: clavicle_r
-    400088: Cloak
-    400090: Convertable_Sword01
-    400092: Convertable_Sword02
-    400094: Convertable_Sword03
-    400096: Convertable_Sword04
-    400098: Convertable_Sword05
-    400100: Convertable_Sword06
-    400102: Convertable_Sword07
-    400104: Convertable_Sword08
-    400106: foot_l
-    400108: foot_r
-    400110: //RootNode
-    400112: FX_Shield
-    400114: FX_Slash_R
-    400116: GEO
-    400118: hand_l
-    400120: hand_r
-    400122: head
-    400124: ik_foot_l
-    400126: ik_foot_r
-    400128: ik_foot_root
-    400130: ik_hand_gun
-    400132: ik_hand_l
-    400134: ik_hand_r
-    400136: ik_hand_root
-    400138: index_01_l
-    400140: index_01_r
-    400142: index_02_l
-    400144: index_02_r
-    400146: index_03_l
-    400148: index_03_r
-    400150: Lhand_Shield_Bone
-    400152: lowerarm_l
-    400154: lowerarm_r
-    400156: lowerarm_twist_01_l
-    400158: lowerarm_twist_01_r
-    400160: mannequin_geo_arm_l
-    400162: mannequin_geo_arm_r
-    400164: mannequin_geo_calf_l
-    400166: mannequin_geo_calf_r
-    400168: mannequin_geo_chest
-    400170: mannequin_geo_foot_l
-    400172: mannequin_geo_foot_r
-    400174: mannequin_geo_forearm_l
-    400176: mannequin_geo_forearm_r
-    400178: mannequin_geo_hand_l
-    400180: mannequin_geo_hand_r
-    400182: mannequin_geo_head
-    400184: mannequin_geo_lower_torso
-    400186: mannequin_geo_neck
-    400188: mannequin_geo_pelvis
-    400190: mannequin_geo_thigh_l
-    400192: mannequin_geo_thigh_r
-    400194: middle_01_l
-    400196: middle_01_r
-    400198: middle_02_l
-    400200: middle_02_r
-    400202: middle_03_l
-    400204: middle_03_r
-    400206: neck_01
-    400208: pelvis
-    400210: pinky_01_l
-    400212: pinky_01_r
-    400214: pinky_02_l
-    400216: pinky_02_r
-    400218: pinky_03_l
-    400220: pinky_03_r
-    400222: R_Hand_Weapon
-    400224: R_Shash_FX
-    400226: R_Slash_FX_Bone
-    400228: ring_01_l
-    400230: ring_01_r
-    400232: ring_02_l
-    400234: ring_02_r
-    400236: ring_03_l
-    400238: ring_03_r
-    400240: root
-    400242: Shield
-    400244: Shield_Root
-    400246: spine_01
-    400248: spine_02
-    400250: spine_03
-    400252: Star001
-    400254: Sword_R
-    400256: Sword_R_Bone
-    400258: thigh_l
-    400260: thigh_r
-    400262: thigh_twist_01_l
-    400264: thigh_twist_01_r
-    400266: thumb_01_l
-    400268: thumb_01_r
-    400270: thumb_02_l
-    400272: thumb_02_r
-    400274: thumb_03_l
-    400276: thumb_03_r
-    400278: upperarm_l
-    400280: upperarm_r
-    400282: upperarm_twist_01_l
-    400284: upperarm_twist_01_r
-    400286: R_Hand_Weapon001
-    2100000: Body
-    2100002: Body Face
-    2100004: Body_Parts
-    2100006: Sowrd
-    2100008: Glow
-    2100010: FX_Slash
-    2100012: Shield
-    4300000: mannequin_geo_calf_l
-    4300002: mannequin_geo_calf_r
-    4300004: mannequin_geo_foot_l
-    4300006: mannequin_geo_foot_r
-    4300008: mannequin_geo_thigh_l
-    4300010: mannequin_geo_thigh_r
-    4300012: mannequin_geo_pelvis
-    4300014: mannequin_geo_lower_torso
-    4300016: mannequin_geo_neck
-    4300018: mannequin_geo_head
-    4300020: mannequin_geo_arm_r
-    4300022: mannequin_geo_forearm_r
-    4300024: mannequin_geo_hand_r
-    4300026: mannequin_geo_arm_l
-    4300028: mannequin_geo_forearm_l
-    4300030: mannequin_geo_hand_l
-    4300032: mannequin_geo_chest
-    4300034: Cloak
-    4300036: Sword_R
-    4300038: R_Shash_FX
-    4300040: FX_Slash_R
-    4300042: Shield
-    4300044: Star001
-    7400000: Frank_RPG_Warrior_Hit01
+    400088: Convertable_Sword01
+    400090: Convertable_Sword02
+    400092: Convertable_Sword03
+    400094: Convertable_Sword04
+    400096: Convertable_Sword05
+    400098: Convertable_Sword06
+    400100: Convertable_Sword07
+    400102: Convertable_Sword08
+    400104: foot_l
+    400106: foot_r
+    400108: //RootNode
+    400110: FX_Shield
+    400112: hand_l
+    400114: hand_r
+    400116: head
+    400118: ik_foot_l
+    400120: ik_foot_r
+    400122: ik_foot_root
+    400124: ik_hand_gun
+    400126: ik_hand_l
+    400128: ik_hand_r
+    400130: ik_hand_root
+    400132: index_01_l
+    400134: index_01_r
+    400136: index_02_l
+    400138: index_02_r
+    400140: index_03_l
+    400142: index_03_r
+    400144: Lhand_Shield_Bone
+    400146: lowerarm_l
+    400148: lowerarm_r
+    400150: lowerarm_twist_01_l
+    400152: lowerarm_twist_01_r
+    400154: middle_01_l
+    400156: middle_01_r
+    400158: middle_02_l
+    400160: middle_02_r
+    400162: middle_03_l
+    400164: middle_03_r
+    400166: neck_01
+    400168: pelvis
+    400170: pinky_01_l
+    400172: pinky_01_r
+    400174: pinky_02_l
+    400176: pinky_02_r
+    400178: pinky_03_l
+    400180: pinky_03_r
+    400182: R_Hand_Weapon
+    400184: R_Hand_Weapon001
+    400186: R_Slash_FX_Bone
+    400188: ring_01_l
+    400190: ring_01_r
+    400192: ring_02_l
+    400194: ring_02_r
+    400196: ring_03_l
+    400198: ring_03_r
+    400200: root
+    400202: Shield_Root
+    400204: spine_01
+    400206: spine_02
+    400208: spine_03
+    400210: Sword_R_Bone
+    400212: thigh_l
+    400214: thigh_r
+    400216: thigh_twist_01_l
+    400218: thigh_twist_01_r
+    400220: thumb_01_l
+    400222: thumb_01_r
+    400224: thumb_02_l
+    400226: thumb_02_r
+    400228: thumb_03_l
+    400230: thumb_03_r
+    400232: upperarm_l
+    400234: upperarm_r
+    400236: upperarm_twist_01_l
+    400238: upperarm_twist_01_r
+    7400000: Robot_Walk_BR
     9500000: //RootNode
-    13700000: Cloak
-    13700002: FX_Slash_R
-    13700004: mannequin_geo_arm_l
-    13700006: mannequin_geo_arm_r
-    13700008: mannequin_geo_calf_l
-    13700010: mannequin_geo_calf_r
-    13700012: mannequin_geo_chest
-    13700014: mannequin_geo_foot_l
-    13700016: mannequin_geo_foot_r
-    13700018: mannequin_geo_forearm_l
-    13700020: mannequin_geo_forearm_r
-    13700022: mannequin_geo_hand_l
-    13700024: mannequin_geo_hand_r
-    13700026: mannequin_geo_head
-    13700028: mannequin_geo_lower_torso
-    13700030: mannequin_geo_neck
-    13700032: mannequin_geo_pelvis
-    13700034: mannequin_geo_thigh_l
-    13700036: mannequin_geo_thigh_r
-    13700038: R_Shash_FX
-    13700040: Shield
-    13700042: Star001
-    13700044: Sword_R
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
@@ -362,27 +261,23 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
       copied configuration does not match position in animation file:\n\t'thigh_l'
-      : position error = 2.056389 mm\n\t'thigh_r' : position error = 1.383158 mm\n\t'lowerarm_l'
-      : position error = 1.148837 mm\n\t'hand_l' : position error = 2.732155 mm\n\t'middle_02_l'
-      : position error = 1.205561 mm\n\t'ring_02_l' : position error = 1.315638 mm\n\t'hand_r'
-      : position error = 1.490170 mm\n\t'middle_02_r' : position error = 1.204046
-      mm\n\t'ring_02_r' : position error = 1.314638 mm\n"
+      : position error = 2.717671 mm\n\t'thigh_r' : position error = 1.504437 mm\n\t'calf_r'
+      : position error = 1.130909 mm\n\t'lowerarm_l' : position error = 1.148827 mm\n\t'hand_l'
+      : position error = 2.732087 mm\n\t'middle_02_l' : position error = 1.205561
+      mm\n\t'ring_02_l' : position error = 1.315620 mm\n\t'hand_r' : position error
+      = 1.234686 mm\n\t'middle_02_r' : position error = 1.204054 mm\n\t'ring_02_r'
+      : position error = 1.314530 mm\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'thigh_l' has translation animation that will
       be discarded.\n\t'calf_l' has translation animation that will be discarded.\n\t'foot_l'
-      has translation animation that will be discarded.\n\t'thigh_r' has translation
-      animation that will be discarded.\n\t'calf_r' has translation animation that
-      will be discarded.\n\t'foot_r' has translation animation that will be discarded.\n\t'spine_01'
-      has translation animation that will be discarded.\n\t'spine_02' has translation
-      animation that will be discarded.\n\t'spine_03' has translation animation that
-      will be discarded.\n\t'upperarm_l' has translation animation that will be discarded.\n\t'lowerarm_l'
-      has translation animation that will be discarded.\n\t'hand_l' has translation
-      animation that will be discarded.\n\t'upperarm_r' has translation animation
-      that will be discarded.\n\t'lowerarm_r' has translation animation that will
-      be discarded.\n\t'hand_r' has translation animation that will be discarded.\n\t'head'
-      has translation animation that will be discarded.\n"
+      has translation animation that will be discarded.\n\t'ball_l' has translation
+      animation that will be discarded.\n\t'thigh_r' has translation animation that
+      will be discarded.\n\t'calf_r' has translation animation that will be discarded.\n\t'foot_r'
+      has translation animation that will be discarded.\n\t'ball_r' has translation
+      animation that will be discarded.\n\t'spine_01' has translation animation that
+      will be discarded.\n\t'lowerarm_r' has translation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -396,18 +291,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Frank_RPG_Warrior_Hit01
+      name: Robot_Walk_BR
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 40
+      lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -454,7 +349,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 1
