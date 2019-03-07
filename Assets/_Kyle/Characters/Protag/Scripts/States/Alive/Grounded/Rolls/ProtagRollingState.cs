@@ -37,11 +37,8 @@ namespace TCS.Characters
 
             if (timer > earliestExitTime)
             {
-                if (protag.anim.GetBool("Locomotion"))
-                {
-                    protag.newState<ProtagLocomotionState>();
-                    return true;
-                }
+                protag.newState<ProtagLocomotionState>();
+                return true;
             }
 
             return false;

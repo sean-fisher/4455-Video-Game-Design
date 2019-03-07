@@ -20,6 +20,8 @@ namespace TCS.Characters
             jumpPressed = false;
             protag.rb.useGravity = false;
             protag.climbing = true;
+
+            protag.col.radius = .11f;
         }
 
         public override void exit(ProtagInput input)
@@ -28,6 +30,8 @@ namespace TCS.Characters
             protag.rb.useGravity = true;
             protag.rb.velocity = Vector3.zero;
             protag.climbing = false;
+
+            protag.col.radius = .3f;
         }
 
         public override void runAnimation(ProtagInput input)
@@ -96,16 +100,9 @@ namespace TCS.Characters
                 //transform.position = Vector3.Lerp(transform.position, wallTargetPos, Time.deltaTime * 1);
 
                 if (v != 0 || h != 0) {
-                    // force the player towards the wall
-                    protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 700);
-                } else {
-                    //protag.rb.AddForce((protag.getWallAnchorPosition() - transform.position) * 100);
-                }
-                
-                // since he's climbing a curved surface, this could cause some sliding.
-                // So let's stop his movement if it seems he should be still.
-                if (protag.rb.velocity.magnitude < .5f) {
-                    protag.rb.velocity = Vector3.zero;
+                    // force the character towards the wall, but only while the player is inputting movement.
+                    // Otherwise the character would slide along the climbing surface
+                    protag.rb.AddForce(protag.modelTransform.forward * Time.deltaTime * 3000);
                 }
             } else {
                 // there's no wall in front of us.
