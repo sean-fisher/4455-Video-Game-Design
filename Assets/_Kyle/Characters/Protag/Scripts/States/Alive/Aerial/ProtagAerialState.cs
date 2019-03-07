@@ -62,6 +62,7 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
+            
             //Apply Aerial Force
             Vector3 move = InputManager.calculateMove(input.v, input.h);
             protag.rb.AddForce(move * protag.aerialMovementStrength * 10, ForceMode.Force);
@@ -71,7 +72,7 @@ namespace TCS.Characters
                 protag.setAerial(true);
 
             protag.checkClimableWallInFront();
-            protag.checkGround();
+            //protag.checkGround();
             protag.lerpRotationToUpwards();
             
             if (!protag.getGrounded() && protag.getIsClimbableWallInFront() && protag.isMovingForward())

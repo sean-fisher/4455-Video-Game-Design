@@ -91,6 +91,7 @@ namespace TCS.Characters
             input.h = InputManager.getMotionHorizontal();
             input.totalMotionMag = InputManager.getTotalMotionMag();
             input.jump = InputManager.getJump();
+            input.roll = InputManager.getRoll();
         }
 
         public void checkGround()
@@ -263,21 +264,7 @@ namespace TCS.Characters
         {
             if (aerial)
             {
-                Vector3 pos = transform.position + (Vector3.up * 0.5f);
-                Vector3 dir = (Vector3.down * 0.8f);
-                RaycastHit groundCheck;
-                if (Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask))
-                {
-                    Debug.DrawRay(pos, dir, Color.green);
-                    grounded = true;
-                    groundNormal = groundCheck.normal;
-                }
-                else
-                {
-                    Debug.DrawRay(pos, dir, Color.red);
-                    grounded = false;
-                    groundNormal = Vector3.up;
-                }
+                checkGround();
             }
         }
 
@@ -309,7 +296,7 @@ namespace TCS.Characters
 
         public void TakeDamage(Damage damage)
         {
-            if (damage.type != DamageType.Protag)
+            if (damage.type != DamageType.Protag && vuln)
             {
                 input.dmg = damage;
             } 
@@ -334,5 +321,6 @@ namespace TCS.Characters
         public float totalMotionMag;
 
         public bool jump;
+        public bool roll;
     }
 }

@@ -15,10 +15,7 @@ namespace TCS.Characters
         public override void enter(ProtagInput input)
         {
             protag.isVulnerable = false;
-            
             Vector3 dir = protag.anim.transform.InverseTransformDirection(input.dmg.dir);
-            Debug.Log(input.dmg.dir);
-            Debug.Log(dir);
             protag.anim.SetTrigger("groundDamage");
             protag.anim.SetFloat("horizontal", dir.x);
             protag.anim.SetFloat("vertical", dir.z);

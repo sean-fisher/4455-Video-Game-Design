@@ -23,6 +23,7 @@ public class SwordRobot : MonoBehaviour
     void Update()
     {
         transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position, Vector3.up);
+        anim.SetTrigger("attack");
     }
 
     public void openHitboxes()

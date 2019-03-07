@@ -11,6 +11,7 @@ namespace TCS.Characters
         protected abstract float physicsTurnStrength { get; }
         private bool jumpPressed;
         private bool takeDamage;
+        private bool roll;
         #endregion
 
         public override void enter(ProtagInput input)
@@ -45,21 +46,23 @@ namespace TCS.Characters
             if (input.jump)
                 jumpPressed = true;
 
-            Vector3 move = InputManager.calculateMove(v, h);
+            if (input.roll)
+                roll = true;
 
+            Vector3 move = InputManager.calculateMove(v, h);
+            
             // rotation assistance for game object
             if (move != Vector3.zero)
             {
                 Quaternion goalRot = Quaternion.LookRotation(move, Vector3.up);
-                //float angle = Mathf.Abs(Vector3.Angle(protag.anim.transform.forward, move))/180;
-                //float modifier = angle * 2;
                 protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, physicsTurnStrength * dt * move.magnitude);
             }
             else
             {
-                Quaternion goalRot = Quaternion.LookRotation(protag.anim.transform  .forward, Vector3.up);
+                Quaternion goalRot = Quaternion.LookRotation(protag.anim.transform .forward, Vector3.up);
                 protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, physicsTurnStrength * dt);
             }
+            
 
             //set forward motion animation
             float scale = (Mathf.Abs(protag.anim.GetFloat("vertical")) < Mathf.Abs(mag)) ? 1f : 4f; // speed up gradually, slow down quickly
@@ -75,6 +78,7 @@ namespace TCS.Characters
             protag.anim.SetFloat("horizontal", nextH);
 
             protag.anim.SetFloat("movementMagnitude", mag);
+            
         }
 
         public override bool runLogic(ProtagInput input)
@@ -87,7 +91,12 @@ namespace TCS.Characters
             protag.checkGround();
             protag.rb.AddForce(-Vector3.ProjectOnPlane(Physics.gravity, protag.getGroundNormal()));
 
-            if (takeDamage)
+            if (roll)
+            {
+                protag.newState<ProtagRollingState>();
+                return true;
+            }
+            else if (takeDamage)
             {
                 protag.newState<ProtagGroundDamageState>();
                 return true;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TCS.Characters
 {
-    public class RootMotionHook : MonoBehaviour
+    public class ProtagRootMotionHook : MonoBehaviour
     {
         private Animator anim;
         private Rigidbody rb;
@@ -34,7 +34,7 @@ namespace TCS.Characters
             if (anim.applyRootMotion)
             {
                 Vector3 v = new Vector3(anim.deltaPosition.x, anim.deltaPosition.y, anim.deltaPosition.z) / Time.deltaTime;
-                Vector3 dir;
+                Vector3 dir = v.normalized;
                 if (grounded)
                     dir = Vector3.ProjectOnPlane(v, groundNormal).normalized;
                 else if (climbing)
@@ -43,13 +43,22 @@ namespace TCS.Characters
                     dir = Vector3.up;
 
                 velocity = v.magnitude * dir;
+
+                if (grounded)
+                {
+                    velocity = new Vector3(velocity.x, Mathf.Clamp(velocity.y, -20, 0), velocity.z);
+                }
             }
         }
 
         private void FixedUpdate()
         {
             if (anim.applyRootMotion)
+            {
                 rb.velocity = velocity;
+            }
+
+                
             //rb.AddForce(velocity * 10, ForceMode.Acceleration);
         }
 
