@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TCS.Characters
 {
-    public class Protag : Character<ProtagState, ProtagInput>
+    public class Protag : Character<ProtagState, ProtagInput>, Damageable
     {
         #region variables
 
@@ -19,6 +19,8 @@ namespace TCS.Characters
         public float aerialDrag;
         public float climbSpeed;
         public float rotationOrientSpeed = 10;
+        [HideInInspector]
+        public bool isVulnerable;
         
         [SerializeField]
         private AnimationCurve compressionCurve;
@@ -60,6 +62,7 @@ namespace TCS.Characters
             anim = GetComponentInChildren<Animator>();
             modelTransform = transform.GetChild(0);
             climbableWallNormal = Vector3.up;
+            isVulnerable = true;
             
             anim.applyRootMotion = true;
             vuln = true;
@@ -303,10 +306,29 @@ namespace TCS.Characters
         public void setAerial(bool value) { aerial = value; }
         public void setClimbableWallNormal(Vector3 wallNormal) {climbableWallNormal = wallNormal;}
         public ClimbingContextualActionType GetNextActionType() {return nextClimbingAction;}
+
+        public void TakeDamage(Damage damage)
+        {
+            if (damage.type != DamageType.Protag)
+            {
+                input.dmg = damage;
+            } 
+        }
+
+        public void CleanDamage()
+        {
+            input.dmg = null;
+        }
+
+        public bool IsVulnerable()
+        {
+            return isVulnerable;
+        }
     }
 
     public class ProtagInput : CharacterInput
     {
+        public Damage dmg;
         public float v;
         public float h;
         public float totalMotionMag;
