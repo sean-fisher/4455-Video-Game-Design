@@ -35,12 +35,11 @@ namespace TCS
             Quaternion newRotation = Quaternion.Slerp(camHolder.rotation, targetRotation, evaluation);
             camHolder.rotation = newRotation;
 
-
+            
             if (progress >= 1) {
                 
                 // we've finished pointing the camera where we wanted to
                 camControl.SetStrategy(new CameraFreeStrategyQuat());
-                Debug.Log("Free camera");
                 progress = 0;
             }
         }

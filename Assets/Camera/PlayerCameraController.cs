@@ -23,7 +23,7 @@ namespace TCS
         [HideInInspector]
         public Transform camZoom;
 
-        [HideInInspector]
+        
         public CameraStrategy camStrat;
         [HideInInspector]
         protected Camera cam;
@@ -67,11 +67,8 @@ namespace TCS
 
         private void LateUpdate()
         {
-            if (Input.GetButtonDown("Fire1")) {
-                SetStrategy(new CameraTargetStrategy(followTarget.GetChild(0).rotation, this));
-            }
-
-            if (camStrat != null) camStrat.ExecuteStrategyLateUpdate(this);
+            if (camStrat != null)
+                camStrat.ExecuteStrategyLateUpdate(this);
         }
 
         public void SetStrategy(CameraStrategy cameraStrategy)
