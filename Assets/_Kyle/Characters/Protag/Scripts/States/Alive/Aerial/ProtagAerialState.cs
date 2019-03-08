@@ -71,8 +71,8 @@ namespace TCS.Characters
             if (timer >= .2)
                 protag.setAerial(true);
 
-            protag.checkClimableWallInFront();
-            //protag.checkGround();
+            protag.checkInFront();
+            protag.checkGround();
             protag.lerpRotationToUpwards();
             
             if (!protag.getGrounded() && protag.getIsClimbableWallInFront() && protag.isMovingForward())

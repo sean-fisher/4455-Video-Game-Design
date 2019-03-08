@@ -46,6 +46,7 @@ namespace TCS.Characters
         private Vector3 groundNormal;
         
         private bool climbableWallInFront;
+        private bool pushableObjectInFront;
         private Vector3 climbableWallNormal;
         private Vector3 wallAnchorPosition;
         private ClimbingContextualActionType nextClimbingAction;
@@ -115,7 +116,9 @@ namespace TCS.Characters
             }
         }
 
-        public void checkClimableWallInFront() {
+        public void checkInFront() {
+            climbableWallInFront = false;
+            pushableObjectInFront = false;
 
             float rayLength = col.radius * 2;
             Vector3 start = chestOffset + transform.localPosition;
@@ -129,16 +132,24 @@ namespace TCS.Characters
                 // is it a climbable wall?
                 if (hit.transform.gameObject.CompareTag("Climbable"))
                     climbableWallInFront = true;
-                else
-                    climbableWallInFront = false;
+                else if (hit.transform.gameObject.CompareTag("Pushable")) {
+                    pushableObjectInFront = true;
+                }
 
-            }
-            else
-            {
-                climbableWallInFront = false;
             }
         }
 
+        // raycasts forward to where a pushable object might be and fills in hit information
+        public void GetPushableObjHitInfo(out RaycastHit hit) {
+            
+
+            float rayLength = col.radius * 2;
+            Vector3 start = chestOffset + transform.localPosition;
+            Vector3 dir = modelTransform.forward;
+
+            // See what's in front
+            Physics.Raycast(start, dir, out hit, rayLength, selfMask);
+        }
         public bool checkLedgeAbove() {
             // if we are at the base of a small cliff (or climbing at the top of a large cliff),
             // we raycast down from ahead and above us to check the ground to climb onto.
@@ -257,14 +268,31 @@ namespace TCS.Characters
 
         public bool isMovingForward() {
             Vector3 move = InputManager.calculateMove(input.v, input.h);
-            return Mathf.Abs((move.normalized - modelTransform.forward).magnitude) < 1;
+            if (move == Vector3.zero) return false;
+            move = move.normalized - modelTransform.forward;
+            
+            return Mathf.Abs(move.magnitude) < 1;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             if (aerial)
             {
-                checkGround();
+                Vector3 pos = transform.position + (Vector3.up * 0.5f);
+                Vector3 dir = (Vector3.down * 0.8f);
+                RaycastHit groundCheck;
+                if (Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask))
+                {
+                    Debug.DrawRay(pos, dir, Color.green);
+                    grounded = true;
+                    groundNormal = groundCheck.normal;
+                }
+                else
+                {
+                    Debug.DrawRay(pos, dir, Color.red);
+                    grounded = false;
+                    groundNormal = Vector3.up;
+                }
             }
         }
 
@@ -277,6 +305,7 @@ namespace TCS.Characters
         public bool getVulnerable() { return vuln; }
         
         public bool getIsClimbableWallInFront() { return climbableWallInFront; }
+        public bool getIsPushableObjInFront() { return pushableObjectInFront; }
 
         public Vector3 getGroundNormal() { return groundNormal; }
 
