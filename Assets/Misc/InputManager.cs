@@ -37,6 +37,16 @@ public static class InputManager {
         return Input.GetButtonDown("Jump");
     }
 
+    public static bool getRoll()
+    {
+        return Input.GetButtonDown("Roll");
+    }
+
+    public static bool getRightStickClick()
+    {
+        return Input.GetButtonDown("RightStickClick");
+    }
+
     public static Vector3 calculateMove(float v, float h)
     {
         Vector3 ver = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized * v;

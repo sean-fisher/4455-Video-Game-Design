@@ -27,7 +27,8 @@ namespace TCS
 
         private void LateUpdate()
         {
-            if (Input.GetButtonDown("Fire1")) {
+            
+            if (InputManager.getRightStickClick()) {
                 SetStrategy(new CameraTargetStrategyQuat(followTarget.GetChild(0).rotation, this));
             }
 

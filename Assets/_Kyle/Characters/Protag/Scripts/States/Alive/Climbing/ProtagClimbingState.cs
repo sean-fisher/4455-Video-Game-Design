@@ -20,6 +20,8 @@ namespace TCS.Characters
             jumpPressed = false;
             protag.rb.useGravity = false;
             protag.climbing = true;
+
+            protag.col.radius = .11f;
         }
 
         public override void exit(ProtagInput input)
@@ -28,6 +30,8 @@ namespace TCS.Characters
             protag.rb.useGravity = true;
             protag.rb.velocity = Vector3.zero;
             protag.climbing = false;
+
+            protag.col.radius = .3f;
         }
 
         public override void runAnimation(ProtagInput input)

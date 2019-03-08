@@ -30,6 +30,9 @@
 		"PassFlags" = "OnlyDirectional"
 	}
 
+		Cull Off
+		ZWrite On
+
 		CGPROGRAM
 #pragma vertex vert
 #pragma fragment frag
