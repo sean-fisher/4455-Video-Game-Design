@@ -34,5 +34,9 @@ namespace TCS
 
             if (camStrat != null) camStrat.ExecuteStrategyLateUpdate(this);
         }
+
+        public void CenterCamera() {
+            SetStrategy(new CameraTargetStrategyQuat(followTarget.GetChild(0).rotation, this));
+        }
     }
 }
