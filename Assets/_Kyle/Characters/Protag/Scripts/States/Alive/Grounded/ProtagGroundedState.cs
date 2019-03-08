@@ -90,6 +90,7 @@ namespace TCS.Characters
             // prevents sliding down slopes
             protag.checkGround();
             protag.rb.AddForce(-Vector3.ProjectOnPlane(Physics.gravity, protag.getGroundNormal()));
+            protag.checkInFront();
 
             if (roll)
             {
@@ -110,6 +111,9 @@ namespace TCS.Characters
             {
                 protag.newState<ProtagJumpingState>();
                 return true;
+            } else if (protag.isMovingForward() && protag.getIsPushableObjInFront()) {
+
+                protag.newState<ProtagPushingState>();
             }
 
             return false;
