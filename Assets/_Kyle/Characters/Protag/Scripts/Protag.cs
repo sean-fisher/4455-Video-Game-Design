@@ -19,6 +19,7 @@ namespace TCS.Characters
         public float aerialDrag;
         public float climbSpeed;
         public float rotationOrientSpeed = 10;
+        public float pushStrength;
         [HideInInspector]
         public bool isVulnerable;
         

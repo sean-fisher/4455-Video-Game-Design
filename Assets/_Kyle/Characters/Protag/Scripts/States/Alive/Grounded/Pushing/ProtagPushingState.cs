@@ -52,11 +52,11 @@ namespace TCS.Characters
                     
                     // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
                     if (Mathf.Abs(Vector3.Angle(protag.anim.transform.forward, -hit.normal)) < 15) {
-                        Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+                        Rigidbody rb = protag.rb;//hit.collider.GetComponent<Rigidbody>();
                         if (rb) {
-                            Vector3 force = -hit.normal * protag.rb.mass * 100;
+                            Vector3 force = -hit.normal * protag.rb.mass * protag.pushStrength;
                             force = new Vector3(force.x, force.y + 1, force.z);
-                            //rb.AddForce(force);
+                            rb.AddForce(force);
                             protag.anim.transform.rotation = Quaternion.LookRotation(-hit.normal, Vector3.up);
                         } else {
                             
