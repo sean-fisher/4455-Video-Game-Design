@@ -30,7 +30,6 @@ namespace TCS.Characters
 
         public override void runAnimation(ProtagInput input)
         {
-            //base.runAnimation(input);
 
         }
 
