@@ -12,40 +12,52 @@ namespace TCS
         {
             float dt = Time.deltaTime * 60f;
 
-            // updates position.
-             Follow(camControl);
-
             // Grabs Left Stick and Mouse Movement Inputs.
             float h = InputManager.getCameraX();
             float v = InputManager.getCameraY();
 
-            // Adds Rotation scaled with rotXSpeed and rotYSpeed. rotXTar uses vertical input
-            // as determines pitch, up and down, about the x-axis. The pitch is then clamped
-            // between our min and max values. rotYTar uses horizontal input as it determines
-            // yaw, side to side, about the y-axis.
-            camControl.rotXTar += v * camControl.rotXSpeed * dt;
-            camControl.rotYTar += h * camControl.rotYSpeed * dt;
-            camControl.rotXTar = Mathf.Clamp(camControl.rotXTar, camControl.rotXmin, camControl.rotXmax);
+            float rotX = v * camControl.rotXSpeed * dt;
+            float rotY = h * camControl.rotYSpeed * dt;
+            rotX = Mathf.Clamp(rotX, camControl.rotXMin, camControl.rotXMax);
 
-            // uses Euler to set the transform rotation.
-            camControl.camX.localRotation = Quaternion.Euler(0, camControl.rotYTar, 0);
-            camControl.camY.localRotation = Quaternion.Euler(camControl.rotXTar, 0, 0);
 
-            //AvoidWalls(camControl);
+            Transform camHolder = ((PlayerCameraController)camControl).camHolder;
+
+            // add the rotation input to the camera's rotation
+            // multiplication of Quaternions is like adding euler angles.
+            Quaternion newRotation =
+                camHolder.localRotation
+                * Quaternion.Euler(v * camControl.rotXSpeed * dt, h * camControl.rotYSpeed * dt, 0);
+
+            // I'm not 100% sure why the previous Quaternion.Euler(...) makes a Quaternion with nonzero euler z value
+            // So this zeroes out the z rotation. 
+            newRotation = Quaternion.Euler(newRotation.eulerAngles.x, newRotation.eulerAngles.y, 0);
+            camHolder.localRotation = newRotation;
+
+            // updates position.
+            Follow(camControl);
+
+            // Avoids walls
+            PlaceCamera((PlayerCameraController)camControl);
         }
 
-        public void Follow(PlayerCameraController camControl)
+        private void Follow(PlayerCameraController camControl)
         {
             float dt = Time.deltaTime * 60f;
 
             Vector3 currentPosition = camControl.transform.position;
             Vector3 targetPosition = camControl.followTarget.position;
 
-            float newX = Mathf.Lerp(currentPosition.x, targetPosition.x, (1/ camControl.getXZDamp()) * dt);
-            float newZ = Mathf.Lerp(currentPosition.z, targetPosition.z, (1 / camControl.getXZDamp()) * dt);
-            float newY = Mathf.Lerp(currentPosition.y, targetPosition.y, (1 / camControl.getYDamp()) * dt);
+            float newX = Mathf.Lerp(currentPosition.x, targetPosition.x, (1 / camControl.xzDamp) * dt);
+            float newZ = Mathf.Lerp(currentPosition.z, targetPosition.z, (1 / camControl.xzDamp) * dt);
+            float newY = Mathf.Lerp(currentPosition.y, targetPosition.y, (1 / camControl.yDamp) * dt);
 
             camControl.transform.position = new Vector3(newX, newY, newZ);
+        }
+
+        private void PlaceCamera(PlayerCameraController camControl)
+        {
+            camControl.cam.localPosition = new Vector3(0, camControl.yOffset, camControl.zOffset);
         }
     }
 }

@@ -17,14 +17,14 @@ namespace TCS.Characters
             base.enter(input);
             protag.anim.SetBool("pushing", true);
             protag.setRootMotion(true);
-            protag.col.radius *= 2.2f;
-            GameObject.FindObjectOfType<PlayerCameraControllerQuat>().CenterCamera();
+            protag.col.radius = .75f;
+            GameObject.FindObjectOfType<PlayerCameraController>().CenterCamera();
         }
 
         public override void exit(ProtagInput input)
         {
             base.exit(input);
-            protag.col.radius /= 2.2f;
+            protag.col.radius = .3f;
             protag.anim.SetBool("pushing", false);
         }
 
@@ -35,40 +35,31 @@ namespace TCS.Characters
 
         public override bool runLogic(ProtagInput input)
         {
-            if (!protag.isMovingForward()) {
+            if (base.runLogic(input))
+                return true;
+
+            RaycastHit hit;
+            protag.GetPushableObjHitInfo(out hit);
+
+            if (!protag.isMovingForward() || hit.collider == null)
+            {
                 protag.newState<ProtagLocomotionState>();
-            } else {
-                
-                RaycastHit hit;
-                protag.GetPushableObjHitInfo(out hit);
-
-                // is there still something in front of us?
-                if (hit.collider == null) {
-                    // no; so we return to standard ground movement
-                    protag.newState<ProtagLocomotionState>();
-                } else {
-                    objectBeingPushedNormal = hit.normal;
-                    
-                    // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
-                    if (Mathf.Abs(Vector3.Angle(protag.anim.transform.forward, -hit.normal)) < 15) {
-                        Rigidbody rb = protag.rb;//hit.collider.GetComponent<Rigidbody>();
-                        if (rb) {
-                            Vector3 force = -hit.normal * protag.rb.mass * protag.pushStrength;
-                            force = new Vector3(force.x, force.y + 1, force.z);
-                            rb.AddForce(force);
-                            protag.anim.transform.rotation = Quaternion.LookRotation(-hit.normal, Vector3.up);
-                        } else {
-                            
-                            protag.newState<ProtagLocomotionState>();
-                        }
-                    } else {
-                            
-                        protag.newState<ProtagLocomotionState>();
-                    }
-
-
-                }
+                return true;
             }
+
+            if (Mathf.Abs(Vector3.Angle(protag.anim.transform.forward, -hit.normal)) < 15)
+            {
+                Vector3 desiredDir = new Vector3(-hit.normal.x, (int)-hit.normal.y, -hit.normal.z);
+                protag.anim.transform.rotation = Quaternion.LookRotation(desiredDir, Vector3.up);
+                Vector3 v = -hit.normal * protag.rb.mass * protag.pushStrength;
+                protag.rb.velocity = v.magnitude * protag.anim.transform.forward;
+            }
+            else
+            {
+                protag.newState<ProtagLocomotionState>();
+                return true;
+            }
+
             return false;
         }
 
