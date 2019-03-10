@@ -22,7 +22,7 @@ namespace TCS.Characters
             groundNormal = GetComponentInParent<Protag>().getGroundNormal();
             wallNormal = Vector3.zero;
         }
-        
+
         private void OnAnimatorMove()
         {
             Protag p = GetComponentInParent<Protag>();
@@ -38,7 +38,7 @@ namespace TCS.Characters
                 if (grounded)
                     dir = Vector3.ProjectOnPlane(v, groundNormal).normalized;
                 else if (climbing)
-                     dir = Vector3.ProjectOnPlane(v, wallNormal).normalized;
+                    dir = Vector3.ProjectOnPlane(v, wallNormal).normalized;
                 else
                     dir = Vector3.up;
 
@@ -57,10 +57,6 @@ namespace TCS.Characters
             {
                 rb.velocity = velocity;
             }
-
-                
-            //rb.AddForce(velocity * 10, ForceMode.Acceleration);
         }
-
     }
 }

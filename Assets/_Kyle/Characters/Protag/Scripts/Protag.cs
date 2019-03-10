@@ -22,7 +22,7 @@ namespace TCS.Characters
         public float pushStrength;
         [HideInInspector]
         public bool isVulnerable;
-        
+
         [SerializeField]
         private AnimationCurve compressionCurve;
         [SerializeField]
@@ -34,10 +34,10 @@ namespace TCS.Characters
         public CapsuleCollider col;
         [HideInInspector]
         public Animator anim;
-    
+
         public Vector3 chestOffset;
         public Transform modelTransform;
-        
+
         private int selfMask;
         private bool vuln;
         private bool aerial;
@@ -45,7 +45,7 @@ namespace TCS.Characters
         private bool grounded;
         public bool climbing;
         private Vector3 groundNormal;
-        
+
         private bool climbableWallInFront;
         private bool pushableObjectInFront;
         private Vector3 climbableWallNormal;
@@ -59,19 +59,18 @@ namespace TCS.Characters
         void Start()
         {
             rb = GetComponent<Rigidbody>();
-            //col = GetComponent<CapsuleCollider>();
             col = transform.GetChild(0).GetComponent<CapsuleCollider>();
             anim = GetComponentInChildren<Animator>();
             modelTransform = transform.GetChild(0);
             climbableWallNormal = Vector3.up;
             isVulnerable = true;
-            
+
             anim.applyRootMotion = true;
             vuln = true;
             grounded = true;
             aerial = false;
 
-            selfMask = ~ LayerMask.GetMask("Player");
+            selfMask = ~LayerMask.GetMask("Player");
 
             newState<ProtagLocomotionState>();
             //newState<ProtagHoverBikeState>();
@@ -87,7 +86,7 @@ namespace TCS.Characters
             chestOffset = new Vector3(0, col.height / 2, 0);
         }
 
-        public override void readInput ()
+        public override void readInput()
         {
             input.v = InputManager.getMotionForward();
             input.h = InputManager.getMotionHorizontal();
@@ -117,7 +116,8 @@ namespace TCS.Characters
             }
         }
 
-        public void checkInFront() {
+        public void checkInFront()
+        {
             climbableWallInFront = false;
             pushableObjectInFront = false;
 
@@ -128,22 +128,23 @@ namespace TCS.Characters
             RaycastHit hit;
             Debug.DrawRay(start, dir * rayLength, Color.red);
             // Is there something in front?
-            if (Physics.Raycast(start, dir, out hit, rayLength, selfMask)) {
+            if (Physics.Raycast(start, dir, out hit, rayLength, selfMask))
+            {
 
                 // is it a climbable wall?
                 if (hit.transform.gameObject.CompareTag("Climbable"))
                     climbableWallInFront = true;
-                else if (hit.transform.gameObject.CompareTag("Pushable")) {
-                    pushableObjectInFront = true;
+                else if (hit.transform.gameObject.CompareTag("Pushable"))
+                {
+                    if (Vector3.Angle(-anim.transform.forward, hit.normal) < 15)
+                        pushableObjectInFront = true;
                 }
-
             }
         }
 
         // raycasts forward to where a pushable object might be and fills in hit information
-        public void GetPushableObjHitInfo(out RaycastHit hit) {
-            
-
+        public void GetPushableObjHitInfo(out RaycastHit hit)
+        {
             float rayLength = col.radius * 2;
             Vector3 start = chestOffset + transform.localPosition;
             Vector3 dir = modelTransform.forward;
@@ -151,7 +152,9 @@ namespace TCS.Characters
             // See what's in front
             Physics.Raycast(start, dir, out hit, rayLength, selfMask);
         }
-        public bool checkLedgeAbove() {
+
+        public bool checkLedgeAbove()
+        {
             // if we are at the base of a small cliff (or climbing at the top of a large cliff),
             // we raycast down from ahead and above us to check the ground to climb onto.
 
@@ -163,13 +166,15 @@ namespace TCS.Characters
             Debug.DrawRay(start, dir * rayLength, Color.red);
 
             // Is there a cliff above and in front?
-            if (Physics.Raycast(start, dir, out hit, rayLength, selfMask)) {
-
+            if (Physics.Raycast(start, dir, out hit, rayLength, selfMask))
+            {
                 // is it a very flat surface, as opposed to a gradual slope?
-                if (Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up)) < 10) {
+                if (Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up)) < 10)
+                {
 
                     // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
-                    if (Mathf.Abs(Vector3.Angle(modelTransform.forward, transform.forward)) < 15) {
+                    if (Mathf.Abs(Vector3.Angle(modelTransform.forward, transform.forward)) < 15)
+                    {
                         return true;
                     }
                 }
@@ -177,7 +182,8 @@ namespace TCS.Characters
             return false;
         }
 
-        public void lerpRotationToUpwards(){
+        public void lerpRotationToUpwards()
+        {
 
             // Orient the character so he is standing up
 
@@ -189,12 +195,13 @@ namespace TCS.Characters
             float rotationZTarget = (modelTransform.rotation.eulerAngles.z > 180 ? 360 : 0) * zSign;
 
             modelTransform.rotation = Quaternion.Euler(
-                Mathf.Lerp(modelTransform.rotation.eulerAngles.x, rotationXTarget, Time.deltaTime * rotationOrientSpeed), 
+                Mathf.Lerp(modelTransform.rotation.eulerAngles.x, rotationXTarget, Time.deltaTime * rotationOrientSpeed),
                 modelTransform.rotation.eulerAngles.y,
                 Mathf.Lerp(modelTransform.rotation.eulerAngles.z, rotationZTarget, Time.deltaTime * rotationOrientSpeed));
         }
-        
-        public void checkClimbingWall() {
+
+        public void checkClimbingWall()
+        {
 
             climbableWallNormal = -modelTransform.forward;
 
@@ -202,40 +209,45 @@ namespace TCS.Characters
 
             Vector3 start = transform.localPosition;
             Vector3 dir = modelTransform.forward;
-            
+
             List<Vector3> hitPoints = new List<Vector3>();
             List<Vector3> hitNormals = new List<Vector3>();
 
             // check at the head of the player
             start = transform.localPosition + chestOffset.magnitude * modelTransform.up / 4;
             RaycastHit hit;
-            if (Utility.RayCastInArc(out hit, start, modelTransform.up, modelTransform.right, col.height / 2, 90, Color.green, selfMask, 4)) {
+            if (Utility.RayCastInArc(out hit, start, modelTransform.up, modelTransform.right, col.height / 2, 90, Color.green, selfMask, 4))
+            {
                 // there is a climbable wall above
-                
+
                 // Is there a cliff above and in front?
 
                 // is it a very flat surface, as opposed to a gradual slope?
 
-                if (Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up)) < 10) {
+                if (Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up)) < 10)
+                {
                     Vector3 movementDir = Vector3.ProjectOnPlane(modelTransform.forward, groundNormal);
                     // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
-                    if (Mathf.Abs(Vector3.Angle(modelTransform.forward, movementDir)) < 15) {
+                    if (Mathf.Abs(Vector3.Angle(modelTransform.forward, movementDir)) < 15)
+                    {
                         // we can climb up
                         wallAnchorPosition = hit.point;
                         climbableWallNormal = Vector3.zero;
                         nextClimbingAction = ClimbingContextualActionType.CLIMBUP;
                         return;
                     }
-                } else {
+                }
+                else
+                {
                     hitPoints.Add(hit.point);
                     hitNormals.Add(hit.normal);
-
                 }
             }
 
             // check at the feet of the player
-            start = transform.localPosition  + chestOffset.magnitude * modelTransform.up;
-            if (Utility.RayCastInArc(out hit, start, -modelTransform.up, -modelTransform.right, col.height / 2, 90, Color.red, selfMask, 4)) {
+            start = transform.localPosition + chestOffset.magnitude * modelTransform.up;
+            if (Utility.RayCastInArc(out hit, start, -modelTransform.up, -modelTransform.right, col.height / 2, 90, Color.red, selfMask, 4))
+            {
                 // there is a climbable wall below
                 hitPoints.Add(hit.point);
                 hitNormals.Add(hit.normal);
@@ -251,7 +263,8 @@ namespace TCS.Characters
 
             // find the average wall normal of the points we can reach
             Vector3 vecSum = Vector3.zero;
-            foreach (Vector3 norm in hitNormals) {
+            foreach (Vector3 norm in hitNormals)
+            {
                 vecSum += norm;
             }
             climbableWallNormal = hitNormals.Count > 0 ? vecSum / hitNormals.Count : Vector3.zero;
@@ -259,7 +272,8 @@ namespace TCS.Characters
 
             // find the center of the points we can reach
             vecSum = Vector3.zero;
-            foreach (Vector3 point in hitPoints) {
+            foreach (Vector3 point in hitPoints)
+            {
                 vecSum += point;
             }
             wallAnchorPosition = hitPoints.Count > 0 ? vecSum / hitPoints.Count : Vector3.zero;
@@ -267,47 +281,35 @@ namespace TCS.Characters
             nextClimbingAction = ClimbingContextualActionType.CLIMBING;
         }
 
-        public bool isMovingForward() {
+        public bool isMovingForward()
+        {
             Vector3 move = InputManager.calculateMove(input.v, input.h);
             if (move == Vector3.zero) return false;
             move = move.normalized - modelTransform.forward;
-            
+
             return Mathf.Abs(move.magnitude) < 1;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             if (aerial)
-            {
-                Vector3 pos = transform.position + (Vector3.up * 0.5f);
-                Vector3 dir = (Vector3.down * 0.8f);
-                RaycastHit groundCheck;
-                if (Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask))
-                {
-                    Debug.DrawRay(pos, dir, Color.green);
-                    grounded = true;
-                    groundNormal = groundCheck.normal;
-                }
-                else
-                {
-                    Debug.DrawRay(pos, dir, Color.red);
-                    grounded = false;
-                    groundNormal = Vector3.up;
-                }
-            }
+                checkGround();
         }
 
         public float sampleCompressionCurve(float x) { return compressionCurve.Evaluate(x); }
+
         public float sampleClimbUpCurve(float x) { return climpUpCurve.Evaluate(x); }
 
         public bool getGrounded() { return grounded; }
+
         public bool getClimbing() { return climbing; }
 
         public bool getVulnerable() { return vuln; }
 
         public int GetSelfMask() { return selfMask; }
-        
+
         public bool getIsClimbableWallInFront() { return climbableWallInFront; }
+
         public bool getIsPushableObjInFront() { return pushableObjectInFront; }
 
         public Vector3 getGroundNormal() { return groundNormal; }
@@ -323,15 +325,17 @@ namespace TCS.Characters
         public void setRootMotion(bool value) { anim.applyRootMotion = value; }
 
         public void setAerial(bool value) { aerial = value; }
-        public void setClimbableWallNormal(Vector3 wallNormal) {climbableWallNormal = wallNormal;}
-        public ClimbingContextualActionType GetNextActionType() {return nextClimbingAction;}
+
+        public void setClimbableWallNormal(Vector3 wallNormal) { climbableWallNormal = wallNormal; }
+
+        public ClimbingContextualActionType GetNextActionType() { return nextClimbingAction; }
 
         public void TakeDamage(Damage damage)
         {
             if (damage.type != DamageType.Protag && vuln)
             {
                 input.dmg = damage;
-            } 
+            }
         }
 
         public void CleanDamage()

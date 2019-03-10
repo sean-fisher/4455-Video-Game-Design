@@ -111,8 +111,9 @@ namespace TCS.Characters
             {
                 protag.newState<ProtagJumpingState>();
                 return true;
-            } else if (protag.isMovingForward() && protag.getIsPushableObjInFront()) {
-
+            }
+            else if (protag.isMovingForward() && protag.getIsPushableObjInFront())
+            {
                 protag.newState<ProtagPushingState>();
             }
 

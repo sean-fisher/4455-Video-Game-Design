@@ -9,81 +9,58 @@ namespace TCS
 
         #region variables
 
-        [SerializeField]
-        private float xzDamping = 10;
-        [SerializeField]
-        private float yDamping = 10;
+        private CameraStrategy camStrat;
+        public Transform camHolder;
+        public Transform cam;
+        public AnimationCurve targetSwingCurve;
 
         public Transform followTarget;
 
-        [HideInInspector]
-        public Transform camX;
-        [HideInInspector]
-        public Transform camY;
-        [HideInInspector]
-        public Transform camZoom;
+        public float yOffset = 1.5f;
+        public float zOffset = -4.5f;
 
-        
-        public CameraStrategy camStrat;
-        [HideInInspector]
-        protected Camera cam;
+        public float rotXSpeed = 5f;
+        public float rotYSpeed = 5f;
+        public float targetSpeed = .2f;
+        public float xzDamp = 10f;
+        public float yDamp = 10f;
+        public float rotXMin = -20;
+        public float rotXMax = 80;
 
-        [HideInInspector]
-        public float rotX;
-        [HideInInspector]
-        public float rotY;
-        [HideInInspector]
-        public float rotXTar;
-        [HideInInspector]
-        public float rotYTar;
-        
-        public float rotXmax = 65f;
-        public float rotXmin = -20;
-
-        [HideInInspector]
-        public float rotXSpeed = 2;
-        [HideInInspector]
-        public float rotYSpeed = 2;
-        public float targetSpeed;
+        public float traumaLevel = 0;
 
         #endregion
-        
+
         // Use this for initialization
         void Start()
         {
             // start with free cam
             camStrat = new CameraFreeStrategy();
+            camHolder = transform.GetChild(0);
+            cam = camHolder.transform.GetChild(0);
 
-            camX = transform.GetChild(0);
-            camY = camX.GetChild(0);
-            camZoom = camY.GetChild(0);
-            cam = camZoom.GetChild(0).gameObject.GetComponent<Camera>();
-
-            rotXTar = camX.rotation.eulerAngles.x;
-            rotYTar = camY.rotation.eulerAngles.y;
-            rotX = rotXTar;
-            rotY = rotYTar;
         }
 
         private void LateUpdate()
         {
+            if (InputManager.getRightStickClick())
+            {
+                CenterCamera();
+            }
+
             if (camStrat != null)
                 camStrat.ExecuteStrategyLateUpdate(this);
+        }
+
+        public void CenterCamera()
+        {
+            SetStrategy(new CameraTargetStrategy(followTarget.GetChild(0).rotation, this));
         }
 
         public void SetStrategy(CameraStrategy cameraStrategy)
         {
             camStrat = cameraStrategy;
         }
-
-        public Camera GetCam()
-        {
-            return cam;
-        }
-
-        public float getXZDamp() { return xzDamping; }
-
-        public float getYDamp() { return yDamping; }
     }
 
     public abstract class CameraStrategy
