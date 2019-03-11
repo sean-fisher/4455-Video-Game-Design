@@ -67,7 +67,7 @@ MonoBehaviour:
   aerialDrag: 0.5
   climbSpeed: 10
   rotationOrientSpeed: 10
-  pushStrength: 120
+  pushStrength: 2
   isVulnerable: 0
   compressionCurve:
     serializedVersion: 2

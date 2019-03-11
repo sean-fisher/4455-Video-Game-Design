@@ -93,6 +93,10 @@ namespace TCS.Characters
             input.totalMotionMag = InputManager.getTotalMotionMag();
             input.jump = InputManager.getJump();
             input.roll = InputManager.getRoll();
+
+            if (Input.GetButtonDown("Pause")) {
+                PauseMenu.Instance().Open();
+            }
         }
 
         public void checkGround()
