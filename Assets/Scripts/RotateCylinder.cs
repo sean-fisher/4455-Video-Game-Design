@@ -11,7 +11,7 @@ public class RotateCylinder : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        velocity = new Vector3(0, 100, 0);
+        velocity = new Vector3(0, 20, 0);
     }
 
     // Update is called once per frame

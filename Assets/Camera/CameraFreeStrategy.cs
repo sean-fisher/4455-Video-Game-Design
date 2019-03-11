@@ -57,7 +57,24 @@ namespace TCS
 
         private void PlaceCamera(PlayerCameraController camControl)
         {
-            camControl.cam.localPosition = new Vector3(0, camControl.yOffset, camControl.zOffset);
+
+            int mask = ~LayerMask.GetMask("Player");
+            Vector3 pos = camControl.transform.position + new Vector3(0, camControl.yOffset, 0);
+            Vector3 dir = camControl.camHolder.transform.forward * camControl.zOffset;
+            dir = camControl.transform.TransformDirection(dir);
+            RaycastHit rayHit;
+            if (Physics.Raycast(pos, dir, out rayHit, -camControl.zOffset, mask))
+            {
+                Debug.DrawRay(pos, dir, Color.green);
+                camControl.cam.position = pos + rayHit.distance * dir.normalized;
+                return;
+            }
+            else
+            {
+                Debug.DrawRay(pos, dir, Color.red);
+                camControl.cam.position = camControl.transform.position + new Vector3(0, camControl.yOffset, 0) + camControl.camHolder.transform.forward * camControl.zOffset;
+                return;
+            }
         }
     }
 }
