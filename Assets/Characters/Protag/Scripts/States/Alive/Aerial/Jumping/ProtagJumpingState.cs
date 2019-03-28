@@ -12,16 +12,20 @@ namespace TCS.Characters
         private float timer;
         private float dir;
         private bool jumped;
+        private bool jumpAgain;
         #endregion
 
         public override void enter(ProtagInput input)
         {
             base.enter(input);
+            protag.setRootMotion(false);
+            protag.setGrounded(true);
             timer = 0f;
             dir = 1;
             protag.anim.SetTrigger("jump");
             protag.anim.SetFloat("aerial direction", dir);
             jumped = false;
+            jumpAgain = false;
         }
 
         public override void exit(ProtagInput input)
@@ -35,6 +39,9 @@ namespace TCS.Characters
             timer += Time.deltaTime;
             dir -= Time.deltaTime;
             protag.anim.SetFloat("aerial direction", dir);
+
+            if (InputManager.getJump())
+                jumpAgain = true;
         }
 
         public override bool runLogic(ProtagInput input)
@@ -42,16 +49,35 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
-            if (timer > .2 && !jumped)
+            if (timer > .18 && !jumped)
             {
-                protag.rb.AddForce(Vector3.up * protag.jumpStrength, ForceMode.Impulse);
+                protag.setRootMotion(true);
+                protag.setAerial(true);
                 jumped = true;
             }
 
-            if (timer > .5 && protag.getGrounded())
+            if (timer > .2)
             {
-                Debug.Log("landing");
+                protag.setGrounded(false);
+            }
+
+            if (timer > .3 && protag.getGrounded())
+            {
+                protag.setAerial(false);
                 protag.newState<ProtagLandingState>();
+                return true;
+            }
+
+            if (timer > .3 && jumpAgain && protag.doubleJumpAvailable)
+            {
+                protag.newState<ProtagJumpingState>();
+                protag.doubleJumpAvailable = false;
+                return true;
+            }
+
+            if (timer > .4)
+            {
+                protag.newState<ProtagFallingState>();
                 return true;
             }
 

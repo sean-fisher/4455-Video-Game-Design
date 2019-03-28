@@ -14,6 +14,7 @@ namespace TCS.Characters
         private Vector3 velocity;
         private bool grounded;
         private bool climbing;
+        private bool aerial;
 
         private void Start()
         {
@@ -30,24 +31,28 @@ namespace TCS.Characters
             wallNormal = p.getClimableWallNormal();
             climbing = p.getClimbing();
             grounded = p.getGrounded();
+            aerial = p.getAerial();
 
             if (anim.applyRootMotion)
             {
                 Vector3 v = new Vector3(anim.deltaPosition.x, anim.deltaPosition.y, anim.deltaPosition.z) / Time.deltaTime;
                 Vector3 dir = v.normalized;
-                if (grounded)
-                    dir = Vector3.ProjectOnPlane(v, groundNormal).normalized;
-                else if (climbing)
-                    dir = Vector3.ProjectOnPlane(v, wallNormal).normalized;
-                else
-                    dir = Vector3.up;
 
-                velocity = v.magnitude * dir;
-
-                if (grounded)
+                if (grounded && !aerial)
                 {
+                    dir = Vector3.ProjectOnPlane(v, groundNormal).normalized;
+                    velocity = Vector3.ProjectOnPlane(v, groundNormal).magnitude * dir;
                     velocity = new Vector3(velocity.x, Mathf.Clamp(velocity.y, -20, 0), velocity.z);
                 }
+                else if (climbing)
+                {
+                    dir = Vector3.ProjectOnPlane(v, wallNormal).normalized;
+                    velocity = v.magnitude * dir;
+                }
+                else if (aerial)
+                {
+                    velocity = new Vector3(velocity.x, v.y, velocity.z);
+                } 
             }
         }
 

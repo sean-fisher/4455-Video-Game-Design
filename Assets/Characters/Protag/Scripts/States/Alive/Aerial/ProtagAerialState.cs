@@ -14,9 +14,6 @@ namespace TCS.Characters
 
         public override void enter(ProtagInput input)
         {
-            protag.setRootMotion(false);
-            protag.setAerial(true);
-            protag.anim.SetBool("grounded", false);
             timer = 0;
         }
 
@@ -28,6 +25,7 @@ namespace TCS.Characters
 
         public override void runAnimation(ProtagInput input)
         {
+            
             base.runAnimation(input);
 
             float dt = Time.deltaTime * 60f;
@@ -68,9 +66,10 @@ namespace TCS.Characters
 
             //Apply Aerial Force
             Vector3 move = InputManager.calculateMove(input.v, input.h);
+            /*
             protag.rb.AddForce(move * protag.aerialMovementStrength * 10, ForceMode.Force);
             protag.rb.velocity = new Vector3(protag.rb.velocity.x * protag.aerialDrag, protag.rb.velocity.y, protag.rb.velocity.z * protag.aerialDrag);
-
+            */
             if (timer >= .2)
                 protag.setAerial(true);
 

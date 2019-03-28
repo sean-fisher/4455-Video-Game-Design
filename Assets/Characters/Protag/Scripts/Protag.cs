@@ -44,6 +44,7 @@ namespace TCS.Characters
 
         private bool grounded;
         public bool climbing;
+        public bool doubleJumpAvailable;
         private Vector3 groundNormal;
 
         private bool climbableWallInFront;
@@ -64,6 +65,7 @@ namespace TCS.Characters
             modelTransform = transform.GetChild(0);
             climbableWallNormal = Vector3.up;
             isVulnerable = true;
+            doubleJumpAvailable = true;
 
             anim.applyRootMotion = true;
             vuln = true;
@@ -98,7 +100,7 @@ namespace TCS.Characters
         public void checkGround()
         {
             Vector3 pos = transform.position + (Vector3.up * 0.5f);
-            Vector3 dir = (Vector3.down * 0.8f);
+            Vector3 dir = (Vector3.down * 0.6f);
             RaycastHit groundCheck;
             if (Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask))
             {
@@ -290,10 +292,12 @@ namespace TCS.Characters
             return Mathf.Abs(move.magnitude) < 1;
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionStay(Collision collision)
         {
-            if (aerial)
+            if (aerial && !grounded)
+            {
                 checkGround();
+            }
         }
 
         public float sampleCompressionCurve(float x) { return compressionCurve.Evaluate(x); }
@@ -303,6 +307,8 @@ namespace TCS.Characters
         public bool getGrounded() { return grounded; }
 
         public bool getClimbing() { return climbing; }
+
+        public bool getAerial() { return aerial; }
 
         public bool getVulnerable() { return vuln; }
 
