@@ -99753,7 +99753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579396241591584, guid: 983363fb3207dbf4b99023b9fcdddaa2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.844528
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4579396241591584, guid: 983363fb3207dbf4b99023b9fcdddaa2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -100205,6 +100205,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114864188756657104, guid: 983363fb3207dbf4b99023b9fcdddaa2,
+        type: 3}
+      propertyPath: aerialMovementStrength
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114864188756657104, guid: 983363fb3207dbf4b99023b9fcdddaa2,
+        type: 3}
+      propertyPath: aerialDrag
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 983363fb3207dbf4b99023b9fcdddaa2, type: 3}
