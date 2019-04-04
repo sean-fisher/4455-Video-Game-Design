@@ -66,10 +66,10 @@ namespace TCS.Characters
 
             //Apply Aerial Force
             Vector3 move = InputManager.calculateMove(input.v, input.h);
-            /*
+            
             protag.rb.AddForce(move * protag.aerialMovementStrength * 10, ForceMode.Force);
             protag.rb.velocity = new Vector3(protag.rb.velocity.x * protag.aerialDrag, protag.rb.velocity.y, protag.rb.velocity.z * protag.aerialDrag);
-            */
+            
             if (timer >= .2)
                 protag.setAerial(true);
 

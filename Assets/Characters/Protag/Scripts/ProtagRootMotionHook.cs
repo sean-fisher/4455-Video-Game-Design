@@ -6,6 +6,7 @@ namespace TCS.Characters
 {
     public class ProtagRootMotionHook : MonoBehaviour
     {
+        private Protag p;
         private Animator anim;
         private Rigidbody rb;
         private Vector3 groundNormal;
@@ -26,7 +27,7 @@ namespace TCS.Characters
 
         private void OnAnimatorMove()
         {
-            Protag p = GetComponentInParent<Protag>();
+            p = transform.parent.GetComponent<Protag>();
             groundNormal = p.getGroundNormal();
             wallNormal = p.getClimableWallNormal();
             climbing = p.getClimbing();

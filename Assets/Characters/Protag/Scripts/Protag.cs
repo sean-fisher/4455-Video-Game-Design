@@ -14,6 +14,7 @@ namespace TCS.Characters
         public Collider[] hitBoxes;
 
         [Header("Movement Settings")]
+        public bool movementEnabled = true;
         public float jumpStrength = 10;
         public float aerialMovementStrength;
         public float aerialDrag;
@@ -32,6 +33,7 @@ namespace TCS.Characters
         public Rigidbody rb;
         [HideInInspector]
         public CapsuleCollider col;
+        public CapsuleCollider climbingCol;
         [HideInInspector]
         public Animator anim;
 
@@ -60,7 +62,21 @@ namespace TCS.Characters
         void Start()
         {
             rb = GetComponent<Rigidbody>();
-            col = transform.GetChild(0).GetComponent<CapsuleCollider>();
+
+            // since there is both a trigger collider and a standard collider, 
+            // make sure we get the right one
+            var colliders = transform.GetComponents<CapsuleCollider>();
+            foreach (var collider in colliders) {
+                if (!collider.isTrigger) {
+                    col = collider;
+                    break;
+                }
+            }
+
+            // this collider is located on the child so it turns as the character 
+            // climbs along uneven surfaces
+            climbingCol = transform.GetChild(0).GetComponent<CapsuleCollider>();
+
             anim = GetComponentInChildren<Animator>();
             modelTransform = transform.GetChild(0);
             climbableWallNormal = Vector3.up;
