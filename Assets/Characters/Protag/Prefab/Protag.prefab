@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 136870595803451688}
   - component: {fileID: 114864188756657104}
   - component: {fileID: 1067211109}
+  - component: {fileID: 1576967626}
   m_Layer: 0
   m_Name: Protag
   m_TagString: Player
@@ -62,12 +63,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hurtBoxes: []
   hitBoxes: []
+  movementEnabled: 1
   jumpStrength: 6
   aerialMovementStrength: 10
   aerialDrag: 0.5
   climbSpeed: 10
   rotationOrientSpeed: 10
-  pushStrength: 120
+  pushStrength: 2
   isVulnerable: 0
   compressionCurve:
     serializedVersion: 2
@@ -119,10 +121,12 @@ MonoBehaviour:
     m_RotationOrder: 4
   rb: {fileID: 0}
   col: {fileID: 136870595803451688}
+  climbingCol: {fileID: 0}
   anim: {fileID: 0}
   chestOffset: {x: 0, y: 0, z: 0}
   modelTransform: {fileID: 0}
   climbing: 0
+  doubleJumpAvailable: 0
   yVecSpeed: 0
 --- !u!54 &1067211109
 Rigidbody:
@@ -140,6 +144,20 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &1576967626
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002241564772668}
+  m_Material: {fileID: 13400000, guid: a7f5ee28c90b5a8469e568f260854409, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!136 &7724161167287528966
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1247,10 +1265,6 @@ PrefabInstance:
     - target: {fileID: 100006, guid: 7c642355a49e00440aa2777f31cf4c58, type: 3}
       propertyPath: m_Name
       value: Hover_Bike
-      objectReference: {fileID: 0}
-    - target: {fileID: 100006, guid: 7c642355a49e00440aa2777f31cf4c58, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 7c642355a49e00440aa2777f31cf4c58, type: 3}
       propertyPath: m_IsActive

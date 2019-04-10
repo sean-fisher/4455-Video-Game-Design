@@ -20,6 +20,8 @@ namespace TCS.Characters
             jumpPressed = false;
             protag.rb.useGravity = false;
             protag.climbing = true;
+            protag.climbingCol.enabled = true;
+            protag.col.enabled = false;
 
             protag.col.radius = .11f;
         }
@@ -30,6 +32,8 @@ namespace TCS.Characters
             protag.rb.useGravity = true;
             protag.rb.velocity = Vector3.zero;
             protag.climbing = false;
+            protag.climbingCol.enabled = false;
+            protag.col.enabled = true;
 
             protag.col.radius = .3f;
         }
