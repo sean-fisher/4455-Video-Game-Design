@@ -43,6 +43,7 @@ namespace TCS.Characters
         private int selfMask;
         private bool vuln;
         private bool aerial;
+        private bool rolling;
 
         private bool grounded;
         public bool climbing;
@@ -87,6 +88,7 @@ namespace TCS.Characters
             vuln = true;
             grounded = true;
             aerial = false;
+            rolling = false;
 
             selfMask = ~LayerMask.GetMask("Player");
 
@@ -325,6 +327,7 @@ namespace TCS.Characters
         public bool getClimbing() { return climbing; }
 
         public bool getAerial() { return aerial; }
+        public bool getRolling() { return rolling; }
 
         public bool getVulnerable() { return vuln; }
 
@@ -347,6 +350,7 @@ namespace TCS.Characters
         public void setRootMotion(bool value) { anim.applyRootMotion = value; }
 
         public void setAerial(bool value) { aerial = value; }
+        public void setRolling(bool value) { rolling = value; }
 
         public void setClimbableWallNormal(Vector3 wallNormal) { climbableWallNormal = wallNormal; }
 

@@ -16,11 +16,13 @@ namespace TCS.Characters
         {
             protag.anim.SetTrigger("roll");
             protag.setVulnerable(false);
+            protag.setRolling(true);
         }
 
         public override void exit(ProtagInput input)
         {
             protag.setVulnerable(true);
+            protag.setRolling(false);
         }
 
         public override void runAnimation(ProtagInput input)
