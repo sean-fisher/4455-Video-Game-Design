@@ -26,7 +26,7 @@ public class MovingPlatform : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool turnOn = logicObject.getStatus()
+        bool turnOn = logicObject.getStatus();
 
         if (turnOn)
         {
