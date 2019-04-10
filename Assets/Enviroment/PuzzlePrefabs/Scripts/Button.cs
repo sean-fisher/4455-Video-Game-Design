@@ -8,6 +8,11 @@ public class Button : MonoBehaviour
 
     private bool status;
 
+    public bool getStatus()
+    {
+        return status;
+    }
+
     void OnTriggerEnter(Collider c)
     {
         status = toggle ? !status : true;

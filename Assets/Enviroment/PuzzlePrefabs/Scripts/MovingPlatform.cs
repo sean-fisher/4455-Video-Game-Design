@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class MovingPlatform : MonoBehaviour
 {
     public Transform platform;
     public Transform start;
     public Transform end;
+
+    public Button logicObject;
 
     public float speed;
 
@@ -20,11 +26,15 @@ public class MovingPlatform : MonoBehaviour
 
     void FixedUpdate()
     {
-        platform.transform.position = platform.position + direction * speed * Time.deltaTime;
-        platform.GetComponent<Rigidbody>().MovePosition(platform.position + direction * speed * Time.deltaTime);
-        if (Vector3.Distance(platform.position, destination.position) < speed * Time.deltaTime)
+        bool turnOn = logicObject.getStatus()
+
+        if (turnOn)
         {
-            SetDest(destination == start ? end : start);
+            platform.GetComponent<Rigidbody>().MovePosition(platform.position + direction * speed * Time.deltaTime);
+            if (Vector3.Distance(platform.position, destination.position) < speed * Time.deltaTime)
+            {
+                SetDest(destination == start ? end : start);
+            }
         }
     }
 
