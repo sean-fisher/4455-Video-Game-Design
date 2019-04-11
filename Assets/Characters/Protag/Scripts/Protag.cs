@@ -56,6 +56,7 @@ namespace TCS.Characters
         private Vector3 wallAnchorPosition;
         private ClimbingContextualActionType nextClimbingAction;
         public float yVecSpeed;
+        public int hp = 5;
 
         #endregion
 
@@ -67,8 +68,10 @@ namespace TCS.Characters
             // since there is both a trigger collider and a standard collider, 
             // make sure we get the right one
             var colliders = transform.GetComponents<CapsuleCollider>();
-            foreach (var collider in colliders) {
-                if (!collider.isTrigger) {
+            foreach (var collider in colliders)
+            {
+                if (!collider.isTrigger)
+                {
                     col = collider;
                     break;
                 }
@@ -361,6 +364,7 @@ namespace TCS.Characters
             if (damage.type != DamageType.Protag && vuln)
             {
                 input.dmg = damage;
+                hp--;
             }
         }
 

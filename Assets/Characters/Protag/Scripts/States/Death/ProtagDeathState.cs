@@ -5,16 +5,16 @@ using UnityEngine;
 
 namespace TCS.Characters
 {
-    public abstract class ProtagAliveState : ProtagState
+    public class ProtagDeathState : ProtagState
     {
         public override void enter(ProtagInput input)
         {
-            
+            protag.anim.SetTrigger("dead");
         }
 
         public override void exit(ProtagInput input)
         {
-            
+
         }
 
         public override void runAnimation(ProtagInput input)
@@ -24,11 +24,6 @@ namespace TCS.Characters
 
         public override bool runLogic(ProtagInput input)
         {
-            if (protag.hp <= 0)
-            {
-                protag.newState<ProtagDeathState>();
-                return true;
-            }
             return false;
         }
     }
