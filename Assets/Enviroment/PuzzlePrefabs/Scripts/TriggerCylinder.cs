@@ -5,9 +5,9 @@ using UnityEngine;
 public class TriggerCylinder : MonoBehaviour
 {
 
- 	Rigidbody rb;
-	Vector3 velocity;
-	public bool turnOn;
+    Rigidbody rb;
+    Vector3 velocity;
+    public bool turnOn;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +18,10 @@ public class TriggerCylinder : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-    	if (turnOn) {
-	    	Quaternion rotate = Quaternion.Euler(velocity * Time.deltaTime);
-	        rb.MoveRotation(rb.rotation * rotate);
-	    }
+        if (turnOn)
+        {
+            Quaternion rotate = Quaternion.Euler(velocity * Time.deltaTime);
+            rb.MoveRotation(rb.rotation * rotate);
+        }
     }
 }
