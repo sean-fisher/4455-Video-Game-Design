@@ -65,8 +65,8 @@ MonoBehaviour:
   hitBoxes: []
   movementEnabled: 1
   jumpStrength: 6
-  aerialMovementStrength: 10
-  aerialDrag: 0.5
+  aerialMovementStrength: 1
+  aerialDrag: 0.95
   climbSpeed: 10
   rotationOrientSpeed: 10
   pushStrength: 2
