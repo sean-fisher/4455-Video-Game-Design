@@ -16,7 +16,7 @@ namespace TCS.Characters
         {
             base.enter(input);
             protag.anim.SetBool("pushing", true);
-            protag.setRootMotion(true);
+            protag.setRootMotion(false);
             protag.col.radius = .75f;
             GameObject.FindObjectOfType<PlayerCameraController>().CenterCamera();
         }
