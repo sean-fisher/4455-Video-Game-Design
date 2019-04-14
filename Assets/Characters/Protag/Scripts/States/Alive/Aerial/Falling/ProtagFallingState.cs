@@ -9,7 +9,7 @@ namespace TCS.Characters
         #region variables
         protected override float aerialAnimationTurnStrength { get { return 10f; } }
         protected override float aerialPhysicsTurnStrength { get { return .5f; } }
-        protected override bool applyAerialForce { get { return true; } }
+        protected override bool applyAerialForce { get { return false; } }
         bool jump;
         #endregion
 
