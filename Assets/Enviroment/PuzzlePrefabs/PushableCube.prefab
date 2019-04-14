@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7746197984212646811}
   - component: {fileID: 7746197984212646808}
   - component: {fileID: 7746197984212646809}
-  - component: {fileID: 7353742747155829896}
   m_Layer: 0
   m_Name: PushableCube
   m_TagString: Pushable
