@@ -8,8 +8,8 @@ namespace TCS.Characters
     {
         #region variables
         protected override float aerialAnimationTurnStrength { get { return 10f; } }
-        protected override float aerialPhysicsTurnStrength { get { return .5f; } }
-        protected override bool applyAerialForce { get { return timer > .18f; } }
+        protected override float aerialPhysicsTurnStrength { get { return .2f; } }
+        protected override bool applyAerialForce { get { return timer > .3f; } }
         private float timer;
         private float dir;
         private bool jumped;
