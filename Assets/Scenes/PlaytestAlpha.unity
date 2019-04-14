@@ -85059,7 +85059,7 @@ MonoBehaviour:
     areaError: 15
   asset_guid: 
   dontDestroyMeshOnDelete: 0
-  m_selectedFaces: 0100000004000000
+  m_selectedFaces: 01000000
   m_SelectedEdges:
   - x: 4
     y: 5
@@ -85069,15 +85069,7 @@ MonoBehaviour:
     y: 7
   - x: 7
     y: 6
-  - x: 16
-    y: 17
-  - x: 18
-    y: 16
-  - x: 17
-    y: 19
-  - x: 19
-    y: 18
-  m_selectedTriangles: 040000000500000006000000050000000700000006000000100000001100000012000000110000001300000012000000
+  m_selectedTriangles: 040000000500000006000000050000000700000006000000
 --- !u!33 &1169083319
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -99887,7 +99879,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh15618
+  m_Name: pb_Mesh23128
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
