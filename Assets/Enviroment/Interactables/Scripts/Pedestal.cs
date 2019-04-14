@@ -33,8 +33,10 @@ public class Pedestal : MonoBehaviour
                     // we've reached the last level!
                     SceneManager.LoadScene("Title");
                 } else {
-                    SceneManager.LoadScene(levels[i++]);
+                    string nextLevel = levels[i+1];
+                    SceneManager.LoadScene(nextLevel);
                 }
+                this.enabled = false;
             }
         }
     }
