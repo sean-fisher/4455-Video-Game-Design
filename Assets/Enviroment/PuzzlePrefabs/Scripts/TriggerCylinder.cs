@@ -12,7 +12,7 @@ public class TriggerCylinder : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        velocity = new Vector3(0, 100, 0);
+        velocity = new Vector3(100, 0, 0);
     }
 
     // Update is called once per frame
