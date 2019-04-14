@@ -22,8 +22,6 @@ public class StartMenu : Menu
     public GameObject levelButtonTemplate;
     public Transform levelbuttonHolder;
 
-    public string[] levels;
-
     public void StartGame() {
         SceneManager.LoadScene("Alpha");
     }
@@ -38,6 +36,7 @@ public class StartMenu : Menu
         foreach (Transform child in levelbuttonHolder) {
             Destroy(child.gameObject);
         }
+        string[] levels = LevelManager.Instance().levels;
         foreach (string name in levels) {
             GameObject newLevelButton = GameObject.Instantiate(levelButtonTemplate, levelbuttonHolder);
             newLevelButton.GetComponentInChildren<Text>().text = name;
@@ -48,6 +47,7 @@ public class StartMenu : Menu
     }
 
     public void LoadLevel(int index) {
+        string[] levels = LevelManager.Instance().levels;
         SceneManager.LoadScene(levels[index]);
     }
 }
