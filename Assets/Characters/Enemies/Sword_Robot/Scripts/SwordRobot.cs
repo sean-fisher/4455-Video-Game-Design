@@ -37,6 +37,7 @@ public class SwordRobot : MonoBehaviour
         if (state == EnemyState.Patrol)
         {
             anim.SetBool("running", false);
+            navMeshAgent.speed = 1.9f;
             float yDis = Mathf.Abs(target.transform.position.y - transform.position.y);
             if (yDis < 2.0f && Vector3.Distance(transform.position, target.position) < rangeOfAttention)
             {
@@ -75,6 +76,7 @@ public class SwordRobot : MonoBehaviour
             else
             {
                 anim.SetBool("running", true);
+                navMeshAgent.speed = 3f;
             }
             if (hasAttacked && !anim.GetBool("attack"))
             {

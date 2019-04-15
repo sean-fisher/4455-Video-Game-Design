@@ -42,7 +42,7 @@ namespace TCS.Characters
             if (move != Vector3.zero)
             {
                 Quaternion goalRot = Quaternion.LookRotation(Vector3.ProjectOnPlane(move, Vector3.up).normalized, Vector3.up);
-                protag.anim.transform.localRotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
+                protag.anim.transform.localRotation = Quaternion.Slerp(protag.anim.transform.rotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
                 // set forward motion
                 float targetV = 0;
                 float nextV = Mathf.Lerp(protag.anim.GetFloat("vertical"), targetV, dt * .05f);
@@ -51,7 +51,7 @@ namespace TCS.Characters
             else
             {
                 Quaternion goalRot = Quaternion.LookRotation(protag.anim.transform.forward, Vector3.up);
-                protag.anim.transform.localRotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt);
+                protag.anim.transform.localRotation = Quaternion.Slerp(protag.anim.transform.rotation, goalRot, aerialPhysicsTurnStrength * dt);
                 // set forward motion
                 float targetV = mag;
                 float nextV = Mathf.Lerp(protag.anim.GetFloat("vertical"), targetV, dt * .05f);
