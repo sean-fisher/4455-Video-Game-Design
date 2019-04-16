@@ -34,8 +34,10 @@ public class SwordRobot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == EnemyState.Patrol)
-        {
+        if (state == EnemyState.Patrol) {
+			if (navMeshAgent.path.status == NavMeshPathStatus.PathPartial) {
+				state = EnemyState.Wait;
+			}
             anim.SetBool("running", false);
             navMeshAgent.speed = 1.9f;
             float yDis = Mathf.Abs(target.transform.position.y - transform.position.y);
@@ -54,8 +56,7 @@ public class SwordRobot : MonoBehaviour
                 setNextWaypoint();
             }
         }
-        else if (state == EnemyState.InterceptTarget)
-        {
+        else if (state == EnemyState.InterceptTarget) {
             float xzDis = (Vector3.ProjectOnPlane(target.transform.position, Vector3.up) - Vector3.ProjectOnPlane(transform.position, Vector3.up)).magnitude;
             if (xzDis > rangeOfAttention || navMeshAgent.path.status == NavMeshPathStatus.PathPartial)
             {
@@ -83,6 +84,19 @@ public class SwordRobot : MonoBehaviour
                 navMeshAgent.SetDestination(target.transform.position);
             }
         }
+		else if (state == EnemyState.Wait) {
+			anim.SetBool("running", false);
+			anim.SetBool ("wait", true);
+			navMeshAgent.SetDestination (transform.position);
+			NavMeshPath path = new NavMeshPath();
+			navMeshAgent.CalculatePath(waypoints[currWaypoint].transform.position, path);
+			if (path.status != NavMeshPathStatus.PathPartial)
+			{
+				state = EnemyState.Patrol;
+				anim.SetBool ("wait", false);
+				navMeshAgent.SetDestination(waypoints[currWaypoint].transform.position);
+			}
+		}
     }
 
     public void openHitboxes()
@@ -114,6 +128,8 @@ public class SwordRobot : MonoBehaviour
         }
     }
 }
+
+
 
 public enum EnemyState
 {
