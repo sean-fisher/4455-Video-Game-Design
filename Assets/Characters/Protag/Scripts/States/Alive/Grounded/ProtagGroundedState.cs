@@ -51,17 +51,20 @@ namespace TCS.Characters
 
             Vector3 move = InputManager.calculateMove(v, h);
             
+            
             // rotation assistance for game object
             if (move != Vector3.zero)
             {
                 Quaternion goalRot = Quaternion.LookRotation(move, Vector3.up);
-                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, physicsTurnStrength * dt * move.magnitude);
+                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.rotation, goalRot, physicsTurnStrength * dt * move.magnitude);
             }
             else
             {
                 Quaternion goalRot = Quaternion.LookRotation(protag.anim.transform .forward, Vector3.up);
-                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, physicsTurnStrength * dt);
+                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.rotation, goalRot, physicsTurnStrength * dt);
+
             }
+            
             
 
             //set forward motion animation
