@@ -9,6 +9,10 @@ namespace TCS.Characters
     {
         #region variables
 
+        [Header("Effects")]
+        public ProtagSFX sfx;
+        public ProtagVFX vfx;
+
         [Header("Hitboxes")]
         public Collider[] hurtBoxes;
         public Collider[] hitBoxes;
