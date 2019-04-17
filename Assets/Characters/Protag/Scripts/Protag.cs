@@ -246,7 +246,7 @@ namespace TCS.Characters
             // check at the head of the player
             start = transform.localPosition + chestOffset.magnitude * modelTransform.up / 4;
             RaycastHit hit;
-            if (Utility.RayCastInArc(out hit, start, modelTransform.up, modelTransform.right, col.height / 2, 90, Color.green, selfMask, 4))
+            if (Utility.RayCastInArc(out hit, start, modelTransform.up, modelTransform.right, col.height / 2, 120, Color.green, selfMask, 4))
             {
                 // there is a climbable wall above
 
@@ -255,7 +255,7 @@ namespace TCS.Characters
                 // is it a very flat surface, as opposed to a gradual slope?
                 float _upHeadAngle = Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up));
                 headPoint = hit.point;
-                if (_upHeadAngle < 1f)
+                if (_upHeadAngle < 15f)
                 {
                     Vector3 movementDir = Vector3.ProjectOnPlane(modelTransform.forward, groundNormal);
                     // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
@@ -266,14 +266,19 @@ namespace TCS.Characters
                         climbableWallNormal = Vector3.zero;
                         nextClimbingAction = ClimbingContextualActionType.CLIMBUP;
                         return;
+                    } else {
+                        // we have still reached a vertical spot, so we just stand up
+                        // TODO play crouch/climb to stand animation
+                        wallAnchorPosition = hit.point;
+                        climbableWallNormal = Vector3.zero;
+                        nextClimbingAction = ClimbingContextualActionType.STANDUP;
+                        return;
                     }
                 }
-                else
-                {
-                    hitPoints.Add(hit.point);
-                    hitNormals.Add(hit.normal);
-                    headNormal = hit.normal;
-                }
+                hitPoints.Add(hit.point);
+                hitNormals.Add(hit.normal);
+                headNormal = hit.normal;
+                
             }
 
             // check at the feet of the player
@@ -289,7 +294,7 @@ namespace TCS.Characters
 
             start = transform.position;
             RaycastHit wallAnchorCheck;
-            if (Physics.Raycast(start, modelTransform.forward, out wallAnchorCheck, 0.5f, selfMask))
+            if (Physics.Raycast(start, modelTransform.forward, out wallAnchorCheck, 1f, selfMask))
             {
                 Debug.DrawRay(start, dir, Color.blue);
                 wallAnchorPosition = wallAnchorCheck.point;

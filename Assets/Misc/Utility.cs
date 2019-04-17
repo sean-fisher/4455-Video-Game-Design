@@ -70,7 +70,8 @@ namespace TCS
         CLIMBING,
         CLIMBUP,
         CLIMBDOWN,
-        FALLOFF
+        FALLOFF,
+        STANDUP
     }
 
 }
