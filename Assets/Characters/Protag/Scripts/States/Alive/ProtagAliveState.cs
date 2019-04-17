@@ -24,6 +24,11 @@ namespace TCS.Characters
 
         public override bool runLogic(ProtagInput input)
         {
+            if (protag.hp <= 0)
+            {
+                protag.newState<ProtagDeathState>();
+                return true;
+            }
             return false;
         }
     }

@@ -8,7 +8,8 @@ namespace TCS.Characters
     {
         #region variables
         protected override float aerialAnimationTurnStrength { get { return 10f; } }
-        protected override float aerialPhysicsTurnStrength { get { return .05f; } }
+        protected override float aerialPhysicsTurnStrength { get { return .2f; } }
+        protected override bool applyAerialForce { get { return timer > .3f; } }
         private float timer;
         private float dir;
         private bool jumped;
@@ -70,9 +71,11 @@ namespace TCS.Characters
 
             if (timer > .3 && jumpAgain && protag.doubleJumpAvailable)
             {
-                protag.newState<ProtagJumpingState>();
+                
+                //protag.newState<ProtagJumpingState>();
                 protag.doubleJumpAvailable = false;
-                return true;
+                //return true;
+                
             }
 
             if (timer > .4)

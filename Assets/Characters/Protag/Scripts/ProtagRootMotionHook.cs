@@ -52,7 +52,7 @@ namespace TCS.Characters
                 }
                 else if (aerial)
                 {
-                    velocity = new Vector3(velocity.x, v.y, velocity.z);
+                    velocity = new Vector3(rb.velocity.x, v.y, rb.velocity.z);
                 } 
             }
         }

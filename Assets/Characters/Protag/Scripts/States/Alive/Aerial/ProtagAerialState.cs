@@ -9,6 +9,7 @@ namespace TCS.Characters
         #region variables
         protected abstract float aerialAnimationTurnStrength { get; }
         protected abstract float aerialPhysicsTurnStrength { get; }
+        protected abstract bool applyAerialForce { get; }
         float timer;
         #endregion
 
@@ -40,8 +41,8 @@ namespace TCS.Characters
             // rotates the player to the movement direction
             if (move != Vector3.zero)
             {
-                Quaternion goalRot = Quaternion.LookRotation(Vector3.ProjectOnPlane(protag.rb.velocity.normalized, Vector3.up), Vector3.up);
-                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
+                Quaternion goalRot = Quaternion.LookRotation(Vector3.ProjectOnPlane(move, Vector3.up).normalized, Vector3.up);
+                protag.anim.transform.localRotation = Quaternion.Slerp(protag.anim.transform.rotation, goalRot, aerialPhysicsTurnStrength * dt * move.magnitude);
                 // set forward motion
                 float targetV = 0;
                 float nextV = Mathf.Lerp(protag.anim.GetFloat("vertical"), targetV, dt * .05f);
@@ -50,7 +51,7 @@ namespace TCS.Characters
             else
             {
                 Quaternion goalRot = Quaternion.LookRotation(protag.anim.transform.forward, Vector3.up);
-                protag.anim.transform.rotation = Quaternion.Slerp(protag.anim.transform.localRotation, goalRot, aerialPhysicsTurnStrength * dt);
+                protag.anim.transform.localRotation = Quaternion.Slerp(protag.anim.transform.rotation, goalRot, aerialPhysicsTurnStrength * dt);
                 // set forward motion
                 float targetV = mag;
                 float nextV = Mathf.Lerp(protag.anim.GetFloat("vertical"), targetV, dt * .05f);
@@ -67,8 +68,13 @@ namespace TCS.Characters
             //Apply Aerial Force
             Vector3 move = InputManager.calculateMove(input.v, input.h);
             
-            protag.rb.AddForce(move * protag.aerialMovementStrength * 10, ForceMode.Force);
-            protag.rb.velocity = new Vector3(protag.rb.velocity.x * protag.aerialDrag, protag.rb.velocity.y, protag.rb.velocity.z * protag.aerialDrag);
+            if (applyAerialForce)
+            {
+                protag.rb.AddForce(move * protag.aerialMovementStrength * 10, ForceMode.Force);
+                Vector3 horMove = Vector3.ClampMagnitude(Vector3.ProjectOnPlane(protag.rb.velocity, Vector3.up), 2);
+                protag.rb.velocity = new Vector3(horMove.x, protag.rb.velocity.y, horMove.z);
+                protag.rb.velocity = new Vector3(protag.rb.velocity.x * protag.aerialDrag, protag.rb.velocity.y, protag.rb.velocity.z * protag.aerialDrag);
+            }
             
             if (timer >= .2)
                 protag.setAerial(true);
