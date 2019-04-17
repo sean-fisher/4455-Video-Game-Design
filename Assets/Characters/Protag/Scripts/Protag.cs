@@ -236,6 +236,13 @@ namespace TCS.Characters
             List<Vector3> hitPoints = new List<Vector3>();
             List<Vector3> hitNormals = new List<Vector3>();
 
+            Vector3 headNormal = Vector3.zero;
+            Vector3 footNormal = Vector3.zero;
+            Vector3 bodyNormal = Vector3.zero;
+            Vector3 headPoint = Vector3.zero;
+            Vector3 bodyPoint = Vector3.zero;
+            Vector3 footPoint = Vector3.zero;
+
             // check at the head of the player
             start = transform.localPosition + chestOffset.magnitude * modelTransform.up / 4;
             RaycastHit hit;
@@ -246,8 +253,9 @@ namespace TCS.Characters
                 // Is there a cliff above and in front?
 
                 // is it a very flat surface, as opposed to a gradual slope?
-
-                if (Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up)) < 10)
+                float _upHeadAngle = Mathf.Abs(Vector3.Angle(hit.normal, Vector3.up));
+                headPoint = hit.point;
+                if (_upHeadAngle < 1f)
                 {
                     Vector3 movementDir = Vector3.ProjectOnPlane(modelTransform.forward, groundNormal);
                     // are we oriented vertically enough that the climbing up ledge animation would be appropriate?
@@ -264,6 +272,7 @@ namespace TCS.Characters
                 {
                     hitPoints.Add(hit.point);
                     hitNormals.Add(hit.normal);
+                    headNormal = hit.normal;
                 }
             }
 
@@ -274,6 +283,8 @@ namespace TCS.Characters
                 // there is a climbable wall below
                 hitPoints.Add(hit.point);
                 hitNormals.Add(hit.normal);
+                footNormal = hit.normal;
+                footPoint = hit.point;
             }
 
             start = transform.position;
@@ -282,6 +293,8 @@ namespace TCS.Characters
             {
                 Debug.DrawRay(start, dir, Color.blue);
                 wallAnchorPosition = wallAnchorCheck.point;
+                bodyNormal = wallAnchorCheck.normal;
+                bodyPoint = wallAnchorCheck.point;
             }
 
             // find the average wall normal of the points we can reach
@@ -300,6 +313,32 @@ namespace TCS.Characters
                 vecSum += point;
             }
             wallAnchorPosition = hitPoints.Count > 0 ? vecSum / hitPoints.Count : Vector3.zero;
+
+            if (headNormal == Vector3.zero || footNormal == Vector3.zero || bodyNormal == Vector3.zero) {
+                nextClimbingAction = ClimbingContextualActionType.FALLOFF;
+                return;
+            }
+
+            float upHeadAngle = Mathf.Abs(Vector3.Angle(headNormal, Vector3.up));
+            float bodyHeadAngle = Mathf.Abs(Vector3.Angle(bodyNormal, headNormal));
+            float bodyUpAngle = Mathf.Abs(Vector3.Angle(bodyNormal, Vector3.up));
+            float headFootAngle = Mathf.Abs(Vector3.Angle(headNormal, footNormal));
+            
+            if (headFootAngle > 120) {
+                // we are on the side of a really thin platform so we don't want to stay on it
+                wallAnchorPosition = headPoint;
+                climbableWallNormal = Vector3.zero;
+                nextClimbingAction = ClimbingContextualActionType.CLIMBUP;
+                return;
+            }
+            if (bodyHeadAngle > bodyUpAngle) {
+                // even though the surface above isn't quite flat, it is a sharp angle away from the climbing surface so we climb up
+                wallAnchorPosition = headPoint;
+                climbableWallNormal = Vector3.zero;
+                nextClimbingAction = ClimbingContextualActionType.CLIMBUP;
+                return;
+            }
+
 
             nextClimbingAction = ClimbingContextualActionType.CLIMBING;
         }

@@ -69,7 +69,8 @@ namespace TCS
     public enum ClimbingContextualActionType {
         CLIMBING,
         CLIMBUP,
-        CLIMBDOWN
+        CLIMBDOWN,
+        FALLOFF
     }
 
 }

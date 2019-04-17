@@ -144,6 +144,10 @@ namespace TCS.Characters
                 break;
                 case (ClimbingContextualActionType.CLIMBDOWN):
                 break;
+                case (ClimbingContextualActionType.FALLOFF):
+        
+                protag.newState<ProtagFallingState>();
+                return true;
             }
 
             return false;
