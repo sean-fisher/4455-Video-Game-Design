@@ -105,6 +105,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: standUp
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -838,7 +844,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: movementMagnitude
     m_Mirror: 0
-  m_BlendParameter: climbUp
+  m_BlendParameter: movementMagnitude
   m_BlendParameterY: movementMagnitude
   m_MinThreshold: 0
   m_MaxThreshold: 1
@@ -1420,7 +1426,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: grounded
+    m_ConditionEvent: standUp
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102730259130543242}
