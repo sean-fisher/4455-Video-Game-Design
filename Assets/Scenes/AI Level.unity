@@ -6554,6 +6554,36 @@ Transform:
   m_Father: {fileID: 573900743}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1019969466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1019969467}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1019969467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019969466}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.14, y: 2.2959995, z: -6.96}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1800780558}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1020555134 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2070357067364883752, guid: 509db506e14070e4693fc4cfec599087,
@@ -7043,7 +7073,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1225956707}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.63, y: 2.296, z: -16.05}
+  m_LocalPosition: {x: -7.79, y: 2.296, z: -15.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1800780558}
@@ -7412,7 +7442,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318957663}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.63, y: 2.296, z: 1.67}
+  m_LocalPosition: {x: -9.07, y: 2.296, z: -0.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1800780558}
@@ -39817,6 +39847,7 @@ Transform:
   m_Children:
   - {fileID: 1318957664}
   - {fileID: 1225956708}
+  - {fileID: 1019969467}
   m_Father: {fileID: 1563170064}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -40157,7 +40188,7 @@ PrefabInstance:
     - target: {fileID: 8121381194996085178, guid: fc6dfaf4780ef97438d27f345f0a2b49,
         type: 3}
       propertyPath: waypoints.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8121381194996085178, guid: fc6dfaf4780ef97438d27f345f0a2b49,
         type: 3}
@@ -40173,7 +40204,7 @@ PrefabInstance:
         type: 3}
       propertyPath: waypoints.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1019969467}
     - target: {fileID: 8121381194996085178, guid: fc6dfaf4780ef97438d27f345f0a2b49,
         type: 3}
       propertyPath: target
