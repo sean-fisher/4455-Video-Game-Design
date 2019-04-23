@@ -25,9 +25,19 @@ namespace TCS
 
             // add the rotation input to the camera's rotation
             // multiplication of Quaternions is like adding euler angles.
-            Quaternion newRotation =
-                camHolder.localRotation
-                * Quaternion.Euler(v * camControl.rotXSpeed * dt, h * camControl.rotYSpeed * dt, 0);
+            float xRotClamp = 20;
+            float verticalRotDelta =  v * camControl.rotXSpeed * dt;
+            float verticalRot =  verticalRotDelta + camHolder.localRotation.eulerAngles.x;
+            if (verticalRot <= 90 && verticalRot >= -10) {
+                verticalRot = Mathf.Clamp(verticalRot, 0, 90 - xRotClamp);
+            } else if (verticalRot >= 260 && verticalRot <= 360) {
+                verticalRot = Mathf.Clamp(verticalRot, 270 + xRotClamp, 360);
+            } else {
+                Debug.LogError("Camera rotation invalid: " + verticalRot);
+            }
+
+            Quaternion newRotation = Quaternion.Euler(verticalRot, camHolder.localRotation.eulerAngles.y + h * camControl.rotYSpeed * dt, 0);
+
 
             // I'm not 100% sure why the previous Quaternion.Euler(...) makes a Quaternion with nonzero euler z value
             // So this zeroes out the z rotation. 
