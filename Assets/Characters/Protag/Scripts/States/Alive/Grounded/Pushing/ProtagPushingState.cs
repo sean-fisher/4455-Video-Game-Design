@@ -51,9 +51,15 @@ namespace TCS.Characters
             {
                 Vector3 desiredDir = new Vector3(-hit.normal.x, (int)-hit.normal.y, -hit.normal.z);
                 protag.anim.transform.rotation = Quaternion.LookRotation(desiredDir, Vector3.up);
-                Vector3 v = (hit.rigidbody.transform.position - protag.transform.position).normalized;
                 
-                protag.rb.AddForce(v * protag.pushStrength);
+                Vector3 pushTowardCenter = (hit.rigidbody.transform.position - protag.transform.position).normalized; // slides back and forth
+                Vector3 pushAgainstNormal = -hit.normal;
+
+                float ratio = .75f;
+                Vector3 pushDir = pushAgainstNormal * ratio + pushTowardCenter * (1-ratio);
+
+                protag.rb       .AddForce(pushDir * protag.pushStrength * protag.rb.mass*.5f);
+                //hit.rigidbody   .AddForce(pushDir * protag.pushStrength * hit.rigidbody.mass);
             }
             else
             {
