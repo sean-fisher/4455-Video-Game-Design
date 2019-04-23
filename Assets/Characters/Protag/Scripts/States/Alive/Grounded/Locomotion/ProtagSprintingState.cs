@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TCS.Characters
 {
-    public class ProtagLocomotionState : ProtagGroundedState
+    public class ProtagSprintingState : ProtagGroundedState
     {
         #region variables
         protected override float animationTurnStrength { get { return 5f; } }
@@ -13,12 +13,12 @@ namespace TCS.Characters
 
         public override void enter(ProtagInput input)
         {
-            base.enter(input);
+            protag.anim.SetBool("sprinting", true);
         }
 
         public override void exit(ProtagInput input)
         {
-            base.exit(input);
+            protag.anim.SetBool("sprinting", false);
         }
 
         public override void runAnimation(ProtagInput input)
@@ -31,9 +31,9 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
-            if (Input.GetMouseButton(1) && input.totalMotionMag > .2f)
+            if (!Input.GetMouseButton(1) || input.totalMotionMag < .2f)
             {
-                protag.newState<ProtagSprintingState>();
+                protag.newState<ProtagLocomotionState>();
                 return true;
             }
 
