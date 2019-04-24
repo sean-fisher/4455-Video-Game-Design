@@ -36,7 +36,8 @@ namespace TCS.Characters
 
             if (timer >= fadeOutLength)
             {
-                SceneManager.LoadScene(1);
+                Scene scene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(scene.buildIndex);
             }
         }
 

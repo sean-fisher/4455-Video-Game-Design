@@ -9128,11 +9128,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 136870595803451688, guid: 983363fb3207dbf4b99023b9fcdddaa2,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 114864188756657104, guid: 983363fb3207dbf4b99023b9fcdddaa2,
         type: 3}
       propertyPath: pushStrength
@@ -9145,6 +9140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1067211109, guid: 983363fb3207dbf4b99023b9fcdddaa2, type: 3}
       propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 136870595803451688, guid: 983363fb3207dbf4b99023b9fcdddaa2,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7724161167287528966, guid: 983363fb3207dbf4b99023b9fcdddaa2,
@@ -28267,6 +28267,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
+  - PlaytestAlpha
+  - PlaytestAlpha
   - PlaytestAlpha
 --- !u!4 &1851606284
 Transform:
