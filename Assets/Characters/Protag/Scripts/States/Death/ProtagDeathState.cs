@@ -19,6 +19,8 @@ namespace TCS.Characters
         {
             protag.anim.SetTrigger("dead");
             Transitioner.Instance.LoadSceneWithFades(SceneManager.GetActiveScene().name, 3, 1, Color.red);
+
+            SoundManager.Instance.PlayAnySFX("Death");
         }
 
         public override void exit(ProtagInput input)
