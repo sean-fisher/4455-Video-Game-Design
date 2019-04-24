@@ -47,3 +47,5 @@ MonoBehaviour:
     type: 3}
   levelManager: {fileID: 1744777690125095353, guid: 0670d6e7b2c349b4cb1c2db035031796,
     type: 3}
+  soundManager: {fileID: 4417976915003840212, guid: 05c3d3da5a6dc3641b32659c38b0b63b,
+    type: 3}

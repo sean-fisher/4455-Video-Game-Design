@@ -7,7 +7,9 @@ public class SoundManager : MonoBehaviour {
 	[SerializeField] AudioSource bgm;
 	[SerializeField] Transform sfxSourceHolder;
 	AudioSource[] generalUseAudioSources;
-	[SerializeField] EnumClipPair[] audioClips;
+	[SerializeField] NameClipPair[] sfxClips;
+	[SerializeField] NameClipPair[] musicTracks;
+	Dictionary<string, AudioClip> audioClipLookup;
 
 	static SoundManager instance;
 
@@ -22,6 +24,16 @@ public class SoundManager : MonoBehaviour {
 			instance = this;
 			DontDestroyOnLoad(this.gameObject);
 
+			// create sfx dictionary for faster access
+			audioClipLookup = new Dictionary<string, AudioClip>();
+			foreach (var pair  in sfxClips) {
+				audioClipLookup[pair.clipName] = pair.clip;
+			}
+			foreach (var pair  in musicTracks) {
+				audioClipLookup[pair.clipName] = pair.clip;
+			}
+
+			// get references to audio source
 			int i = 0;
 			generalUseAudioSources = new AudioSource[sfxSourceHolder.childCount];
 			foreach (Transform child in sfxSourceHolder) {
@@ -32,11 +44,8 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 
-	void Start() {
-		// PlayBGM();
-	}
-
-	public void PlayBGM() {
+	public void PlayBGM(string bgmName) {
+		bgm.clip = audioClipLookup[bgmName];
 		bgm.Stop();
 		bgm.Play();
 	}
@@ -55,14 +64,8 @@ public class SoundManager : MonoBehaviour {
 
 	public void PlayAnySFX(string sfxName) {
 		
-		AudioClip clip = null;
-		foreach (var pair  in audioClips) {
-			if (pair.clipName == sfxName) {
+		AudioClip clip = audioClipLookup[sfxName];
 
-				clip = pair.clip;
-				break;
-			}
-		}
 		bool sfxPlayed = false;
 		foreach (AudioSource source in generalUseAudioSources) {
 			if (!source.isPlaying) {
@@ -84,7 +87,7 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 	[System.Serializable]
-	public class EnumClipPair {
+	public class NameClipPair {
 		public string clipName;
 		public AudioClip clip;
 	}

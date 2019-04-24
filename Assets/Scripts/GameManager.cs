@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
     public Canvas uiElements;
     public LevelManager levelManager;
+    public SoundManager soundManager;
 
     void Awake() {
-        GameObject.Instantiate(uiElements);
         DontDestroyOnLoad(this);
+
+        GameObject.Instantiate(uiElements);
         GameObject.Instantiate(levelManager);
+        GameObject.Instantiate(soundManager);
     }
 }
 
