@@ -7,6 +7,9 @@ public class ActivateCylinder : MonoBehaviour
     public GameObject cylinder;
     public TriggerCylinder plate;
 
+    public Material green;
+    public Material red;
+
     void Start()
     {
         plate = cylinder.GetComponent<TriggerCylinder>();
@@ -18,5 +21,21 @@ public class ActivateCylinder : MonoBehaviour
     void OnTriggerExit(Collider c)
     {
         plate.turnOn = false;
+    }
+
+    private void Update()
+    {
+        if (plate.turnOn)
+        {
+            MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
+            if (mesh != null)
+                mesh.material = green;
+        }
+        else
+        {
+            MeshRenderer mesh = GetComponentInChildren<MeshRenderer>();
+            if (mesh != null)
+                mesh.material = red;
+        }
     }
 }

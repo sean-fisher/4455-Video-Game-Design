@@ -5,6 +5,8 @@ using UnityEngine;
 public class Button : MonoBehaviour
 {
     public bool toggle;
+    public Material red;
+    public Material green;
 
     private bool status;
 
@@ -15,26 +17,32 @@ public class Button : MonoBehaviour
 
     void OnTriggerEnter(Collider c)
     {
-        status = toggle ? !status : true;
+        status = !status;
         SetColor();
     }
     void OnTriggerExit(Collider c)
     {
-        status = toggle ? status : false;
+        //status = toggle ? status : false;
+    }
+
+    private void Update()
+    {
+        Debug.Log(status);
     }
 
     private void SetColor()
     {
-        Renderer rend = GetComponent<Renderer>();
-        rend.material.shader = Shader.Find("_Color");
+
+        Renderer rend = GetComponentInChildren<Renderer>();
+
         // change color of button
         if (status)
         {
-            rend.material.SetColor("_Color", Color.green);
+            rend.material = green;
         }
         else
         {
-            rend.material.SetColor("_Color", Color.red);
+            rend.material = red;
         }
     }
 
