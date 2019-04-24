@@ -198,12 +198,29 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 6d878a0b6d82c574c8b2fbd7692db185, type: 3}
   - clipName: Goblin
     clip: {fileID: 8300000, guid: 6c5a189cd7ee6544a9e6007c9446aa22, type: 3}
+  - clipName: Grunt1
+    clip: {fileID: 8300000, guid: 81a1523e8bde47141ba113f9720c86db, type: 3}
+  - clipName: Grunt2
+    clip: {fileID: 8300000, guid: 900ccd2a0c14e3d419fc1106176a52c9, type: 3}
+  - clipName: Grunt3
+    clip: {fileID: 8300000, guid: dd74fc51a67daac4ba54b90436d6842e, type: 3}
+  - clipName: Grunt4
+    clip: {fileID: 8300000, guid: 267eb0adb051b1c4a9ecd0f2e3095d73, type: 3}
+  - clipName: ClimbUp
+    clip: {fileID: 8300000, guid: 2fd753c2e40a0734a8aced9de52781cf, type: 3}
   soundGroups:
   - groupname: Hurt
     group:
       soundNames:
       - Hurt1
       - Hurt2
+  - groupname: Grunt
+    group:
+      soundNames:
+      - Grunt1
+      - Grunt2
+      - Grunt3
+      - Grunt4
 --- !u!1 &4417976915066325763
 GameObject:
   m_ObjectHideFlags: 0

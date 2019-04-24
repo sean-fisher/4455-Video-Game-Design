@@ -28,6 +28,8 @@ namespace TCS.Characters
             protag.anim.SetTrigger("climbUp");
             targetPosition = protag.getWallAnchorPosition();
             timer = 0;
+
+            SoundManager.Instance.PlayAnySFX("ClimbUp");
         }
 
         public override void exit(ProtagInput input)

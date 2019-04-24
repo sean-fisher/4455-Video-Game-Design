@@ -24,7 +24,6 @@ namespace TCS.Characters
             protag.pushing = true;
 
             pushingSource = SoundManager.Instance.PlayAnySFX("Pushing");
-            Debug.Log("Enter");
         }
 
         public override void exit(ProtagInput input)
@@ -52,7 +51,6 @@ namespace TCS.Characters
             if (!protag.isMovingForward() || hit.collider == null)
             {
                 protag.newState<ProtagLocomotionState>();
-                Debug.Log("Exit");
                 return true;
             }
 
@@ -73,7 +71,6 @@ namespace TCS.Characters
             else
             {
                 protag.newState<ProtagLocomotionState>();
-                Debug.Log("Exit");
                 return true;
             }
 
