@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    public GameObject pauseMenu;
+    public Canvas uiElements;
     public LevelManager levelManager;
 
     void Awake() {
-        GameObject.Instantiate(pauseMenu, GameObject.FindObjectOfType<Canvas>().transform);
+        GameObject.Instantiate(uiElements);
         DontDestroyOnLoad(this);
         GameObject.Instantiate(levelManager);
     }

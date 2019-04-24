@@ -127,7 +127,15 @@ namespace TCS.Characters
             Vector3 pos = transform.position + (Vector3.up * 0.5f);
             Vector3 dir = (Vector3.down * 0.6f);
             RaycastHit groundCheck;
-            if (Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask))
+
+            float r = col.radius;
+            bool g = Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask)
+                || Physics.Raycast(pos + transform.right * r, dir, out groundCheck, 0.8f, selfMask)
+                || Physics.Raycast(pos + transform.forward * r, dir, out groundCheck, 0.8f, selfMask)
+                || Physics.Raycast(pos - transform.forward * r, dir, out groundCheck, 0.8f, selfMask)
+                || Physics.Raycast(pos - transform.right * r, dir, out groundCheck, 0.8f, selfMask);
+
+            if (g)//(Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask))
             {
                 Debug.DrawRay(pos, dir, Color.green);
                 grounded = true;

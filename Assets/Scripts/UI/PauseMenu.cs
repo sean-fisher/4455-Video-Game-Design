@@ -42,7 +42,8 @@ public class PauseMenu : Menu
     }
 
     public void ReturnToMainMenu() {
-        SceneManager.LoadScene("Title");
+        Close();
+        Transitioner.Instance.LoadSceneWithFades("Title");
 
     }
 
@@ -51,7 +52,7 @@ public class PauseMenu : Menu
     }
 
     public void RestartLevel() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Transitioner.Instance.LoadSceneWithFades(SceneManager.GetActiveScene().name);
         Close();
     }
 }
