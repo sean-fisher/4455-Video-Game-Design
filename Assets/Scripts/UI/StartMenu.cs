@@ -23,7 +23,7 @@ public class StartMenu : Menu
     public Transform levelbuttonHolder;
 
     public void StartGame() {
-        SceneManager.LoadScene("Alpha");
+        Transitioner.Instance.LoadSceneWithFades("PlaytestAlpha");
     }
     public void OpenCredits() {
         
@@ -41,13 +41,13 @@ public class StartMenu : Menu
             GameObject newLevelButton = GameObject.Instantiate(levelButtonTemplate, levelbuttonHolder);
             newLevelButton.GetComponentInChildren<Text>().text = name;
             newLevelButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate {
-                SceneManager.LoadScene(name);
+                Transitioner.Instance.LoadSceneWithFades(name);
             });
         }
     }
 
     public void LoadLevel(int index) {
         string[] levels = LevelManager.Instance().levels;
-        SceneManager.LoadScene(levels[index]);
+        Transitioner.Instance.LoadSceneWithFades(levels[index]);
     }
 }

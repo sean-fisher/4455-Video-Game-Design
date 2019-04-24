@@ -31,10 +31,10 @@ public class Pedestal : MonoBehaviour
             if (levelName == currLevelName) {
                 if (i == levels.Length - 1) {
                     // we've reached the last level!
-                    SceneManager.LoadScene("Title");
+                    Transitioner.Instance.LoadSceneWithFades("Title");
                 } else {
                     string nextLevel = levels[i+1];
-                    SceneManager.LoadScene(nextLevel);
+                    Transitioner.Instance.LoadSceneWithFades(nextLevel);
                 }
                 this.enabled = false;
             }
