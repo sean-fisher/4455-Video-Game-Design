@@ -70,7 +70,7 @@ public class SoundManager : MonoBehaviour {
 		bgm.UnPause();
 	}
 
-	public void PlayAnySFX(string sfxName) {
+	public AudioSource PlayAnySFX(string sfxName, bool loop = false) {
 		
 		AudioClip clip = audioClipLookup[sfxName];
 
@@ -78,15 +78,19 @@ public class SoundManager : MonoBehaviour {
 		foreach (AudioSource source in generalUseAudioSources) {
 			if (!source.isPlaying) {
 				source.clip = clip;
+				source.loop = loop;
 				source.Play();
 				sfxPlayed = true;
-				break;
+				return source;
 			}
 		}
 		if (!sfxPlayed) {
-			generalUseAudioSources[0].clip = clip;
-			generalUseAudioSources[0].Play();
+			AudioSource source = generalUseAudioSources[0];
+			source.clip = clip;
+			source.Play();
+			return source;
 		}
+		return null;
 	}
 
 	public void PlaySoundFromGroupAtRandom(string groupName) {

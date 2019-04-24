@@ -51,6 +51,7 @@ namespace TCS.Characters
 
         private bool grounded;
         public bool climbing;
+        public bool pushing;
         public bool doubleJumpAvailable;
         private Vector3 groundNormal;
 

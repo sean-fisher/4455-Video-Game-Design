@@ -12,6 +12,8 @@ namespace TCS.Characters
         private Vector3 objectBeingPushedNormal;
         #endregion
 
+        AudioSource pushingSource;
+
         public override void enter(ProtagInput input)
         {
             base.enter(input);
@@ -19,6 +21,10 @@ namespace TCS.Characters
             protag.setRootMotion(false);
             protag.col.radius = .75f;
             GameObject.FindObjectOfType<PlayerCameraController>().CenterCamera();
+            protag.pushing = true;
+
+            pushingSource = SoundManager.Instance.PlayAnySFX("Pushing");
+            Debug.Log("Enter");
         }
 
         public override void exit(ProtagInput input)
@@ -26,6 +32,8 @@ namespace TCS.Characters
             base.exit(input);
             protag.col.radius = .3f;
             protag.anim.SetBool("pushing", false);
+            protag.pushing = false;
+            pushingSource.Stop();
         }
 
         public override void runAnimation(ProtagInput input)
@@ -44,6 +52,7 @@ namespace TCS.Characters
             if (!protag.isMovingForward() || hit.collider == null)
             {
                 protag.newState<ProtagLocomotionState>();
+                Debug.Log("Exit");
                 return true;
             }
 
@@ -64,6 +73,7 @@ namespace TCS.Characters
             else
             {
                 protag.newState<ProtagLocomotionState>();
+                Debug.Log("Exit");
                 return true;
             }
 
