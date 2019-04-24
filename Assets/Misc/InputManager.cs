@@ -41,6 +41,10 @@ public static class InputManager {
     {
         return Input.GetButtonDown("Roll");
     }
+    public static bool getPause()
+    {
+        return Input.GetButtonDown("Pause");
+    }
 
     public static bool getRightStickClick()
     {

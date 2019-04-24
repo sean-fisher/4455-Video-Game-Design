@@ -18,8 +18,7 @@ namespace TCS.Characters
         public override void enter(ProtagInput input)
         {
             protag.anim.SetTrigger("dead");
-            blackFade = GameObject.FindGameObjectWithTag("BlackFade").GetComponent<Image>();
-            timer = 0;
+            Transitioner.Instance.LoadSceneWithFades(SceneManager.GetActiveScene().name, 3, 1, Color.red);
         }
 
         public override void exit(ProtagInput input)
@@ -29,16 +28,6 @@ namespace TCS.Characters
 
         public override void runAnimation(ProtagInput input)
         {
-            timer += Time.deltaTime;
-
-            if (blackFade != null)
-                blackFade.color = new Color(blackFade.color.r, blackFade.color.g, blackFade.color.b, timer / fadeOutLength);
-
-            if (timer >= fadeOutLength)
-            {
-                Scene scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(scene.buildIndex);
-            }
         }
 
         public override bool runLogic(ProtagInput input)

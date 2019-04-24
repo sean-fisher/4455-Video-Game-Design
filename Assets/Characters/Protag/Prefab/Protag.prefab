@@ -69,11 +69,11 @@ MonoBehaviour:
   hitBoxes: []
   movementEnabled: 1
   jumpStrength: 6
-  aerialMovementStrength: 1
-  aerialDrag: 0.95
+  aerialMovementStrength: 20
+  aerialDrag: 0.6
   climbSpeed: 10
   rotationOrientSpeed: 10
-  pushStrength: 100
+  pushStrength: 500
   isVulnerable: 0
   compressionCurve:
     serializedVersion: 2
@@ -156,7 +156,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002241564772668}
-  m_Material: {fileID: 13400000, guid: a7f5ee28c90b5a8469e568f260854409, type: 2}
+  m_Material: {fileID: 13400000, guid: 8b9de4f650b44694e842ab0fa21d66a9, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
