@@ -184,6 +184,26 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: e5d2704112b53d849a231d90199318aa, type: 3}
   - clipName: LevelThemeC
     clip: {fileID: 8300000, guid: 8690c2d7297ee114aaaae6fe6f748136, type: 3}
+  - clipName: Hurt1
+    clip: {fileID: 8300000, guid: a743ba46699ffad49a3dc66e2d646be2, type: 3}
+  - clipName: Hurt2
+    clip: {fileID: 8300000, guid: e38d5341d0254a241b3b5883779890a7, type: 3}
+  - clipName: Jump
+    clip: {fileID: 8300000, guid: 8c5bc7da9610d4642a6c7cf5fd9ea74d, type: 3}
+  - clipName: Urgh
+    clip: {fileID: 8300000, guid: 8bf32b050596215419b271d4be74023d, type: 3}
+  - clipName: Pushing
+    clip: {fileID: 8300000, guid: b8dbe44deb791aa48be84cda7d8cbf35, type: 3}
+  - clipName: Death
+    clip: {fileID: 8300000, guid: 6d878a0b6d82c574c8b2fbd7692db185, type: 3}
+  - clipName: Goblin
+    clip: {fileID: 8300000, guid: 6c5a189cd7ee6544a9e6007c9446aa22, type: 3}
+  soundGroups:
+  - groupname: Hurt
+    group:
+      soundNames:
+      - Hurt1
+      - Hurt2
 --- !u!1 &4417976915066325763
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,9 @@ public class SoundManager : MonoBehaviour {
 	[SerializeField] NameClipPair[] musicTracks;
 	Dictionary<string, AudioClip> audioClipLookup;
 
+	public GroupNamePair[] soundGroups;
+	Dictionary<string, SoundGroup> audioGroupLookup;
+
 	static SoundManager instance;
 
 	public static SoundManager Instance { 
@@ -31,6 +34,11 @@ public class SoundManager : MonoBehaviour {
 			}
 			foreach (var pair  in musicTracks) {
 				audioClipLookup[pair.clipName] = pair.clip;
+			}
+
+			audioGroupLookup = new Dictionary<string, SoundGroup>();
+			foreach (var pair  in soundGroups) {
+				audioGroupLookup[pair.groupname] = pair.group;
 			}
 
 			// get references to audio source
@@ -81,6 +89,11 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 
+	public void PlaySoundFromGroupAtRandom(string groupName) {
+		SoundGroup group = audioGroupLookup[groupName];
+		PlayAnySFX(group.soundNames[Random.Range(0, group.soundNames.Length)]);
+	}
+
 	public void StopAllsfx() {
 		for (int i = 0; i < generalUseAudioSources.Length; i++) {
 			generalUseAudioSources[i].Stop();
@@ -92,4 +105,14 @@ public class SoundManager : MonoBehaviour {
 		public AudioClip clip;
 	}
 
+	// groups similar sounds so they can be picked from randomly
+	[System.Serializable]
+	public class SoundGroup {
+		public string[] soundNames;
+	}
+	[System.Serializable]
+	public class GroupNamePair {
+		public string groupname;
+		public SoundGroup group;
+	}
 }

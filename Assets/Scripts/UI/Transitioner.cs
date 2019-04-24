@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class Transitioner : MonoBehaviour
 {
     public Image fadeImage;
-    public float secondsToFade = 1;
 
     public static Transitioner Instance {
         get {
@@ -61,7 +60,7 @@ public class Transitioner : MonoBehaviour
         float r, g, b, a;
 
         while (progress < 1) {
-            progress += Time.deltaTime / secondsToFade;
+            progress += Time.deltaTime / timeToFadeIn;
             float antiProgress = 1 - progress;
 
             r =    (c.r * progress + initialColor.r * antiProgress); 
