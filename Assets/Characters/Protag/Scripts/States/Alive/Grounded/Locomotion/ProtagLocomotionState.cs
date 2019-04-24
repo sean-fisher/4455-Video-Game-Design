@@ -31,6 +31,12 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
+            if (Input.GetMouseButton(1) && input.totalMotionMag > .2f)
+            {
+                protag.newState<ProtagSprintingState>();
+                return true;
+            }
+
             return false;
         }
     }

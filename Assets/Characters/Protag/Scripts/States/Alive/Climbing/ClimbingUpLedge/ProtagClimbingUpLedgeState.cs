@@ -41,13 +41,16 @@ namespace TCS.Characters
         public override void runAnimation(ProtagInput input)
         {
             var stateInfo = protag.anim.GetCurrentAnimatorStateInfo(0);
-            clipLength = stateInfo.length;
+            //clipLength = stateInfo.length;
+            if  (clipLength > 3) {
+                Debug.Log("Wrong clip length");
+            }
 
             //base.runAnimation(input);
             timer += Time.deltaTime;
             float sampleLocation = protag.sampleClimbUpCurve(timer);
             protag.rb.velocity = Vector3.zero;
-            //protag.anim.SetFloat("climbUp", sampleLocation);
+            
             Vector3 offset = targetPosition - protag.transform.position;
 
             // move the player toward the target position so we make sure our feet 

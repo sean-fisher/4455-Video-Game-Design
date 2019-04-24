@@ -34,7 +34,12 @@ public class SwordRobot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == EnemyState.Patrol) {
+		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")) {
+			Debug.Log("attacking");
+			navMeshAgent.SetDestination (transform.position);
+			hasAttacked = false;
+		}
+        else if (state == EnemyState.Patrol) {
 			if (navMeshAgent.path.status == NavMeshPathStatus.PathPartial) {
 				state = EnemyState.Wait;
 			}
@@ -65,23 +70,23 @@ public class SwordRobot : MonoBehaviour
             }
             transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(target.transform.position - transform.position, Vector3.up), Vector3.up);
             float yDis = Mathf.Abs(target.transform.position.y - transform.position.y);
-            if (xzDis <= 1.5f && yDis <= .5f)
+            if (!hasAttacked && xzDis <= 1.5f && yDis <= .5f)
             {
+				navMeshAgent.SetDestination (transform.position);
                 anim.SetTrigger("attack");
-                hasAttacked = true;
+				hasAttacked = true;
             }
             else if (yDis > .5f)
             {
+				navMeshAgent.speed = 1.9f;
                 anim.SetBool("running", false);
+				navMeshAgent.SetDestination(target.transform.position);
             }
             else
             {
                 anim.SetBool("running", true);
                 navMeshAgent.speed = 3f;
-            }
-            if (hasAttacked && !anim.GetBool("attack"))
-            {
-                navMeshAgent.SetDestination(target.transform.position);
+				navMeshAgent.SetDestination(target.transform.position);
             }
         }
 		else if (state == EnemyState.Wait) {

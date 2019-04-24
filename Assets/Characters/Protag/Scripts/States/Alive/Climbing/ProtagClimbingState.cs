@@ -144,6 +144,16 @@ namespace TCS.Characters
                 break;
                 case (ClimbingContextualActionType.CLIMBDOWN):
                 break;
+                case (ClimbingContextualActionType.FALLOFF):
+        
+                protag.newState<ProtagFallingState>();
+                return true;
+                case (ClimbingContextualActionType.STANDUP):
+        
+                //protag.anim.SetTrigger("standUp");
+                //protag.newState<ProtagLocomotionState>();
+                    protag.newState<ProtagClimbingUpLedgeState>();
+                return true;
             }
 
             return false;
