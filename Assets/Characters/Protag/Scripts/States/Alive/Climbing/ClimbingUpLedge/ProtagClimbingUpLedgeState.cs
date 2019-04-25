@@ -21,7 +21,7 @@ namespace TCS.Characters
             protag.anim.SetBool("climbing", false);
             protag.setRootMotion(true);
             protag.climbing = true;
-            protag.col.enabled = false;
+            //protag.col.enabled = false;
             protag.rb.velocity = Vector3.zero;
             protag.rb.angularVelocity = Vector3.zero;
             protag.movementEnabled = false; // prevent sliding while climbing up
@@ -34,7 +34,7 @@ namespace TCS.Characters
 
         public override void exit(ProtagInput input)
         {
-            protag.col.enabled = true;
+            base.exit(input);
             protag.climbing = false;
             protag.movementEnabled = true; // prevent sliding while climbing up
         }
