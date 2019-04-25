@@ -17,6 +17,12 @@ public class SwordRobot : MonoBehaviour
     public Transform[] waypoints;
     public int currWaypoint = -1;
 
+	public AudioSource walkingSound;
+	public AudioSource runningSound;
+	public AudioSource targetIdentified;
+
+	private float wasSpeed = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,11 +35,37 @@ public class SwordRobot : MonoBehaviour
         {
             hb.enabled = false;
         }
+
+		runningSound.Stop ();
+		walkingSound.Stop (); 
+		targetIdentified.Stop ();
     }
 
     // Update is called once per frame
     void Update()
     {
+		//Audio Handling
+		if (wasSpeed != 0 && (navMeshAgent.speed == 0.0f || state == EnemyState.Wait) ) {
+			Debug.Log ("no audio");
+			wasSpeed = 0.0f;
+			runningSound.Stop ();
+			walkingSound.Stop (); 
+		} else if (wasSpeed != 1.9f && navMeshAgent.speed == 1.9f && state != EnemyState.Wait) {
+			Debug.Log ("walking audio " + wasSpeed + ": " + navMeshAgent.speed);
+			wasSpeed = 1.9f;
+			runningSound.Stop ();
+			walkingSound.loop = true;
+			walkingSound.Play ();
+
+		} else if (wasSpeed != 3f && navMeshAgent.speed == 3f) {
+			Debug.Log ("running audio");
+			wasSpeed = 3f;
+			walkingSound.Stop ();
+			runningSound.loop = true;
+			runningSound.Play ();
+		}
+
+
 		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")) {
 			Debug.Log("attacking");
 			navMeshAgent.SetDestination (transform.position);
@@ -52,6 +84,7 @@ public class SwordRobot : MonoBehaviour
                 navMeshAgent.CalculatePath(target.position, path);
                 if (path.status != NavMeshPathStatus.PathPartial)
                 {
+					targetIdentified.Play ();
                     state = EnemyState.InterceptTarget;
                     navMeshAgent.SetDestination(target.transform.position);
                 }
