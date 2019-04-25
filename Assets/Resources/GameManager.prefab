@@ -49,3 +49,5 @@ MonoBehaviour:
     type: 3}
   soundManager: {fileID: 4417976915003840212, guid: 05c3d3da5a6dc3641b32659c38b0b63b,
     type: 3}
+  eventSystem: {fileID: 8609557833456254718, guid: e4b53b6cbbfaab94db8885dfe78885eb,
+    type: 3}
