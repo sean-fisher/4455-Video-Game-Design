@@ -8,7 +8,7 @@ namespace TCS
     {
         private Characters.Protag protag = null;
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             Characters.Protag p = other.gameObject.GetComponent<Characters.Protag>();
 
@@ -28,10 +28,6 @@ namespace TCS
                 other.gameObject.transform.SetParent(null, true);
                 protag = null;
             }
-        }
-
-        private void LateUpdate()
-        {
         }
     }
 }

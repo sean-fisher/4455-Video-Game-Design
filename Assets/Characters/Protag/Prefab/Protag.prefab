@@ -69,7 +69,7 @@ MonoBehaviour:
   hitBoxes: []
   movementEnabled: 1
   jumpStrength: 6
-  aerialMovementStrength: 20
+  aerialMovementStrength: 30
   aerialDrag: 0.6
   climbSpeed: 10
   rotationOrientSpeed: 10
@@ -130,6 +130,7 @@ MonoBehaviour:
   chestOffset: {x: 0, y: 0, z: 0}
   modelTransform: {fileID: 0}
   climbing: 0
+  pushing: 0
   doubleJumpAvailable: 0
   yVecSpeed: 0
   hp: 5
@@ -1397,6 +1398,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100082, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 100034, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -1405,23 +1418,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 100014, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 100074, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 100080, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 100082, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 100004, guid: afac6a88cd7df6c498afbaa85ec5c393, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
