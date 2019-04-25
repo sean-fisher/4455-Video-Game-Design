@@ -34,12 +34,18 @@ public static class InputManager {
 
     public static bool getJump()
     {
-        return Input.GetButtonDown("Jump");
+        if (Time.timeScale > 0)
+            return Input.GetButtonDown("Jump");
+        else
+            return false;
     }
 
     public static bool getRoll()
     {
-        return Input.GetButtonDown("Roll");
+        if (Time.timeScale > 0)
+            return Input.GetButtonDown("Roll");
+        else
+            return false;
     }
     public static bool getPause()
     {

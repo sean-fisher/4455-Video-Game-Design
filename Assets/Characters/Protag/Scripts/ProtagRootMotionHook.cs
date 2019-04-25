@@ -52,9 +52,12 @@ namespace TCS.Characters
                 }
                 else if (aerial)
                 {
+                    
                     dir = Vector3.ProjectOnPlane(v, Vector3.up).normalized;
+                    Debug.Log(dir);
                     velocity = Vector3.ProjectOnPlane(v, Vector3.up).magnitude * dir;
                     velocity = new Vector3(velocity.x, Mathf.Clamp(v.y, -20, 20), velocity.z);
+                    Debug.Log(velocity);
                 } 
             }
         }
@@ -63,7 +66,8 @@ namespace TCS.Characters
         {
             if (anim.applyRootMotion)
             {
-                rb.velocity = velocity;
+                if (velocity != null)
+                    rb.velocity = velocity;
             }
         }
     }
