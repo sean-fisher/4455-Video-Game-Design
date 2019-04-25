@@ -32,7 +32,7 @@ namespace TCS.Characters
             protag.rb.useGravity = true;
             protag.rb.velocity = Vector3.zero;
             protag.climbing = false;
-            protag.climbingCol.enabled = false;
+            protag.climbingCol.enabled = true;
             protag.col.enabled = true;
 
             protag.col.radius = .3f;
