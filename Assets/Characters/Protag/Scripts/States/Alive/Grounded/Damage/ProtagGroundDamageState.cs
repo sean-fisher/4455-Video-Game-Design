@@ -20,6 +20,8 @@ namespace TCS.Characters
             protag.anim.SetFloat("horizontal", dir.x);
             protag.anim.SetFloat("vertical", dir.z);
             timer = 0;
+
+            SoundManager.Instance.PlaySoundFromGroupAtRandom("Hurt");
         }
 
         public override void exit(ProtagInput input)

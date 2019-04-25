@@ -11,6 +11,9 @@ public class SoundManager : MonoBehaviour {
 	[SerializeField] NameClipPair[] musicTracks;
 	Dictionary<string, AudioClip> audioClipLookup;
 
+	public GroupNamePair[] soundGroups;
+	Dictionary<string, SoundGroup> audioGroupLookup;
+
 	static SoundManager instance;
 
 	public static SoundManager Instance { 
@@ -31,6 +34,11 @@ public class SoundManager : MonoBehaviour {
 			}
 			foreach (var pair  in musicTracks) {
 				audioClipLookup[pair.clipName] = pair.clip;
+			}
+
+			audioGroupLookup = new Dictionary<string, SoundGroup>();
+			foreach (var pair  in soundGroups) {
+				audioGroupLookup[pair.groupname] = pair.group;
 			}
 
 			// get references to audio source
@@ -62,7 +70,7 @@ public class SoundManager : MonoBehaviour {
 		bgm.UnPause();
 	}
 
-	public void PlayAnySFX(string sfxName) {
+	public AudioSource PlayAnySFX(string sfxName, bool loop = false) {
 		
 		AudioClip clip = audioClipLookup[sfxName];
 
@@ -70,15 +78,24 @@ public class SoundManager : MonoBehaviour {
 		foreach (AudioSource source in generalUseAudioSources) {
 			if (!source.isPlaying) {
 				source.clip = clip;
+				source.loop = loop;
 				source.Play();
 				sfxPlayed = true;
-				break;
+				return source;
 			}
 		}
 		if (!sfxPlayed) {
-			generalUseAudioSources[0].clip = clip;
-			generalUseAudioSources[0].Play();
+			AudioSource source = generalUseAudioSources[0];
+			source.clip = clip;
+			source.Play();
+			return source;
 		}
+		return null;
+	}
+
+	public void PlaySoundFromGroupAtRandom(string groupName) {
+		SoundGroup group = audioGroupLookup[groupName];
+		PlayAnySFX(group.soundNames[Random.Range(0, group.soundNames.Length)]);
 	}
 
 	public void StopAllsfx() {
@@ -92,4 +109,14 @@ public class SoundManager : MonoBehaviour {
 		public AudioClip clip;
 	}
 
+	// groups similar sounds so they can be picked from randomly
+	[System.Serializable]
+	public class SoundGroup {
+		public string[] soundNames;
+	}
+	[System.Serializable]
+	public class GroupNamePair {
+		public string groupname;
+		public SoundGroup group;
+	}
 }

@@ -24,16 +24,15 @@ namespace TCS
             Transform camHolder = ((PlayerCameraController)camControl).camHolder;
 
             // add the rotation input to the camera's rotation
-            // multiplication of Quaternions is like adding euler angles.
             float xRotClamp = 20;
             float verticalRotDelta =  v * camControl.rotXSpeed * dt;
             float verticalRot =  verticalRotDelta + camHolder.localRotation.eulerAngles.x;
-            if (verticalRot <= 90 && verticalRot >= -20) {
+            if (verticalRot <= 90 && verticalRot >= 0) {
                 verticalRot = Mathf.Clamp(verticalRot, 0, 90 - xRotClamp);
             } else if (verticalRot >= 260 && verticalRot <= 370) {
                 verticalRot = Mathf.Clamp(verticalRot, 270 + xRotClamp, 360);
             } else {
-                Debug.LogError("Camera rotation invalid: " + verticalRot);
+                //Debug.LogError("Camera rotation invalid: " + verticalRot);
             }
 
             Quaternion newRotation = Quaternion.Euler(verticalRot, camHolder.localRotation.eulerAngles.y + h * camControl.rotYSpeed * dt, 0);

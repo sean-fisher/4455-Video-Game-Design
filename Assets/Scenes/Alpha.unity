@@ -62394,7 +62394,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-30692
+  m_Name: pb_Mesh231910
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -97542,11 +97542,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7746197984212646809, guid: fdf7c45dd2323184e8090ebf7db7ceb1,
-        type: 3}
-      propertyPath: m_Mass
-      value: 1000
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdf7c45dd2323184e8090ebf7db7ceb1, type: 3}
 --- !u!43 &1857892511
@@ -99600,11 +99595,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4579396241591584, guid: 983363fb3207dbf4b99023b9fcdddaa2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.1348305
+      value: -27.8
       objectReference: {fileID: 0}
     - target: {fileID: 4579396241591584, guid: 983363fb3207dbf4b99023b9fcdddaa2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 24.6
       objectReference: {fileID: 0}
     - target: {fileID: 4579396241591584, guid: 983363fb3207dbf4b99023b9fcdddaa2, type: 3}
       propertyPath: m_LocalPosition.z

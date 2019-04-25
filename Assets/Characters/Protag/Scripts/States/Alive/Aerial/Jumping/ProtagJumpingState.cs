@@ -27,6 +27,8 @@ namespace TCS.Characters
             protag.anim.SetFloat("aerial direction", dir);
             jumped = false;
             jumpAgain = false;
+
+            SoundManager.Instance.PlayAnySFX("Jump");
         }
 
         public override void exit(ProtagInput input)

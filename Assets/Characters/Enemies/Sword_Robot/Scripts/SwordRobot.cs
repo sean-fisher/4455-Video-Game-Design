@@ -62,6 +62,7 @@ public class SwordRobot : MonoBehaviour
             }
         }
         else if (state == EnemyState.InterceptTarget) {
+
             float xzDis = (Vector3.ProjectOnPlane(target.transform.position, Vector3.up) - Vector3.ProjectOnPlane(transform.position, Vector3.up)).magnitude;
             if (xzDis > rangeOfAttention || navMeshAgent.path.status == NavMeshPathStatus.PathPartial)
             {
@@ -72,6 +73,7 @@ public class SwordRobot : MonoBehaviour
             float yDis = Mathf.Abs(target.transform.position.y - transform.position.y);
             if (!hasAttacked && xzDis <= 1.5f && yDis <= .5f)
             {
+                SoundManager.Instance.PlayAnySFX("Goblin");
 				navMeshAgent.SetDestination (transform.position);
                 anim.SetTrigger("attack");
 				hasAttacked = true;
@@ -84,6 +86,7 @@ public class SwordRobot : MonoBehaviour
             }
             else
             {
+                
                 anim.SetBool("running", true);
                 navMeshAgent.speed = 3f;
 				navMeshAgent.SetDestination(target.transform.position);

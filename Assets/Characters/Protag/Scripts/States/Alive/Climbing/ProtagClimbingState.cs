@@ -47,7 +47,6 @@ namespace TCS.Characters
                 jumpPressed = true;
 
             float dt = Time.deltaTime * 60f;
-            timer += Time.deltaTime;
 
             float v = input.v;
             float h = input.h;
@@ -68,6 +67,7 @@ namespace TCS.Characters
             
             if (mag > 0)
             {
+                timer += Time.deltaTime;
                 // "up" relative to the wall and the player's orientation
                 Vector3 dirToMoveVertical = Vector3.ProjectOnPlane(protag.modelTransform.up, wallNormal);
 
@@ -85,6 +85,13 @@ namespace TCS.Characters
                 // this code moves the player on the vertical axis. It should be handled by the root motion animations, but for some reason those aren't working.
                 Vector3 yVec = dirToMoveVertical * Time.deltaTime * normalizedInput.y * 1;
                 transform.position = transform.position + yVec * protag.yVecSpeed;
+
+                if (timer > 1f) {
+                    SoundManager.Instance.PlaySoundFromGroupAtRandom("Grunt");
+                    timer = 0;
+                }
+            } else {
+                timer = 0;
             }
 
             //set upwards animation/root motion
