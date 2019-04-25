@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
 
-    public string[] levels;
+    public LevelName[] levels;
 
     static LevelManager instance;
     // Start is called before the first frame update
@@ -22,4 +22,10 @@ public class LevelManager : MonoBehaviour
     {
         
     }
+}
+
+[System.Serializable]
+public class LevelName {
+    public string visibleName;
+    public string sceneName;
 }

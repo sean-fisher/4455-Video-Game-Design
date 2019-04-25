@@ -20,7 +20,7 @@ public class PauseMenu : Menu
     }
 
     void Update() {
-        if (InputManager.getPause()) {
+        if (InputManager.getPause() && (GameObject.FindObjectOfType<TCS.Characters.Protag>().enabled == true)) {
             if (isOpen) {
                 Close();
             } else {
@@ -34,6 +34,7 @@ public class PauseMenu : Menu
         holder.SetActive(true);
         Time.timeScale = 0;
         isOpen = true;
+        transform.GetChild(0).GetComponentInChildren<Menu>().EnterMenu();
     }
     public override void Close() {
         holder.SetActive(false);
