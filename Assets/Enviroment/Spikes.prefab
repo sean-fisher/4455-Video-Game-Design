@@ -53431,7 +53431,7 @@ GameObject:
   - component: {fileID: 7418109857550397682}
   - component: {fileID: 7418109857550397685}
   m_Layer: 0
-  m_Name: OuchBox
+  m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53523,6 +53523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   centerOverride: {fileID: 0}
+  amount: 5
 --- !u!1 &7418109857568437392
 GameObject:
   m_ObjectHideFlags: 0
