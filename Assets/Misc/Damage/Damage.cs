@@ -6,5 +6,6 @@ public class Damage {
 
     public DamageType type;
     public Vector3 dir;
+    public int amount;
 
 }

@@ -52,7 +52,9 @@ namespace TCS.Characters
                 }
                 else if (aerial)
                 {
-                    velocity = new Vector3(rb.velocity.x, v.y, rb.velocity.z);
+                    dir = Vector3.ProjectOnPlane(v, Vector3.up).normalized;
+                    velocity = Vector3.ProjectOnPlane(v, Vector3.up).magnitude * dir;
+                    velocity = new Vector3(velocity.x, Mathf.Clamp(v.y, -20, 20), velocity.z);
                 } 
             }
         }
