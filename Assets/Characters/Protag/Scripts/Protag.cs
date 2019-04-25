@@ -420,7 +420,7 @@ namespace TCS.Characters
             if (damage.type != DamageType.Protag && vuln)
             {
                 input.dmg = damage;
-                hp--;
+                hp-= damage.amount;
             }
         }
 

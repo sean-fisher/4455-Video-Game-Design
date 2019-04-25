@@ -6,6 +6,7 @@ public class DamageDealer : MonoBehaviour
 {
     public DamageType type;
     public Transform centerOverride;
+    public int amount = 1;
 
     /*
     private void OnCollisionStay(Collision collision)
@@ -65,6 +66,7 @@ public class DamageDealer : MonoBehaviour
         {
             Damage damage = new Damage();
             damage.type = type;
+            damage.amount = amount;
 
             // Direction
             Vector3 v = other.transform.position;
