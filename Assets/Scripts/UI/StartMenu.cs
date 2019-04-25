@@ -36,18 +36,18 @@ public class StartMenu : Menu
         foreach (Transform child in levelbuttonHolder) {
             Destroy(child.gameObject);
         }
-        string[] levels = LevelManager.Instance().levels;
-        foreach (string name in levels) {
+        LevelName[] levels = LevelManager.Instance().levels;
+        foreach (LevelName levelName in levels) {
             GameObject newLevelButton = GameObject.Instantiate(levelButtonTemplate, levelbuttonHolder);
-            newLevelButton.GetComponentInChildren<Text>().text = name;
+            newLevelButton.GetComponentInChildren<Text>().text = levelName.visibleName;
             newLevelButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(delegate {
-                Transitioner.Instance.LoadSceneWithFades(name);
+                Transitioner.Instance.LoadSceneWithFades(levelName.sceneName);
             });
         }
     }
 
     public void LoadLevel(int index) {
-        string[] levels = LevelManager.Instance().levels;
-        Transitioner.Instance.LoadSceneWithFades(levels[index]);
+        string level = LevelManager.Instance().levels[index].sceneName;
+        Transitioner.Instance.LoadSceneWithFades(level);
     }
 }
