@@ -66,8 +66,8 @@ namespace TCS.Characters
                 Vector3 pushDir = pushAgainstNormal * ratio + pushTowardCenter * (1-ratio);
 
                 protag.rb.AddForce(pushDir * protag.pushStrength * protag.rb.mass*.5f);
-                if (protag.rb.velocity.magnitude > 2)
-                    protag.rb.velocity = protag.rb.velocity.normalized * 2;
+                if (protag.rb.velocity.magnitude > 1)
+                    protag.rb.velocity = protag.rb.velocity.normalized;
                 //hit.rigidbody   .AddForce(pushDir * protag.pushStrength * hit.rigidbody.mass);
             }
             else
