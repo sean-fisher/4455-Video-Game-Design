@@ -44,4 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - PlaytestAlpha
+  - visibleName: Level 1 (Kyle)
+    sceneName: PlaytestAlpha
+  - visibleName: Level 2 (Ben)
+    sceneName: AI Level
+  - visibleName: Level 3 (Justin)
+    sceneName: Advanced AI Level

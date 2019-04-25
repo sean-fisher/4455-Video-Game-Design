@@ -23,6 +23,8 @@ public class LevelManager : MonoBehaviour
         
     }
 }
+
+[System.Serializable]
 public class LevelName {
     public string visibleName;
     public string sceneName;
