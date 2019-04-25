@@ -60,6 +60,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platform: {fileID: 6865321722812167825}
   plate: {fileID: 6865321722812167836}
+  green: {fileID: 2100000, guid: 1e753eb8e94a15b4982b8d41bc5ec2bb, type: 2}
+  red: {fileID: 2100000, guid: f113ab3d815f55c48af359829946b403, type: 2}
+  onSound: {fileID: 8300000, guid: f2315f241ed21b4478e0a92de94e75f3, type: 3}
+  offSound: {fileID: 8300000, guid: 62667a5ac0e67bd468cdc4256d0d2d31, type: 3}
 --- !u!54 &1891368941688591296
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -285,10 +289,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6865321722812167827}
     m_Modifications:
-    - target: {fileID: 100000, guid: 0ac951d11b2c14744bc1fd599000fa75, type: 3}
-      propertyPath: m_Name
-      value: platform_LOD0
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0ac951d11b2c14744bc1fd599000fa75, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -340,6 +340,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 0ac951d11b2c14744bc1fd599000fa75, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.0100000035
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 0ac951d11b2c14744bc1fd599000fa75, type: 3}
+      propertyPath: m_Name
+      value: platform_LOD0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ac951d11b2c14744bc1fd599000fa75, type: 3}

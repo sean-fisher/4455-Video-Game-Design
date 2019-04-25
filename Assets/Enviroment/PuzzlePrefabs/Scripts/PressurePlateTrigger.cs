@@ -4,26 +4,38 @@ using UnityEngine;
 
 public class PressurePlateTrigger : MonoBehaviour
 {
-	public GameObject door;
-	public MovingDoor doorSwitch;
+    public GameObject door;
+    public MovingDoor doorSwitch;
 
     public Material green;
     public Material red;
 
-	void Start()
+    public AudioClip onSound;
+    public AudioClip offSound;
+
+    private AudioSource audioSource;
+
+    void Start()
     {
         doorSwitch = door.GetComponent<MovingDoor>();
-	}
-	void OnTriggerEnter(Collider c)
+        audioSource = GetComponentInChildren<AudioSource>();
+    }
+    void OnTriggerEnter(Collider c)
     {
         doorSwitch._switch = true;
-	}
-	void OnTriggerStay(Collider c) {
-		doorSwitch._switch = true;
-	}
-	void OnTriggerExit(Collider c) {
-		doorSwitch._switch = false;
-	}
+        audioSource.clip = onSound;
+        audioSource.PlayOneShot(onSound);
+    }
+    void OnTriggerStay(Collider c)
+    {
+        doorSwitch._switch = true;
+    }
+    void OnTriggerExit(Collider c)
+    {
+        doorSwitch._switch = false;
+        audioSource.clip = offSound;
+        audioSource.PlayOneShot(offSound);
+    }
 
     private void Update()
     {
