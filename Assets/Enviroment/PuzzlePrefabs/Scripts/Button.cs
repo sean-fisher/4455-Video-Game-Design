@@ -8,7 +8,17 @@ public class Button : MonoBehaviour
     public Material red;
     public Material green;
 
+    public AudioClip onSound;
+    public AudioClip offSound;
+
+    private AudioSource audioSource;
+
     private bool status;
+
+    private void Start()
+    {
+        audioSource = GetComponentInChildren<AudioSource>();
+    }
 
     public bool getStatus()
     {
@@ -22,12 +32,7 @@ public class Button : MonoBehaviour
     }
     void OnTriggerExit(Collider c)
     {
-        //status = toggle ? status : false;
-    }
 
-    private void Update()
-    {
-        Debug.Log(status);
     }
 
     private void SetColor()
@@ -39,10 +44,14 @@ public class Button : MonoBehaviour
         if (status)
         {
             rend.material = green;
+            audioSource.clip = onSound;
+            audioSource.PlayOneShot(onSound);
         }
         else
         {
             rend.material = red;
+            audioSource.clip = offSound;
+            audioSource.PlayOneShot(offSound);
         }
     }
 
