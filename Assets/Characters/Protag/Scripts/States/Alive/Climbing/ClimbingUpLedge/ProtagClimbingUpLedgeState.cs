@@ -34,7 +34,6 @@ namespace TCS.Characters
 
         public override void exit(ProtagInput input)
         {
-            base.exit(input);
             protag.col.enabled = true;
             protag.climbing = false;
             protag.movementEnabled = true; // prevent sliding while climbing up

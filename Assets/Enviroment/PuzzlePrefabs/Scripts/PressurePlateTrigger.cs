@@ -23,8 +23,12 @@ public class PressurePlateTrigger : MonoBehaviour
     void OnTriggerEnter(Collider c)
     {
         doorSwitch._switch = true;
-        audioSource.clip = onSound;
-        audioSource.PlayOneShot(onSound);
+        if (audioSource)
+        {
+            audioSource.clip = onSound;
+            audioSource.PlayOneShot(onSound);
+        }
+        
     }
     void OnTriggerStay(Collider c)
     {
@@ -33,8 +37,11 @@ public class PressurePlateTrigger : MonoBehaviour
     void OnTriggerExit(Collider c)
     {
         doorSwitch._switch = false;
-        audioSource.clip = offSound;
-        audioSource.PlayOneShot(offSound);
+        if (audioSource)
+        {
+            audioSource.clip = offSound;
+            audioSource.PlayOneShot(offSound);
+        }
     }
 
     private void Update()
