@@ -27,7 +27,7 @@ public class Button : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(status);
+        
     }
 
     private void SetColor()

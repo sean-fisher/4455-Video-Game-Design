@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - PlaytestAlpha
+  - Approaching the Tower
+  - AI Level
+  - Advanced AI Scene
