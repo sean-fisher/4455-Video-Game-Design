@@ -2955,7 +2955,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh110040
+  m_Name: pb_Mesh98040
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -8915,6 +8915,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1576967626, guid: 983363fb3207dbf4b99023b9fcdddaa2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7724161167287528966, guid: 983363fb3207dbf4b99023b9fcdddaa2,
         type: 3}
       propertyPath: m_Enabled
@@ -11594,7 +11598,7 @@ MeshCollider:
   m_GameObject: {fileID: 1191268938}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
