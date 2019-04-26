@@ -21,11 +21,16 @@ public class ActivationPlate : MonoBehaviour
         audioSource = GetComponentInChildren<AudioSource>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+
+        audioSource.clip = onSound;
+        audioSource.PlayOneShot(onSound);
+    }
+
     void OnTriggerStay(Collider c)
     {
         plate.turnOn = true;
-        audioSource.clip = onSound;
-        audioSource.PlayOneShot(onSound);
     }
 
     void OnTriggerExit(Collider c)
