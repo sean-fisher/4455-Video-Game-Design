@@ -43,17 +43,17 @@ namespace TCS.Characters
             if (base.runLogic(input))
                 return true;
 
-            if (protag.getGrounded())
-            {
-                protag.setAerial(false);
-                protag.newState<ProtagLandingState>();
-                return true;
-            }
-
             if (jump && protag.doubleJumpAvailable)
             {
                 protag.newState<ProtagJumpingState>();
                 protag.doubleJumpAvailable = false;
+                return true;
+            }
+
+            if (protag.getGrounded())
+            {
+                protag.setAerial(false);
+                protag.newState<ProtagLandingState>();
                 return true;
             }
             return false;

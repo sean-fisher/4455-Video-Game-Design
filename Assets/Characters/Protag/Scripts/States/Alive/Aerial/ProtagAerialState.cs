@@ -11,12 +11,14 @@ namespace TCS.Characters
         protected abstract float aerialPhysicsTurnStrength { get; }
         protected abstract bool applyAerialForce { get; }
         float timer;
+        bool newJump;
         #endregion
 
         public override void enter(ProtagInput input)
         {
             timer = 0;
             protag.col.height = 1.4f;
+            newJump = false;
         }
 
         public override void exit(ProtagInput input)
@@ -28,7 +30,6 @@ namespace TCS.Characters
 
         public override void runAnimation(ProtagInput input)
         {
-            
             base.runAnimation(input);
 
             float dt = Time.deltaTime * 60f;
@@ -65,7 +66,6 @@ namespace TCS.Characters
         {
             if (base.runLogic(input))
                 return true;
-
 
             //Apply Aerial Force
             Vector3 move = InputManager.calculateMove(input.v, input.h);

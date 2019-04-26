@@ -71,6 +71,13 @@ namespace TCS.Characters
                 return true;
             }
 
+            if (timer > .4f && jumpAgain)
+            {
+                protag.newState<ProtagJumpingState>();
+                protag.doubleJumpAvailable = false;
+                return true;
+            }
+
             if (timer > .3 && jumpAgain && protag.doubleJumpAvailable)
             {
                 
