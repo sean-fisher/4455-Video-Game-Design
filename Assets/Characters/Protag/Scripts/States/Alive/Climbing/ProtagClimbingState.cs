@@ -22,7 +22,6 @@ namespace TCS.Characters
             protag.climbing = true;
             protag.climbingCol.enabled = true;
             protag.col.enabled = false;
-
             protag.col.radius = .11f;
         }
 
@@ -47,6 +46,8 @@ namespace TCS.Characters
                 jumpPressed = true;
 
             float dt = Time.deltaTime * 60f;
+
+            timer += Time.deltaTime;
 
             float v = input.v;
             float h = input.h;
