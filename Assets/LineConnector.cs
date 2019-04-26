@@ -10,6 +10,9 @@ public class LineConnector : MonoBehaviour
     public Transform object1;
     public Transform object2;
     public float subdivisionSize = 1;
+    public float offsetSize = .05f;
+    float lastSubdivisionSize;
+    float lastOffsetSize;
 
     Vector3 lastPos;
     Vector3 targetlastPos;
@@ -27,10 +30,15 @@ public class LineConnector : MonoBehaviour
     {
 #if (UNITY_EDITOR)
         if (object1 != null && object2 != null) {
-            if ((object1.position != lastPos) || (object2.position != targetlastPos)) {
+            if ((object1.position != lastPos) 
+            || (object2.position != targetlastPos)
+            || (offsetSize != lastOffsetSize)
+            || (lastSubdivisionSize != subdivisionSize)) {
                 CreateLine();
                 lastPos = object1.position;
                 targetlastPos = object2.position;
+                lastOffsetSize = offsetSize;
+                lastSubdivisionSize = lastSubdivisionSize;
             }
         }
 #endif
@@ -117,7 +125,7 @@ public class LineConnector : MonoBehaviour
                 normal = allNormals[points.Length - 1];
             }
 
-            Vector3 normalOffset = normal * .05f;
+            Vector3 normalOffset = normal * offsetSize;
 
             Vector3 horizOffset = Vector3.Cross(endOnSamePlaneAsStart -lastPoint, Vector3.up).normalized * .1f;
             verts.Add(lastPoint + horizOffset + normalOffset);
