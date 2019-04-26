@@ -48,5 +48,7 @@ MonoBehaviour:
     sceneName: PlaytestAlpha
   - visibleName: Level 2 (Ben)
     sceneName: AI Level
-  - visibleName: Level 3 (Justin)
+  - visibleName: Level 3 (Jorge)
+    sceneName: ClimbingChallenge
+  - visibleName: Level 4 (Justin)
     sceneName: Advanced AI Scene

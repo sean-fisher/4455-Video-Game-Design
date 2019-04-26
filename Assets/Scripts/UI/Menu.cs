@@ -11,7 +11,7 @@ public class Menu : MonoBehaviour
     GameObject objectToSelectFirst;
 
     public void QuitToDesktop() {
-        
+        Application.Quit();
     }
     public void EnterMenu() {
 
