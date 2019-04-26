@@ -16,11 +16,13 @@ namespace TCS.Characters
         public override void enter(ProtagInput input)
         {
             timer = 0;
+            protag.col.height = 1.4f;
         }
 
         public override void exit(ProtagInput input)
         {
             protag.anim.SetBool("grounded", true);
+            protag.col.height = 1.8f;
             protag.setAerial(false);
         }
 

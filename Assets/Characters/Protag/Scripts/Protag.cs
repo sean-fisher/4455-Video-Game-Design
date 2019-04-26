@@ -129,7 +129,7 @@ namespace TCS.Characters
             Vector3 dir = (Vector3.down * 0.6f);
             RaycastHit groundCheck;
 
-            float r = col.radius;
+            float r = col.radius/2;
             bool g = Physics.Raycast(pos, dir, out groundCheck, 0.8f, selfMask)
                 || Physics.Raycast(pos + transform.right * r, dir, out groundCheck, 0.8f, selfMask)
                 || Physics.Raycast(pos + transform.forward * r, dir, out groundCheck, 0.8f, selfMask)
@@ -387,6 +387,7 @@ namespace TCS.Characters
         public bool getClimbing() { return climbing; }
 
         public bool getAerial() { return aerial; }
+
         public bool getRolling() { return rolling; }
 
         public bool getVulnerable() { return vuln; }
