@@ -15,13 +15,17 @@ namespace TCS.Characters
 
         private void Update()
         {
-            readInput();
-            state.runAnimation(input);
+            if (!PauseMenu.IsPaused) {
+                readInput();
+                state.runAnimation(input);
+            }
         }
 
         private void FixedUpdate()
         {
-            state.runLogic(input);
+            if (!PauseMenu.IsPaused) {
+                state.runLogic(input);
+            }
         }
 
         public void newState<N>() where N : S
