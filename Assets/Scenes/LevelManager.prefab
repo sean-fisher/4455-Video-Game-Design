@@ -49,4 +49,4 @@ MonoBehaviour:
   - visibleName: Level 2 (Ben)
     sceneName: AI Level
   - visibleName: Level 3 (Justin)
-    sceneName: Advanced AI Level
+    sceneName: Advanced AI Scene
