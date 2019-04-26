@@ -11,6 +11,9 @@ public class SwordRobot : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private bool hasAttacked = false;
 
+	public float walkSpeed = 1.9f;
+	public float runSpeed = 4.5f;
+
     public float rangeOfAttention = 5.0f;
 
     public EnemyState state;
@@ -50,16 +53,16 @@ public class SwordRobot : MonoBehaviour
 			wasSpeed = 0.0f;
 			runningSound.Stop ();
 			walkingSound.Stop (); 
-		} else if (wasSpeed != 1.9f && navMeshAgent.speed == 1.9f && state != EnemyState.Wait) {
+		} else if (wasSpeed != walkSpeed && navMeshAgent.speed == walkSpeed && state != EnemyState.Wait) {
 			Debug.Log ("walking audio " + wasSpeed + ": " + navMeshAgent.speed);
-			wasSpeed = 1.9f;
+			wasSpeed = walkSpeed;
 			runningSound.Stop ();
 			walkingSound.loop = true;
 			walkingSound.Play ();
 
-		} else if (wasSpeed != 3f && navMeshAgent.speed == 3f) {
+		} else if (wasSpeed != runSpeed && navMeshAgent.speed == runSpeed) {
 			Debug.Log ("running audio");
-			wasSpeed = 3f;
+			wasSpeed = runSpeed;
 			walkingSound.Stop ();
 			runningSound.loop = true;
 			runningSound.Play ();
@@ -76,7 +79,7 @@ public class SwordRobot : MonoBehaviour
 				state = EnemyState.Wait;
 			}
             anim.SetBool("running", false);
-            navMeshAgent.speed = 1.9f;
+			navMeshAgent.speed = walkSpeed;
             float yDis = Mathf.Abs(target.transform.position.y - transform.position.y);
             if (yDis < 2.0f && Vector3.Distance(transform.position, target.position) < rangeOfAttention)
             {
@@ -113,7 +116,7 @@ public class SwordRobot : MonoBehaviour
             }
             else if (yDis > .5f)
             {
-				navMeshAgent.speed = 1.9f;
+				navMeshAgent.speed = walkSpeed;
                 anim.SetBool("running", false);
 				navMeshAgent.SetDestination(target.transform.position);
             }
@@ -121,7 +124,7 @@ public class SwordRobot : MonoBehaviour
             {
                 
                 anim.SetBool("running", true);
-                navMeshAgent.speed = 3f;
+                navMeshAgent.speed = runSpeed;
 				navMeshAgent.SetDestination(target.transform.position);
             }
         }
