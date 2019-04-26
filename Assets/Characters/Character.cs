@@ -13,11 +13,19 @@ namespace TCS.Characters
 
         public abstract void readInput();
 
+        bool wasPausedLastFrame = false;
+
         private void Update()
         {
             if (!PauseMenu.IsPaused) {
-                readInput();
-                state.runAnimation(input);
+                if (wasPausedLastFrame) {
+                    wasPausedLastFrame = false;
+                } else {
+                    readInput();
+                    state.runAnimation(input);
+                }
+            } else {
+                wasPausedLastFrame = true;
             }
         }
 
