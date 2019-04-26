@@ -45,8 +45,8 @@ namespace TCS.Characters
                 if (grounded && !aerial)
                 {
                     dir = Vector3.ProjectOnPlane(v, groundNormal).normalized;
-                    velocity = Vector3.ProjectOnPlane(v, groundNormal).magnitude * dir;
-                    velocity = new Vector3(velocity.x, Mathf.Clamp(velocity.y, -20, 0), velocity.z);
+                    velocity = v.magnitude * dir;
+                    velocity = new Vector3(velocity.x, Mathf.Clamp(velocity.y, -20, 20), velocity.z);
                 }
                 else if (climbing)
                 {
